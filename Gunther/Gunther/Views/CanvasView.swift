@@ -9,12 +9,15 @@ import UIKit
 
 class CanvasView: UIView {
     
+    //You can have a variable that hold the past 10 states of the canvas...
     var strokes: [[CGPoint]?]?
     var currentStroke: [CGPoint]?
     
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
+    //https://forums.swift.org/t/how-do-i-code-pixel-colors-in-a-uiview-using-swift-maybe-metal-for-ios-iphone/10963
+    //Can use my own data structure -- matrix
+    //Use in conjunciton with CGRectangle -- don't bother trying to expand bitmap...
+    
+    /*override func draw(_ rect: CGRect) {
         
         super.draw(rect)
         
@@ -22,22 +25,25 @@ class CanvasView: UIView {
             return
         }
         
-//        guard let currentStroke = currentStroke else { return }
-//        for i in 0...currentStroke.count-1 {
-//            if i == 0 {
-//                context.move(to: currentStroke[i])
-//            }
-//            else {
-//                context.addLine(to: currentStroke[i])
-//            }
-//        }
-        
-        context.move(to: CGPoint(x:0, y: 0))
-        context.addLine(to: CGPoint(x: 200, y: 200))
-        
+        /*
+        guard let currentStroke = currentStroke else { return }
+        for i in 0...currentStroke.count-1 {
+            if i == 0 {
+                context.move(to: currentStroke[i])
+            }
+            else {
+                context.addLine(to: currentStroke[i])
+            }
+        }
+         */
+        context.move(to: CGPoint(x: 0, y: 100))
+        context.addLine(to: CGPoint(x: 400, y: 150))
+           
         context.strokePath()
         
-    }
+        print(context.height)
+        
+    }*/
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         currentStroke = []
