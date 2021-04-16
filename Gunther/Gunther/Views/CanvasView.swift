@@ -23,7 +23,9 @@ class CanvasView: UIView {
         
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let  = touches.first?.location(in: self)
         
     }
 
