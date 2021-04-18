@@ -9,14 +9,15 @@ import UIKit
 
 class ArtViewController: UIViewController {
 
-    let canvas = CanvasView()
+    var canvas: CanvasView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
+
+        canvas = CanvasView(width: 240, height: 450)
+        guard let canvas = canvas else { return }
         canvas.backgroundColor = .white
-        canvas.frame = view.frame
+        canvas.center = view.center
         view.addSubview(canvas)
     
     }
