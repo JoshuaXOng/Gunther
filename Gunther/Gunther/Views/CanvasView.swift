@@ -23,6 +23,9 @@ class CanvasView: UIView {
     var strokes: [[CGPoint]?]?
     var currentStroke: [CGPoint]?
     
+    //should have a delegate... Maybe not...
+    //var canvasViewDelegate: CanvasViewDelegate?
+    
     //https://forums.swift.org/t/how-do-i-code-pixel-colors-in-a-uiview-using-swift-maybe-metal-for-ios-iphone/10963    
     init(width: CGFloat, height: CGFloat) {
         
@@ -89,8 +92,8 @@ class CanvasView: UIView {
         
         guard let currentStroke = currentStroke else { return }
         for point in currentStroke {
-            let color = UIColor.red
-            context.setFillColor(color.cgColor)
+            guard let color = brushColor else { return }
+            context.setFillColor(color)
             let x = round(point.x/PIXEL_SIZE)*PIXEL_SIZE
             let y = round(point.y/PIXEL_SIZE)*PIXEL_SIZE
             context.fill(CGRect(x: x, y: y, width: brushSize, height: brushSize))

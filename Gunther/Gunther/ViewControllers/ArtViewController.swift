@@ -7,19 +7,36 @@
 
 import UIKit
 
-class ArtViewController: UIViewController {
+class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate {
 
     var canvas: CanvasView?
+    let colorPickerController = UIColorPickerViewController()
+    
+    @IBAction func ColorPickerButton(_ sender: UIButton) {
+        self.present(colorPickerController, animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        canvas = CanvasView(width: 240, height: 450)
+        //setup colorPickerController
+        colorPickerController.delegate = self
+        
+        canvas = CanvasView(width: 240, height: 450) //a test canvas view
+        
         guard let canvas = canvas else { return }
         canvas.backgroundColor = .white
         canvas.center = view.center
         view.addSubview(canvas)
+        
+    }
     
+    // MARK: - Implement UIColorPickerViewControllerDelegate
+    
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        let chosenColor = viewController.selectedColor
+        canvas?.brushColor = chosenColor.cgColor
+        print("test")
     }
     
     /*
