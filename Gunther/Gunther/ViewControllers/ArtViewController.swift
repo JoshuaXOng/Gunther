@@ -17,13 +17,17 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         self.present(colorPickerController, animated: true, completion: nil)
     }
     
+    @IBAction func DragButton(_ sender: UIButton) {
+        scrollView.isScrollEnabled = !(scrollView.isScrollEnabled)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //setup scrollView and zooming functionality
         scrollView.backgroundColor = UIColor.lightGray
-        scrollView.minimumZoomScale = 0.5
-        scrollView.maximumZoomScale = 4.0
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 8.0
         scrollView.zoomScale = 1.0
         scrollView.isScrollEnabled = false
         scrollView.delegate = self
@@ -31,8 +35,13 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvas = CanvasView(width: 500, height: 300) //a test canvas view
         //setup canvas
         guard let canvas = canvas else { return }
-        scrollView?.addSubview(canvas)
-        //scrollView?.zoom(to: , animated: false)
+        scrollView.addSubview(canvas)
+        
+        let w = scrollView.bounds.width
+        let h = scrollView.bounds.height
+        scrollView.contentSize = CGSize(width: w, height: h)
+        //scrollView.contentSize = CGSize.init(width: 500+70, height: 300+70)
+        print(scrollView.contentOffset)
         
         //setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
