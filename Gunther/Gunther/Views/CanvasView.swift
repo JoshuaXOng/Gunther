@@ -83,7 +83,7 @@ class CanvasView: UIView {
             for x in stride(from: 0, to: rect.width, by: PIXEL_SIZE) {
                 var color = UIColor.white
                 if (y/PIXEL_SIZE+x/PIXEL_SIZE) / 2 == round((y/PIXEL_SIZE+x/PIXEL_SIZE) / 2) {
-                    color = UIColor.gray.withAlphaComponent(0.2)
+                    color = UIColor.lightGray.withAlphaComponent(0.999)
                 }
                 context.setFillColor(color.cgColor)
                 context.fill(CGRect(x: x, y: y, width: PIXEL_SIZE, height: PIXEL_SIZE))

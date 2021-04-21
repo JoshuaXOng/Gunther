@@ -7,8 +7,9 @@
 
 import UIKit
 
-class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate {
-
+class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate {
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     var canvas: CanvasView?
     let colorPickerController = UIColorPickerViewController()
     
@@ -18,16 +19,25 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //setup colorPickerController
-        colorPickerController.delegate = self
         
-        canvas = CanvasView(width: 240, height: 450) //a test canvas view
+        //setup scrollView and zooming functionality
+        scrollView.backgroundColor = UIColor.lightGray
+        scrollView.minimumZoomScale = 0.5
+        scrollView.maximumZoomScale = 4.0
+        scrollView.zoomScale = 1.0
+        scrollView.isScrollEnabled = false
+        scrollView.delegate = self
         
+        canvas = CanvasView(width: 500, height: 300) //a test canvas view
+        //setup canvas
         guard let canvas = canvas else { return }
-        canvas.backgroundColor = .white
-        canvas.center = view.center
-        view.addSubview(canvas)
+        scrollView?.addSubview(canvas)
+        //scrollView?.zoom(to: , animated: false)
+        
+        //setup colorPickerController
+        colorPickerController.selectedColor = UIColor.black
+        canvas.brushColor = UIColor.black.cgColor
+        colorPickerController.delegate = self
         
     }
     
@@ -36,7 +46,12 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
         let chosenColor = viewController.selectedColor
         canvas?.brushColor = chosenColor.cgColor
-        print("test")
+    }
+    
+    // MARK: - Implement UIColorPickerViewControllerDelegate
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return canvas
     }
     
     /*
