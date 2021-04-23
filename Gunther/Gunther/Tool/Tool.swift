@@ -8,5 +8,6 @@
 import Foundation
 
 protocol Tool {
-    
+    var size: Int? {get set}
+    func nibArea(x: Int, y: Int) -> [[Int]]?
 }

@@ -8,6 +8,9 @@
 import Foundation
 
 class Marker: Tool {
-    
+    var size: Int?
+    func nibArea(x: Int, y: Int) -> [[Int]]? {
+        return nil
+    }
 }
 

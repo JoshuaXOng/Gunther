@@ -44,55 +44,55 @@ class FirebaseController: NSObject, DatabaseProtocol {
     // MARK: - Implement DatabaseProtocol
     
     func cleanup() {
-        <#code#>
+
     }
     
     func addListener(listener: DatabaseListener) {
-        <#code#>
+
     }
     
     func removeListener(listener: DatabaseListener) {
-        <#code#>
+
     }
     
     func fetchAllCategories() -> [Category] {
-        <#code#>
+        return [Category]()
     }
     
     func addArtToCategory(category: Category, art: Art) -> Bool {
-        <#code#>
+        return false
     }
     
     func removeArtFromCategory(category: Category, art: Art) -> Bool {
-        <#code#>
+        return false
     }
     
     func fetchAllArtFromCategory(category: Category) -> Bool {
-        <#code#>
+        return false
     }
     
     func addUser(name: String) -> User {
-        <#code#>
+        return User()
     }
     
     func removeUser(user: User) {
-        <#code#>
+        
     }
     
     func fetchAllUsers() -> [User] {
-        <#code#>
+        return [User]()
     }
     
     func addArtToUser(user: User, art: Art) -> Bool {
-        <#code#>
+        return false
     }
     
     func removeArtFromUser(user: User, art: Art) -> Bool {
-        <#code#>
+        return false
     }
     
     func fetchAllArtFromUser(user: User) -> Bool {
-        <#code#>
+        return false
     }
     
     // MARK: - Firebase Controller Specific Methods

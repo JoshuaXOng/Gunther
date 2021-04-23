@@ -10,6 +10,6 @@ import UIKit
 
 protocol CanvasViewDelegate {
     
-    func onCanvasTouchMove(_ touches: Set<UITouch>, with event: UIEvent?)
+    func onTouchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     
 }

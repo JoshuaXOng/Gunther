@@ -108,9 +108,9 @@
 				8BC213A526328D8B00719579 /* GoogleService-Info.plist */,
 				8B00C719262913C600504203 /* Info.plist */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
-				8BC3F7F0262948AB00503419 /* Views */,
-				8B00C7232629141900504203 /* Interfaces */,
-				8BCACA0F2632824E00FAF97B /* Classes */,
+				8BC213BF2632ABF400719579 /* Canvas */,
+				8BC213C02632AC5F00719579 /* Art */,
+				8BC213BE2632ABD800719579 /* Tool */,
 			);
 			path = Gunther;
 			sourceTree = "<group>";
@@ -135,34 +135,34 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		8B00C7232629141900504203 /* Interfaces */ = {
+		8BC213BE2632ABD800719579 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				8BCACA08263280EB00FAF97B /* Tool.swift */,
-				8BCACA0B2632811900FAF97B /* CanvasViewDelegate.swift */,
-			);
-			path = Interfaces;
-			sourceTree = "<group>";
-		};
-		8BC3F7F0262948AB00503419 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				8BC3F7F92629557600503419 /* CanvasView.swift */,
 				8BCACA05263280BA00FAF97B /* ToolPickerView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		8BCACA0F2632824E00FAF97B /* Classes */ = {
-			isa = PBXGroup;
-			children = (
+				8BCACA08263280EB00FAF97B /* Tool.swift */,
 				8BCACA102632827A00FAF97B /* Pencil.swift */,
 				8BCACA14263282B800FAF97B /* Marker.swift */,
-				8BCACA182632831C00FAF97B /* Converter.swift */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		8BC213BF2632ABF400719579 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				8BCACA0B2632811900FAF97B /* CanvasViewDelegate.swift */,
+				8BC3F7F92629557600503419 /* CanvasView.swift */,
+			);
+			path = Canvas;
+			sourceTree = "<group>";
+		};
+		8BC213C02632AC5F00719579 /* Art */ = {
+			isa = PBXGroup;
+			children = (
 				8BCACA1E2632849A00FAF97B /* Location.swift */,
 				8BCACA21263284D700FAF97B /* Pixel.swift */,
+				8BCACA182632831C00FAF97B /* Converter.swift */,
 			);
-			path = Classes;
+			path = Art;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
