@@ -59,13 +59,13 @@ class FirebaseController: NSObject, DatabaseProtocol {
         return [Category]()
     }
     
-    func addArtToCategory(category: Category, art: Art) -> Bool {
-        return false
-    }
+    //func addArtToCategory(category: Category, art: Art) -> Bool {
+    //    return false
+    //}
     
-    func removeArtFromCategory(category: Category, art: Art) -> Bool {
-        return false
-    }
+    //func removeArtFromCategory(category: Category, art: Art) -> Bool {
+    //    return false
+    //}
     
     func fetchAllArtFromCategory(category: Category) -> Bool {
         return false
@@ -83,13 +83,13 @@ class FirebaseController: NSObject, DatabaseProtocol {
         return [User]()
     }
     
-    func addArtToUser(user: User, art: Art) -> Bool {
-        return false
-    }
+    //func addArtToUser(user: User, art: Art) -> Bool {
+    //    return false
+    //}
     
-    func removeArtFromUser(user: User, art: Art) -> Bool {
-        return false
-    }
+    //func removeArtFromUser(user: User, art: Art) -> Bool {
+    //    return false
+    //}
     
     func fetchAllArtFromUser(user: User) -> Bool {
         return false

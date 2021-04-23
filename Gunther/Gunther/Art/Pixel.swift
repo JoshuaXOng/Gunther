@@ -6,3 +6,16 @@
 //
 
 import Foundation
+import UIKit
+
+class Pixel {
+    // Consider using a struct for speed...
+        
+    var color: CGColor
+
+    init(color: CGColor) {
+        self.color = color
+    }
+    
+}
+

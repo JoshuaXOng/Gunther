@@ -40,16 +40,16 @@ protocol DatabaseProtocol: AnyObject {
     
     func fetchAllCategories() -> [Category]
     
-    func addArtToCategory(category: Category, art: Art) -> Bool
-    func removeArtFromCategory(category: Category, art: Art) -> Bool
+    //func addArtToCategory(category: Category, art: Art) -> Bool
+    //func removeArtFromCategory(category: Category, art: Art) -> Bool
     func fetchAllArtFromCategory(category: Category) -> Bool
     
     func addUser(name: String) -> User
     func removeUser(user: User)
     func fetchAllUsers() -> [User]
     
-    func addArtToUser(user: User, art: Art) -> Bool
-    func removeArtFromUser(user: User, art: Art) -> Bool
+    //func addArtToUser(user: User, art: Art) -> Bool
+    //func removeArtFromUser(user: User, art: Art) -> Bool
     func fetchAllArtFromUser(user: User) -> Bool
     
 }

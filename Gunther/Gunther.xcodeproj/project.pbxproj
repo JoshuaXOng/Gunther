@@ -130,7 +130,6 @@
 			children = (
 				8BC213BA2632961700719579 /* Category.swift */,
 				8BC213B62632933F00719579 /* User.swift */,
-				8BCACA1B2632847800FAF97B /* Art.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -158,6 +157,7 @@
 		8BC213C02632AC5F00719579 /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				8BCACA1B2632847800FAF97B /* Art.swift */,
 				8BCACA1E2632849A00FAF97B /* Location.swift */,
 				8BCACA21263284D700FAF97B /* Pixel.swift */,
 				8BCACA182632831C00FAF97B /* Converter.swift */,
