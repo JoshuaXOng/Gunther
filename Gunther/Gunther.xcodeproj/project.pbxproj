@@ -13,6 +13,11 @@
 		8B00C715262913C600504203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C714262913C600504203 /* Assets.xcassets */; };
 		8B00C718262913C600504203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C716262913C600504203 /* LaunchScreen.storyboard */; };
 		8BC213A626328D8B00719579 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BC213A526328D8B00719579 /* GoogleService-Info.plist */; };
+		8BC213A92632908100719579 /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213A82632908100719579 /* FirebaseController.swift */; };
+		8BC213B02632925E00719579 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213AF2632925E00719579 /* MulticastDelegate.swift */; };
+		8BC213B42632928E00719579 /* DatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213B32632928E00719579 /* DatabaseProtocol.swift */; };
+		8BC213B72632933F00719579 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213B62632933F00719579 /* User.swift */; };
+		8BC213BB2632961700719579 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213BA2632961700719579 /* Category.swift */; };
 		8BC3F7F726294F1300503419 /* ArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC3F7F626294F1300503419 /* ArtViewController.swift */; };
 		8BC3F7FA2629557600503419 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC3F7F92629557600503419 /* CanvasView.swift */; };
 		8BCACA06263280BA00FAF97B /* ToolPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCACA05263280BA00FAF97B /* ToolPickerView.swift */; };
@@ -40,6 +45,11 @@
 		8B00C717262913C600504203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B00C719262913C600504203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BC213A526328D8B00719579 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8BC213A82632908100719579 /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
+		8BC213AF2632925E00719579 /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
+		8BC213B32632928E00719579 /* DatabaseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseProtocol.swift; sourceTree = "<group>"; };
+		8BC213B62632933F00719579 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8BC213BA2632961700719579 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		8BC3F7F626294F1300503419 /* ArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewController.swift; sourceTree = "<group>"; };
 		8BC3F7F92629557600503419 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		8BCACA05263280BA00FAF97B /* ToolPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolPickerView.swift; sourceTree = "<group>"; };
@@ -108,6 +118,9 @@
 		8B00C7202629140600504203 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				8BC213AF2632925E00719579 /* MulticastDelegate.swift */,
+				8BC213B32632928E00719579 /* DatabaseProtocol.swift */,
+				8BC213A82632908100719579 /* FirebaseController.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -115,6 +128,8 @@
 		8B00C7212629140D00504203 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8BC213BA2632961700719579 /* Category.swift */,
+				8BC213B62632933F00719579 /* User.swift */,
 				8BCACA1B2632847800FAF97B /* Art.swift */,
 			);
 			path = Models;
@@ -234,11 +249,16 @@
 				8BCACA0C2632811900FAF97B /* CanvasViewDelegate.swift in Sources */,
 				8BC3F7F726294F1300503419 /* ArtViewController.swift in Sources */,
 				8BCACA112632827A00FAF97B /* Pencil.swift in Sources */,
+				8BC213B02632925E00719579 /* MulticastDelegate.swift in Sources */,
 				8BCACA09263280EB00FAF97B /* Tool.swift in Sources */,
+				8BC213BB2632961700719579 /* Category.swift in Sources */,
 				8BCACA22263284D700FAF97B /* Pixel.swift in Sources */,
 				8BCACA192632831C00FAF97B /* Converter.swift in Sources */,
+				8BC213B72632933F00719579 /* User.swift in Sources */,
 				8B00C70C262913C500504203 /* AppDelegate.swift in Sources */,
+				8BC213B42632928E00719579 /* DatabaseProtocol.swift in Sources */,
 				8BCACA1C2632847800FAF97B /* Art.swift in Sources */,
+				8BC213A92632908100719579 /* FirebaseController.swift in Sources */,
 				8BC3F7FA2629557600503419 /* CanvasView.swift in Sources */,
 				8B00C70E262913C500504203 /* SceneDelegate.swift in Sources */,
 				8BCACA15263282B800FAF97B /* Marker.swift in Sources */,
