@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 protocol CanvasViewDelegate {
-    
+    var art: Art? {get set}
     func onTouchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
-    
 }

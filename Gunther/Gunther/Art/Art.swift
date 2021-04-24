@@ -33,10 +33,8 @@ class Art: NSObject {
         
     }
     
-    func getLocation(x: Float, y: Float) -> Location {
-        let xRounded = x.rounded(.down)
-        let yRounded = y.rounded(.down)
-        let index = Int(yRounded)*width+Int(xRounded)
+    func getLocation(x: Int, y: Int) -> Location {
+        let index = Int(y)*(width/self.pixelSize)+Int(x)
         return canvas[index]
     }
     

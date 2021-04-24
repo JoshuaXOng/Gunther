@@ -7,10 +7,12 @@
 
 import UIKit
 
-class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate {
+class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate, CanvasViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     var canvas: CanvasView?
+    var art: Art?
+    var tool: Tool?
     let colorPickerController = UIColorPickerViewController()
     
     @IBAction func ColorPickerButton(_ sender: UIButton) {
@@ -35,26 +37,45 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvas = CanvasView(width: 500, height: 300) //a test canvas view
         //setup canvas
         guard let canvas = canvas else { return }
+        canvas.canvasViewDelegate = self
         scrollView.addSubview(canvas)
         
         let w = scrollView.bounds.width
         let h = scrollView.bounds.height
         scrollView.contentSize = CGSize(width: w, height: h)
         //scrollView.contentSize = CGSize.init(width: 500+70, height: 300+70)
-        print(scrollView.contentOffset)
         
         //setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
-        canvas.brushColor = UIColor.black.cgColor
         colorPickerController.delegate = self
+        
+        // Setup test tool
+        self.tool = Pencil()
+        self.tool!.size = 5
+        
+        // Setup test art
+        self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 4)
         
     }
     
-    // MARK: - Implement UIColorPickerViewControllerDelegate
+    // MARK: - Implement CanvasViewDelegate
     
-    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
-        let chosenColor = viewController.selectedColor
-        canvas?.brushColor = chosenColor.cgColor
+    func onTouchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        guard let canvas = canvas, let point = touches.first?.location(in: canvas), let art = art else {
+            return
+        }
+        
+        let x = floor(point.x)
+        let y = floor(point.y)
+        let scaledX = Int(x)/art.pixelSize
+        let scaledY = Int(y)/art.pixelSize
+        
+        let location = art.getLocation(x: scaledX, y: scaledY)
+        location.clear()
+        let pixel = Pixel(color: colorPickerController.selectedColor.cgColor)
+        location.push(pixel: pixel)
+        
     }
     
     // MARK: - Implement UIColorPickerViewControllerDelegate

@@ -83,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				8B00C70A262913C500504203 /* Gunther */,
+				8B0B623B2633A5100057E87F /* Utils */,
 				8B00C709262913C500504203 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -134,6 +135,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		8B0B623B2633A5100057E87F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8BCACA182632831C00FAF97B /* Converter.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		8BC213BE2632ABD800719579 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,7 +169,6 @@
 				8BCACA1B2632847800FAF97B /* Art.swift */,
 				8BCACA1E2632849A00FAF97B /* Location.swift */,
 				8BCACA21263284D700FAF97B /* Pixel.swift */,
-				8BCACA182632831C00FAF97B /* Converter.swift */,
 			);
 			path = Art;
 			sourceTree = "<group>";

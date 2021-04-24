@@ -29,6 +29,10 @@ class Location {
         self.content = [le]
     }
     
+    func peek() -> Pixel? {
+        return self.content.last
+    }
+    
     func clear() {
         self.content = [Pixel]()
     }
