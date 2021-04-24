@@ -13,7 +13,8 @@ class CanvasView: UIView {
     var canvasViewDelegate: CanvasViewDelegate?
     
     init(width: CGFloat, height: CGFloat) {
-        super.init(frame: CGRect(x: 5, y: 100, width: width, height: height))
+        super.init(frame: CGRect(x: 5, y: 50, width: width, height: height))
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
@@ -30,20 +31,18 @@ class CanvasView: UIView {
         
         for i in 0..<art.canvas.count {
             
-            let y = Int(Float(i/art.width).rounded(.down))
-            let x = i-Int(y)*art.width
+            let noPixelsWide = art.width/art.pixelSize
+            let y = Int(Float(i/noPixelsWide).rounded(.down))
+            let x = i-Int(y)*noPixelsWide
             
-            let location = art.getLocation(x: x, y: y)
-            var color: CGColor
+            let location = art.getLocation(x: x*art.pixelSize, y: y*art.pixelSize)
+            var color: CGColor = UIColor.white.cgColor
             if !location.content.isEmpty {
-                
-            }
-            else {
-                color = UIColor.white.cgColor
+                color = location.peek()!.color
             }
             context.setFillColor(color)
             
-            context.fill(CGRect(x: x, y: y, width: art.pixelSize, height: art.pixelSize))
+            context.fill(CGRect(x: x*art.pixelSize, y: y*art.pixelSize, width: art.pixelSize, height: art.pixelSize))
             
         }
         

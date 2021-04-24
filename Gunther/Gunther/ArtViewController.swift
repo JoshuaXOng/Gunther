@@ -54,7 +54,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         self.tool!.size = 5
         
         // Setup test art
-        self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 4)
+        self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 48)
         
     }
     
@@ -66,12 +66,9 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             return
         }
         
-        let x = floor(point.x)
-        let y = floor(point.y)
-        let scaledX = Int(x)/art.pixelSize
-        let scaledY = Int(y)/art.pixelSize
-        
-        let location = art.getLocation(x: scaledX, y: scaledY)
+        let x = Int(floor(point.x))
+        let y = Int(floor(point.y))
+        let location = art.getLocation(x: x, y: y)
         location.clear()
         let pixel = Pixel(color: colorPickerController.selectedColor.cgColor)
         location.push(pixel: pixel)

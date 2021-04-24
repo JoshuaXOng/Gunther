@@ -23,10 +23,10 @@ class Art: NSObject {
         self.pixelSize = pixelSize
         
         // Given the height, width and pixelSize, the locations should have inherent coordinates.
-        let noPixelsWide = width/pixelSize
-        let notPixelHigh = height/pixelSize
         self.canvas = [Location]()
-        for _ in 0..<noPixelsWide*notPixelHigh {
+        let noPixelsWide = width/pixelSize
+        let noPixelsHigh = height/pixelSize
+        for _ in 0..<noPixelsWide*noPixelsHigh {
             let location = Location()
             canvas.append(location)
         }
@@ -34,8 +34,16 @@ class Art: NSObject {
     }
     
     func getLocation(x: Int, y: Int) -> Location {
-        let index = Int(y)*(width/self.pixelSize)+Int(x)
+        
+        let noPixelsWide = width/pixelSize
+        
+        let noPixelsInXDirection = x/pixelSize
+        let noPixelsInYDirection = y/pixelSize
+        
+        let index = noPixelsInYDirection*noPixelsWide + noPixelsInXDirection
+        
         return canvas[index]
+        
     }
     
 }
