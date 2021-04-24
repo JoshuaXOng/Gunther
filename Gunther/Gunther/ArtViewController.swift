@@ -27,10 +27,10 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         super.viewDidLoad()
         
         //setup scrollView and zooming functionality
-        scrollView.backgroundColor = UIColor.lightGray
-        scrollView.minimumZoomScale = 1.0
-        scrollView.maximumZoomScale = 8.0
-        scrollView.zoomScale = 1.0
+        scrollView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 8
+        scrollView.zoomScale = 1
         scrollView.isScrollEnabled = false
         scrollView.delegate = self
         
@@ -39,11 +39,19 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         guard let canvas = canvas else { return }
         canvas.canvasViewDelegate = self
         scrollView.addSubview(canvas)
+    
+        scrollView.contentSize = CGSize(width: 500 + 50*4, height: 300 + 30*4)
         
-        let w = scrollView.bounds.width
-        let h = scrollView.bounds.height
-        scrollView.contentSize = CGSize(width: w, height: h)
-        //scrollView.contentSize = CGSize.init(width: 500+70, height: 300+70)
+        let w = scrollView.contentSize.width
+        let h = scrollView.contentSize.height
+        let point = CGPoint(x: w/2, y: h/2)
+        canvas.center = point
+        scrollView.zoom(to: canvas.bounds, animated: false)
+        
+        canvas.layer.shadowColor = UIColor.black.cgColor
+        canvas.layer.shadowOpacity = 1
+        canvas.layer.shadowOffset = .zero
+        canvas.layer.shadowRadius = 5
         
         //setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
@@ -54,7 +62,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         self.tool!.size = 5
         
         // Setup test art
-        self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 48)
+        self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 4)
         
     }
     

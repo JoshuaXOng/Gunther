@@ -129,7 +129,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0bN-Qg-OPo">
-                                <rect key="frame" x="20" y="98" width="374" height="702"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="wea-uK-noo"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="NoH-oP-xtQ"/>
                             </scrollView>
@@ -137,12 +137,12 @@
                         <viewLayoutGuide key="safeArea" id="uQ7-vK-vrQ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="uQ7-vK-vrQ" firstAttribute="trailing" secondItem="0bN-Qg-OPo" secondAttribute="trailing" constant="20" id="6Vq-xq-Yez"/>
-                            <constraint firstItem="0bN-Qg-OPo" firstAttribute="leading" secondItem="uQ7-vK-vrQ" secondAttribute="leading" constant="20" id="6aJ-0X-Tcc"/>
+                            <constraint firstItem="0bN-Qg-OPo" firstAttribute="top" secondItem="uQ7-vK-vrQ" secondAttribute="top" id="1nI-mw-ESR"/>
                             <constraint firstItem="eer-Wk-gab" firstAttribute="trailing" secondItem="uQ7-vK-vrQ" secondAttribute="trailing" id="8kz-1D-8vJ"/>
-                            <constraint firstItem="0bN-Qg-OPo" firstAttribute="top" secondItem="uQ7-vK-vrQ" secondAttribute="top" constant="10" id="EfW-tR-Wqp"/>
-                            <constraint firstItem="eer-Wk-gab" firstAttribute="top" secondItem="0bN-Qg-OPo" secondAttribute="bottom" constant="10" id="Evl-bc-Gsb"/>
+                            <constraint firstItem="0bN-Qg-OPo" firstAttribute="trailing" secondItem="uQ7-vK-vrQ" secondAttribute="trailing" id="9kr-nF-m4f"/>
                             <constraint firstAttribute="bottom" secondItem="eer-Wk-gab" secondAttribute="bottom" id="Xyn-8L-OLt"/>
+                            <constraint firstItem="eer-Wk-gab" firstAttribute="top" secondItem="0bN-Qg-OPo" secondAttribute="bottom" id="jMi-Uo-CR7"/>
+                            <constraint firstItem="0bN-Qg-OPo" firstAttribute="leading" secondItem="uQ7-vK-vrQ" secondAttribute="leading" id="mWt-aU-5By"/>
                             <constraint firstItem="eer-Wk-gab" firstAttribute="leading" secondItem="uQ7-vK-vrQ" secondAttribute="leading" id="mf2-VQ-2c4"/>
                         </constraints>
                     </view>

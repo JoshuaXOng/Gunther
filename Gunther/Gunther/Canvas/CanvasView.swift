@@ -13,7 +13,7 @@ class CanvasView: UIView {
     var canvasViewDelegate: CanvasViewDelegate?
     
     init(width: CGFloat, height: CGFloat) {
-        super.init(frame: CGRect(x: 5, y: 50, width: width, height: height))
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
         self.backgroundColor = .white
     }
     
