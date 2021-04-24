@@ -26,7 +26,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //setup scrollView and zooming functionality
+        // Setup scrollView and zooming functionality
         scrollView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 8
@@ -34,32 +34,33 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         scrollView.isScrollEnabled = false
         scrollView.delegate = self
         
-        canvas = CanvasView(width: 500, height: 300) //a test canvas view
-        //setup canvas
+        // Initialize a test canvas view
+        canvas = CanvasView(width: 500, height: 300)
+        
+        // Setup canvas
         guard let canvas = canvas else { return }
         canvas.canvasViewDelegate = self
         scrollView.addSubview(canvas)
-    
-        scrollView.contentSize = CGSize(width: 500 + 50*4, height: 300 + 30*4)
         
-        let w = scrollView.contentSize.width
-        let h = scrollView.contentSize.height
-        let point = CGPoint(x: w/2, y: h/2)
-        canvas.center = point
+        // Adjust scrollView and canvas
+        scrollView.contentSize = CGSize(width: 500 + 50*4, height: 300 + 30*4)
+        let centerOfSVContent = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
+        canvas.center = centerOfSVContent
         scrollView.zoom(to: canvas.bounds, animated: false)
         
+        // Give shadow to canvas
         canvas.layer.shadowColor = UIColor.black.cgColor
         canvas.layer.shadowOpacity = 1
         canvas.layer.shadowOffset = .zero
         canvas.layer.shadowRadius = 5
         
-        //setup colorPickerController
+        // Setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
         colorPickerController.delegate = self
         
         // Setup test tool
         self.tool = Pencil()
-        self.tool!.size = 5
+        self.tool!.size = 11
         
         // Setup test art
         self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 4)
@@ -76,10 +77,16 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         let x = Int(floor(point.x))
         let y = Int(floor(point.y))
-        let location = art.getLocation(x: x, y: y)
-        location.clear()
-        let pixel = Pixel(color: colorPickerController.selectedColor.cgColor)
-        location.push(pixel: pixel)
+        
+        let area = tool?.nibArea(x: x/self.art!.pixelSize, y: y/self.art!.pixelSize)
+        for point in area! {
+            let x = point[0]*self.art!.pixelSize
+            let y = point[1]*self.art!.pixelSize
+            let location = art.getLocation(x: x, y: y)
+            location.clear()
+            let pixel = Pixel(color: colorPickerController.selectedColor.cgColor)
+            location.push(pixel: pixel)
+        }
         
     }
     

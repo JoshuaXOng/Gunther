@@ -9,4 +9,12 @@ import Foundation
 
 class Converter {
     
+    static func toPng(art: Art) {
+        
+    }
+    
+    static func toArt(png: Data) {
+        
+    }
+    
 }
