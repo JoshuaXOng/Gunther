@@ -9,18 +9,14 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
-class SavedArtCollectionViewController: UICollectionViewController {
+class SavedArtCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     let SAVED_ART_SECTION = 0
     let SAVED_ART_CELL = "SavedArtCell"
-    
-    var savedArt = [UIImage]() //[StorageReference]()
+    var savedArt = [UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: SAVED_ART_CELL)
@@ -28,9 +24,15 @@ class SavedArtCollectionViewController: UICollectionViewController {
         // Get a reference to the applications database controller
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         guard let databaseController = appDelegate.databaseController else { return }
+        guard let firebaseController = databaseController as? FirebaseController else {
+            return
+        }
         
-        guard let firebaseController = databaseController as? FirebaseController else { return }
+        let rootRef = firebaseController.storage.reference()
+        
         let gPPNGRef = firebaseController.storage.reference(withPath: "GuntherPixi.png")
+        let horiTextRef = rootRef.child("HoriTest.PNG")
+        
         gPPNGRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print(error)
@@ -44,7 +46,22 @@ class SavedArtCollectionViewController: UICollectionViewController {
                 DispatchQueue.main.async {
                     self.collectionView.reloadSections([self.SAVED_ART_SECTION])
                 }
+            }
+        }
+        
+        horiTextRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                let image = UIImage(data: data!)
+                //let iv = UIImageView(image: image)
+                self.savedArt.append(image!)
+                self.savedArt.append(image!)
+                //self.view.addSubview(iv)
                 
+                DispatchQueue.main.async {
+                    self.collectionView.reloadSections([self.SAVED_ART_SECTION])
+                }
             }
         }
         
@@ -76,13 +93,47 @@ class SavedArtCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath)
         
-        let iv = UIImageView(image: savedArt[0])
+        let iv = UIImageView(image: savedArt[indexPath.row])
+        // Need to remove all subviews
         savedArtCell.contentView.addSubview(iv)
-        iv.bounds = savedArtCell.contentView.bounds
+        //savedArtCell.contentView.backgroundColor = UIColor.black
+        iv.frame = savedArtCell.contentView.bounds
     
         return savedArtCell
     }
-
+    
+    // MARK: - Implement UICollectionViewDelegateFlowLayout
+    
+    /* CODE FROM:
+     https://www.raywenderlich.com/18895088-uicollectionview-tutorial-getting-started/
+    */
+    
+    private let sectionInsets = UIEdgeInsets(
+      top: 50.0,
+      left: 20.0,
+      bottom: 50.0,
+      right: 20.0)
+    
+    private let itemsPerRow: CGFloat = 2
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        let availableWidth = view.frame.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        
+        return CGSize(width: widthPerItem, height: widthPerItem)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout:UICollectionViewLayout,minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.left
+    }
+    
     // MARK: UICollectionViewDelegate
 
     /*
