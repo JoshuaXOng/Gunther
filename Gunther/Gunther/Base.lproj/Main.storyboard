@@ -229,7 +229,7 @@
         <!--Saved Art-->
         <scene sceneID="Xid-kP-Uqv">
             <objects>
-                <collectionViewController id="XSi-4g-gih" sceneMemberID="viewController">
+                <collectionViewController id="XSi-4g-gih" customClass="SavedArtCollectionViewController" customModule="Gunther" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="lCt-BS-HYW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
