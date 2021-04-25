@@ -43,57 +43,20 @@ class FirebaseController: NSObject, DatabaseProtocol {
     
     // MARK: - Implement DatabaseProtocol
     
-    func cleanup() {
+    func cleanup() {}
+    
+    func addListener(listener: DatabaseListener) {}
+    func removeListener(listener: DatabaseListener) {}
 
-    }
+    func fetchAllCategories() -> [Category] { return [Category]() }
     
-    func addListener(listener: DatabaseListener) {
-
-    }
+    func addArtToCategory(category: Category, art: Art) -> Bool { return false }
+    func removeArtFromCategory(category: Category, art: Art) -> Bool { return false }
+    func fetchAllArtFromCategory(category: Category) -> [Art] { return [Art]() }
     
-    func removeListener(listener: DatabaseListener) {
-
-    }
-    
-    func fetchAllCategories() -> [Category] {
-        return [Category]()
-    }
-    
-    //func addArtToCategory(category: Category, art: Art) -> Bool {
-    //    return false
-    //}
-    
-    //func removeArtFromCategory(category: Category, art: Art) -> Bool {
-    //    return false
-    //}
-    
-    func fetchAllArtFromCategory(category: Category) -> Bool {
-        return false
-    }
-    
-    func addUser(name: String) -> User {
-        return User()
-    }
-    
-    func removeUser(user: User) {
-        
-    }
-    
-    func fetchAllUsers() -> [User] {
-        return [User]()
-    }
-    
-    //func addArtToUser(user: User, art: Art) -> Bool {
-    //    return false
-    //}
-    
-    //func removeArtFromUser(user: User, art: Art) -> Bool {
-    //    return false
-    //}
-    
-    func fetchAllArtFromUser(user: User) -> Bool {
-        return false
-    }
+    func addArtToUser(user: User, art: Art) -> Bool { return false }
+    func removeArtFromUser(user: User, art: Art) -> Bool { return false }
+    func fetchAllArtFromUser(user: User) -> [Art] { [Art]() }
     
     // MARK: - Firebase Controller Specific Methods
     /*func getHeroIndexByID(_ id: String) -> Int? {}
