@@ -17,8 +17,9 @@ enum DatabaseChange {
 
 enum ListenerType {
     
+    case categories
     case category
-    case userArt
+    case user
     case all
     
 }
@@ -26,8 +27,9 @@ enum ListenerType {
 protocol DatabaseListener: AnyObject {
     
     var listenerType: ListenerType {get set}
-    func onCategoryChange(change: DatabaseChange, categories: [Category])
-    func onUserArtChange(change: DatabaseChange, user: User)
+    func onCategoriesChange(change: DatabaseChange, categories: [Category])
+    func onCategoryChange(change: DatabaseChange, category: Category)
+    func onUserChange(change: DatabaseChange, user: User)
     
 }
 
@@ -37,20 +39,16 @@ protocol DatabaseProtocol: AnyObject {
     
     func addListener(listener: DatabaseListener)
     func removeListener(listener: DatabaseListener)
-    
+
     func fetchAllCategories() -> [Category]
     
-    //func addArtToCategory(category: Category, art: Art) -> Bool
-    //func removeArtFromCategory(category: Category, art: Art) -> Bool
-    func fetchAllArtFromCategory(category: Category) -> Bool
+    func addArtToCategory(category: Category, art: Art) -> Bool
+    func removeArtFromCategory(category: Category, art: Art) -> Bool
+    func fetchAllArtFromCategory(category: Category) -> [Art]
     
-    func addUser(name: String) -> User
-    func removeUser(user: User)
-    func fetchAllUsers() -> [User]
-    
-    //func addArtToUser(user: User, art: Art) -> Bool
-    //func removeArtFromUser(user: User, art: Art) -> Bool
-    func fetchAllArtFromUser(user: User) -> Bool
+    func addArtToUser(user: User, art: Art) -> Bool
+    func removeArtFromUser(user: User, art: Art) -> Bool
+    func fetchAllArtFromUser(user: User) -> [Art]
     
 }
 
