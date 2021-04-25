@@ -14,6 +14,7 @@
 		8B00C718262913C600504203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C716262913C600504203 /* LaunchScreen.storyboard */; };
 		8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */; };
 		8B3C241B2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C241A2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift */; };
+		8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */; };
 		8BC213A626328D8B00719579 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BC213A526328D8B00719579 /* GoogleService-Info.plist */; };
 		8BC213A92632908100719579 /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213A82632908100719579 /* FirebaseController.swift */; };
 		8BC213B02632925E00719579 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213AF2632925E00719579 /* MulticastDelegate.swift */; };
@@ -48,6 +49,7 @@
 		8B00C719262913C600504203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewController.swift; sourceTree = "<group>"; };
 		8B3C241A2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewCell.swift; sourceTree = "<group>"; };
+		8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewArtViewController.swift; sourceTree = "<group>"; };
 		8BC213A526328D8B00719579 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8BC213A82632908100719579 /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		8BC213AF2632925E00719579 /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
@@ -87,7 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				8B00C70A262913C500504203 /* Gunther */,
-				8B0B623B2633A5100057E87F /* Utils */,
 				8B00C709262913C500504203 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,12 +113,14 @@
 				8B00C714262913C600504203 /* Assets.xcassets */,
 				8BC213A526328D8B00719579 /* GoogleService-Info.plist */,
 				8B00C719262913C600504203 /* Info.plist */,
+				8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
 				8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */,
 				8B3C241A2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift */,
 				8BC213BF2632ABF400719579 /* Canvas */,
 				8BC213C02632AC5F00719579 /* Art */,
 				8BC213BE2632ABD800719579 /* Tool */,
+				8B0B623B2633A5100057E87F /* Utils */,
 			);
 			path = Gunther;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				8B3C241B2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift in Sources */,
 				8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */,
 				8BC213B72632933F00719579 /* User.swift in Sources */,
+				8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */,
 				8B00C70C262913C500504203 /* AppDelegate.swift in Sources */,
 				8BC213B42632928E00719579 /* DatabaseProtocol.swift in Sources */,
 				8BCACA1C2632847800FAF97B /* Art.swift in Sources */,

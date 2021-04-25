@@ -29,7 +29,7 @@
         <!--New Art-->
         <scene sceneID="JFB-4S-VmV">
             <objects>
-                <viewController id="mmc-z1-v3Z" sceneMemberID="viewController">
+                <viewController id="mmc-z1-v3Z" customClass="NewArtViewController" customModule="Gunther" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m2c-eV-kIf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -146,7 +146,13 @@
                             <constraint firstItem="eer-Wk-gab" firstAttribute="leading" secondItem="uQ7-vK-vrQ" secondAttribute="leading" id="mf2-VQ-2c4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Art" id="tmx-4H-QH4"/>
+                    <navigationItem key="navigationItem" title="Art" id="tmx-4H-QH4">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="eRz-2k-aoa">
+                            <connections>
+                                <action selector="SaveButton:" destination="dwa-5h-0Oc" id="Cug-jB-idf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="scrollView" destination="0bN-Qg-OPo" id="A9t-nf-zjE"/>
                     </connections>

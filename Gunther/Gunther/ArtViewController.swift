@@ -9,11 +9,17 @@ import UIKit
 
 class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate, CanvasViewDelegate {
     
+    var databaseController: DatabaseProtocol?
+    
     @IBOutlet weak var scrollView: UIScrollView!
     var canvas: CanvasView?
     var art: Art?
     var tool: Tool?
     let colorPickerController = UIColorPickerViewController()
+    
+    @IBAction func SaveButton(_ sender: UIBarButtonItem) {
+        self.save()
+    }
     
     @IBAction func ColorPickerButton(_ sender: UIButton) {
         self.present(colorPickerController, animated: true, completion: nil)
@@ -25,6 +31,10 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Setup database
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        databaseController = appDelegate.databaseController
         
         // Setup scrollView and zooming functionality
         scrollView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
@@ -94,6 +104,29 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return canvas
+    }
+    
+    // MARK: - Save art to database
+    
+    func save() {
+        
+        guard let firebaseController = databaseController as? FirebaseController else {
+            return
+        }
+        let rootRef = firebaseController.storage.reference()
+        let testRef = rootRef.child("test.png")
+        
+        guard let canvas = canvas else {
+            return
+        }
+        guard let data = canvas.getPNGData() else { return }
+
+        let _ = testRef.putData(data, metadata: nil) { (metadata, error) in
+            if let error = error {
+                print(error)
+            }
+        }
+        
     }
     
     /*

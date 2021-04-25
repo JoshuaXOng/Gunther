@@ -11,6 +11,7 @@ import UIKit
 class CanvasView: UIView {
     
     var canvasViewDelegate: CanvasViewDelegate?
+    var cgImageRep: CGImage?
     
     init(width: CGFloat, height: CGFloat) {
         super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
@@ -46,6 +47,8 @@ class CanvasView: UIView {
             
         }
         
+        self.cgImageRep = context.makeImage()
+        
     }
     
     // MARK: - Handle touch input
@@ -53,6 +56,15 @@ class CanvasView: UIView {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         canvasViewDelegate?.onTouchesMoved(touches, with: event)
         setNeedsDisplay()
+    }
+    
+    // MARK: - Utilities
+    
+    func getPNGData() -> Data? {
+        
+        guard let cgImageRep = self.cgImageRep else { return nil }
+        return UIImage(cgImage: cgImageRep).pngData()
+        
     }
 
 }

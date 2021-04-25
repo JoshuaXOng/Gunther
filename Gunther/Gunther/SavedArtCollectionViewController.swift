@@ -31,7 +31,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         let rootRef = firebaseController.storage.reference()
         
         let gPPNGRef = firebaseController.storage.reference(withPath: "GuntherPixi.png")
-        let horiTextRef = rootRef.child("HoriTest.PNG")
+        let testRef = rootRef.child("test.png")
         
         gPPNGRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
@@ -49,7 +49,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
             }
         }
         
-        horiTextRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+        testRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print(error)
             } else {
