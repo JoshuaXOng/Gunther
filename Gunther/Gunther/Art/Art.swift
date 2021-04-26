@@ -15,6 +15,8 @@ class Art: NSObject {
     var pixelSize: Int
     var canvas: [Location]
     
+    var test: UIImageView?
+        
     init(name: String, height: Int, width: Int, pixelSize: Int) {
         
         self.name = name
@@ -49,34 +51,60 @@ class Art: NSObject {
             canvas.append(location)
         }
         
-        for i in 0..<noPixelsHigh {
-            for j in 0..<noPixelsWide {
-                let x = j*pixelSize
-                let y = i*pixelSize
-                //let pixelCenterPoint = Art.pixelCenter(pixelTLX: x, pixelTLY: y, pixelSize: pixelSize)
-                // Code from: https://www.hackingwithswift.com/example-code/media/how-to-read-the-average-color-of-a-uiimage-using-ciareaaverage
-                guard let ciImage = CIImage(image: image) else { return }
-                let extentVector = CIVector(x: CGFloat(x), y: CGFloat(y), z: CGFloat(pixelSize), w: CGFloat(pixelSize))
-                guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: ciImage, kCIInputExtentKey: extentVector]) else {
-                    return
+        
+        test = UIImageView(image: image)
+        
+        // CODE NOT BY ME
+        
+        guard let cgImage = image.cgImage,
+            let data = cgImage.dataProvider?.data,
+            let bytes = CFDataGetBytePtr(data) else {
+            fatalError("Couldn't access image data")
+        }
+        assert(cgImage.colorSpace?.model == .rgb)
+
+        let bytesPerPixel = cgImage.bitsPerPixel / cgImage.bitsPerComponent
+        
+        /*
+        for i in 0 ..< (height*width){  //bytesPerPixel {
+            print(bytes[i])
+            // So it is b,g,r,a
+            // And this is printing out right...
+        }
+        */
+        
+        for y in 0 ..< noPixelsHigh {
+            for x in 0 ..< noPixelsWide {
+                //let point = Art.pixelCenter(pixelTLX: x*pixelSize, pixelTLY: y*pixelSize, pixelSize: pixelSize)
+                //print(point)
+                let testY = y*pixelSize//Int(point.y)
+                let testX = x*pixelSize//Int(point.x)
+                let offset = (testY * cgImage.bytesPerRow) + (testX * bytesPerPixel)
+                //let components = (r: bytes[offset], g: bytes[offset + 1], b: bytes[offset + 2], a: bytes[offset+3])
+                //print("[x:\(x), y:\(y)] \(components)")
+                let b = CGFloat(bytes[offset])/255.0 // FUUUUUUUUCKKKKKKK, RNDS TO INT
+                let g = CGFloat(bytes[offset+1])/255.0
+                let r = CGFloat(bytes[offset+2])/255.0
+                let a = CGFloat(bytes[offset+3])/255.0
+                /*
+                if x == 0 && y == 0 {
+                    print(r,g,b,a)
+                    print(bytes[offset+2],bytes[offset+1],bytes[offset])
+                    print(bytes[2],bytes[1],bytes[0],bytes[3])
                 }
-                guard let outputImage = filter.outputImage else { return }
-                var bitmap = [UInt8](repeating: 0, count: 4)
-                let context = CIContext(options: [.workingColorSpace: kCFNull])
-                context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
-                let uiColor = UIColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
+                */
+                //print(r,g,b,a)
+                let c = CGColor(red: r, green: g, blue: b, alpha: a)
                 
-                let noPixelsInXDirection = x/pixelSize
-                let noPixelsInYDirection = y/pixelSize
-                let index = noPixelsInYDirection*noPixelsWide + noPixelsInXDirection
-                canvas[index].clear()
-                let p = Pixel(color: uiColor.cgColor)
-                canvas[index].push(pixel: p)
-                
-                print("oh")
+                let i = y*noPixelsWide+x
+                canvas[i].clear()
+                let p = Pixel(color: c)
+                canvas[i].push(pixel: p)
                 
             }
+            print("---")
         }
+ 
     }
     
     // Sort Coords class scope out -- this function should be temp for now

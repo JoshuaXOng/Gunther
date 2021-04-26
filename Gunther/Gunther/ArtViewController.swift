@@ -74,7 +74,6 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         // Setup test art
         //self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 4)
-
         
         guard let firebaseController = databaseController as? FirebaseController else {
             return
@@ -85,12 +84,48 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             if let error = error {
                 print(error)
             } else {
-                let image = UIImage(data: data!)
+                var image = UIImage(data: data!)
+                image = ArtViewController.resizeImage(image: image!, targetSize: CGSize(width: 500, height: 300))
                 self.art = Art(name: "", height: 300, width: 500, pixelSize: 4, image: image!)
+                
+                /*
+                DispatchQueue.main.async {
+                    let v = self.art!.test
+                    self.view.addSubview(v!)
+                }*/
+                
             }
         }
         //sleep(5)
         
+    }
+    
+    // NOT MY CODE
+    
+    static func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage!
     }
     
     // MARK: - Implement CanvasViewDelegate
