@@ -16,5 +16,5 @@ class Converter {
     static func toArt(png: Data) {
         
     }
-    
+
 }

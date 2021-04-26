@@ -14,6 +14,7 @@
 		8B00C718262913C600504203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C716262913C600504203 /* LaunchScreen.storyboard */; };
 		8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */; };
 		8B3C241B2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C241A2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift */; };
+		8B77E0BD26363D9E00232342 /* Coords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B77E0BC26363D9E00232342 /* Coords.swift */; };
 		8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */; };
 		8BC213A626328D8B00719579 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BC213A526328D8B00719579 /* GoogleService-Info.plist */; };
 		8BC213A92632908100719579 /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213A82632908100719579 /* FirebaseController.swift */; };
@@ -49,6 +50,7 @@
 		8B00C719262913C600504203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewController.swift; sourceTree = "<group>"; };
 		8B3C241A2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewCell.swift; sourceTree = "<group>"; };
+		8B77E0BC26363D9E00232342 /* Coords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coords.swift; sourceTree = "<group>"; };
 		8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewArtViewController.swift; sourceTree = "<group>"; };
 		8BC213A526328D8B00719579 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8BC213A82632908100719579 /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				8BCACA182632831C00FAF97B /* Converter.swift */,
+				8B77E0BC26363D9E00232342 /* Coords.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				8BCACA22263284D700FAF97B /* Pixel.swift in Sources */,
 				8BCACA192632831C00FAF97B /* Converter.swift in Sources */,
 				8B3C241B2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift in Sources */,
+				8B77E0BD26363D9E00232342 /* Coords.swift in Sources */,
 				8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */,
 				8BC213B72632933F00719579 /* User.swift in Sources */,
 				8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */,

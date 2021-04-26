@@ -73,7 +73,23 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         self.tool!.size = 11
         
         // Setup test art
-        self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 4)
+        //self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 4)
+
+        
+        guard let firebaseController = databaseController as? FirebaseController else {
+            return
+        }
+        let rootRef = firebaseController.storage.reference()
+        let testRef = rootRef.child("test.png")
+        testRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                let image = UIImage(data: data!)
+                self.art = Art(name: "", height: 300, width: 500, pixelSize: 4, image: image!)
+            }
+        }
+        //sleep(5)
         
     }
     

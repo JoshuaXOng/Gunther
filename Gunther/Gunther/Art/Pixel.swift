@@ -11,6 +11,7 @@ import UIKit
 class Pixel {
     // Consider using a struct for speed...
         
+    // Refactor to contain straight r, g, b and a values
     var color: CGColor
 
     init(color: CGColor) {
