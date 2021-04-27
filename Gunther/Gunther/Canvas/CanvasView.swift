@@ -51,7 +51,7 @@ class CanvasView: UIView {
         
     }
     
-    // Have a function to draw art to a context -- i.e. drawArtToContext()
+    // Have a function to draw art to a context -- i.e. drawArtToContext() -- maybe relocate this into the art class aswell
     
     // MARK: - Handle touch input
     
