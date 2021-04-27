@@ -51,6 +51,8 @@ class CanvasView: UIView {
         
     }
     
+    // Have a function to draw art to a context -- i.e. drawArtToContext()
+    
     // MARK: - Handle touch input
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
