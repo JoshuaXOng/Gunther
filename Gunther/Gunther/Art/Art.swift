@@ -160,4 +160,12 @@ class Art: NSObject {
      
      }
     
+    func getPNGData() -> Data? {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height))
+        let image = renderer.image { context in
+            self.drawToContext(graphicsContext: context as! CGContext)
+        }
+        return image.pngData()
+    }
+    
 }
