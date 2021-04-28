@@ -11,7 +11,6 @@ import UIKit
 class CanvasView: UIView {
     
     var canvasViewDelegate: CanvasViewDelegate?
-    var cgImageRep: CGImage?
     
     init(width: CGFloat, height: CGFloat) {
         super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
@@ -31,8 +30,6 @@ class CanvasView: UIView {
         }
         
         art.drawToContext(graphicsContext: context)
-        
-        self.cgImageRep = context.makeImage()
         
     }
     
