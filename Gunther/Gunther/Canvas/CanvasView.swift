@@ -30,22 +30,7 @@ class CanvasView: UIView {
             return
         }
         
-        for i in 0..<art.canvas.count {
-            
-            let noPixelsWide = art.width/art.pixelSize
-            let y = Int(Float(i/noPixelsWide).rounded(.down))
-            let x = i-Int(y)*noPixelsWide
-            
-            let location = art.getLocation(x: x*art.pixelSize, y: y*art.pixelSize)
-            var color: CGColor = UIColor.white.cgColor
-            if !location.content.isEmpty {
-                color = location.peek()!.color
-            }
-            context.setFillColor(color)
-            
-            context.fill(CGRect(x: x*art.pixelSize, y: y*art.pixelSize, width: art.pixelSize, height: art.pixelSize))
-            
-        }
+        art.drawToContext(graphicsContext: context)
         
         self.cgImageRep = context.makeImage()
         

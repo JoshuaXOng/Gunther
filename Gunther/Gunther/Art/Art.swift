@@ -108,7 +108,7 @@ class Art: NSObject {
                 canvas[i].push(pixel: p)
                 
             }
-            print("---")
+            //print("---")
         }
  
     }
@@ -142,13 +142,10 @@ class Art: NSObject {
     
     func drawToContext(graphicsContext: CGContext) {
         
-        assert(graphicsContext.width == width, "Supplied graphics context is of different width to art")
-        assert(graphicsContext.height == height, "Supplied graphics context is of different height to art")
-        
         for index in 0 ..< canvas.count {
             
             let x = (index*pixelSize)%width
-            let y = (index*pixelSize-x)/width
+            let y = ((index*pixelSize-x)/width)*pixelSize
             
             let location = getLocation(x: x, y: y)
             var color: CGColor = UIColor.white.cgColor
