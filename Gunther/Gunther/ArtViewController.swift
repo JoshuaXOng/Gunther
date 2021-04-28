@@ -167,11 +167,12 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         let rootRef = firebaseController.storage.reference()
         let testRef = rootRef.child("test.png")
         
-        guard let canvas = canvas else {
+        /*guard let canvas = canvas else {
             return
         }
-        guard let data = canvas.getPNGData() else { return }
-
+        guard let data = canvas.getPNGData() else { return }*/
+        let data = art!.getPNGData()!
+        
         let _ = testRef.putData(data, metadata: nil) { (metadata, error) in
             if let error = error {
                 print(error)
