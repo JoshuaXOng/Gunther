@@ -12,6 +12,8 @@ class Art: NSObject {
     var name: String
     var height: Int
     var width: Int
+    var noGuntherPixelsHigh: Int
+    var noGuntherPixelsWide: Int
     var pixelSize: Int
     var canvas: [Location]
     
@@ -22,6 +24,8 @@ class Art: NSObject {
         self.name = name
         self.height = height
         self.width = width
+        self.noGuntherPixelsHigh = height/pixelSize
+        self.noGuntherPixelsWide = width/pixelSize
         self.pixelSize = pixelSize
         
         // Given the height, width and pixelSize, the locations should have inherent coordinates.
@@ -40,6 +44,8 @@ class Art: NSObject {
         self.name = name
         self.height = height
         self.width = width
+        self.noGuntherPixelsHigh = height/pixelSize
+        self.noGuntherPixelsWide = width/pixelSize
         self.pixelSize = pixelSize
         
         // Given the height, width and pixelSize, the locations should have inherent coordinates.
@@ -115,16 +121,15 @@ class Art: NSObject {
     }
     
     func getLocation(x: Int, y: Int) -> Location {
-        
-        let noPixelsWide = width/pixelSize
-        
-        let noPixelsInXDirection = x/pixelSize
-        let noPixelsInYDirection = y/pixelSize
-        
-        let index = noPixelsInYDirection*noPixelsWide + noPixelsInXDirection
-        
+        let guntherX = x/pixelSize
+        let guntherY = y/pixelSize
+        let index = guntherY*noGuntherPixelsWide + guntherX
         return canvas[index]
-        
+    }
+    
+    func getLocation(guntherX: Int, guntherY: Int) -> Location {
+        let index = guntherY*noGuntherPixelsWide + guntherX
+        return canvas[index]
     }
     
     /*
@@ -134,5 +139,28 @@ class Art: NSObject {
         location.push(pixel)
     }
     */
+    
+    func drawToContext(graphicsContext: CGContext) {
+        
+        assert(graphicsContext.width == width, "Supplied graphics context is of different width to art")
+        assert(graphicsContext.height == height, "Supplied graphics context is of different height to art")
+        
+        for index in 0 ..< canvas.count {
+            
+            let x = (index*pixelSize)%width
+            let y = (index*pixelSize-x)/width
+            
+            let location = getLocation(x: x, y: y)
+            var color: CGColor = UIColor.white.cgColor
+            if !location.content.isEmpty {
+                color = location.peek()!.color
+            }
+            graphicsContext.setFillColor(color)
+             
+            graphicsContext.fill(CGRect(x: x, y: y, width: pixelSize, height: pixelSize))
+             
+         }
+     
+     }
     
 }
