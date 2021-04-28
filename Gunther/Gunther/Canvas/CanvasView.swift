@@ -36,23 +36,11 @@ class CanvasView: UIView {
         
     }
     
-    // Have a function to draw art to a context -- i.e. drawArtToContext() -- maybe relocate this into Art aswell.
-    // Then getPNGData() can also be relocated into Art.
-    
     // MARK: - Handle touch input
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         canvasViewDelegate?.onTouchesMoved(touches, with: event)
         setNeedsDisplay()
-    }
-    
-    // MARK: - Utilities
-    
-    func getPNGData() -> Data? {
-        
-        guard let cgImageRep = self.cgImageRep else { return nil }
-        return UIImage(cgImage: cgImageRep).pngData()
-        
     }
 
 }
