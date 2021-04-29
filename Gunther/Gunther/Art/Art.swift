@@ -60,8 +60,8 @@ class Art: NSObject {
         for guntherY in 0 ..< noGuntherPixelsHigh {
             for guntherX in 0 ..< noGuntherPixelsWide {
                 
-                let y = guntherY*pixelSize
-                let x = guntherX*pixelSize
+                let y = (guntherY*pixelSize)+(pixelSize/2) // Sample the center of the Gunther pixel, not the extremities, to prevent blurring
+                let x = (guntherX*pixelSize)+(pixelSize/2)
                 let offset = (y * cgImage.bytesPerRow) + (x * bytesPerPixel)
                 let b = CGFloat(bytes[offset])/255.0 // Without the CGFloat cast and '.0', the result rounds itself to the nearest int
                 let g = CGFloat(bytes[offset+1])/255.0
