@@ -40,8 +40,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         // Setup scrollView and zooming functionality
         scrollView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
-        scrollView.minimumZoomScale = 1
-        scrollView.maximumZoomScale = 8
+        scrollView.minimumZoomScale = 1; scrollView.maximumZoomScale = 8
         scrollView.zoomScale = 1
         scrollView.isScrollEnabled = false
         scrollView.delegate = self
@@ -53,8 +52,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         guard let canvas = canvas else { return }
         canvas.canvasViewDelegate = self
         scrollView.addSubview(canvas)
-        
-        // Adjust scrollView and canvas
+        // Adjust scrollView to canvas
         scrollView.contentSize = CGSize(width: 500 + 50*4, height: 300 + 30*4)
         let centerOfSVContent = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
         canvas.center = centerOfSVContent
@@ -70,13 +68,11 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         colorPickerController.selectedColor = UIColor.black
         colorPickerController.delegate = self
         
-        // Setup test tool
+        // Initialize a test tool
         self.tool = Pencil()
         self.tool!.size = 11
         
-        // Setup test art
-        //self.art = Art(name: "Test", height: 300, width: 500, pixelSize: 4)
-        
+        // Pull a test art -- TEMP -- Put this in the DB package somewhere...
         guard let firebaseController = databaseController as? FirebaseController else {
             return
         }
@@ -87,7 +83,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
                 print(error)
             } else {
                 var image = UIImage(data: data!)
-                image = ArtViewController.resizeImage(image: image!, targetSize: CGSize(width: 500, height: 300))
+                image = UIImage.resizeImage(image: image!, targetSize: CGSize(width: 500, height: 300))
                 self.art = Art(name: "", height: 300, width: 500, pixelSize: 4, image: image!)
                 
                 /*
@@ -98,36 +94,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
                 
             }
         }
-        //sleep(5)
     
-    }
-    
-    // NOT MY CODE
-    
-    static func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
-        let size = image.size
-
-        let widthRatio  = targetSize.width  / size.width
-        let heightRatio = targetSize.height / size.height
-
-        // Figure out what our orientation is, and use that to form the rectangle
-        var newSize: CGSize
-        if(widthRatio > heightRatio) {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
-        }
-
-        // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-
-        // Actually do the resizing to the rect using the ImageContext stuff
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return newImage!
     }
     
     // MARK: - Implement CanvasViewDelegate
