@@ -16,8 +16,6 @@ class Art: NSObject {
     var noGuntherPixelsWide: Int
     var pixelSize: Int
     var canvas: [Location]
-    
-    var test: UIImageView?
         
     init(name: String, height: Int, width: Int, pixelSize: Int) {
         
@@ -37,80 +35,47 @@ class Art: NSObject {
             canvas.append(location)
         }
         
+        super.init()
+        
     }
     
-    init(name: String, height: Int, width: Int, pixelSize: Int, image: UIImage) {
+    convenience init(name: String, height: Int, width: Int, pixelSize: Int, image: UIImage) {
+        self.init(name: name, height: height, width: width, pixelSize: pixelSize)
+        updateCanvasFromImage(image: image)
+    }
+    
+    private func updateCanvasFromImage(image: UIImage) {
         
-        self.name = name
-        self.height = height
-        self.width = width
-        self.noGuntherPixelsHigh = height/pixelSize
-        self.noGuntherPixelsWide = width/pixelSize
-        self.pixelSize = pixelSize
+        /*
+        CODE FROM: https://www.ralfebert.de/ios/examples/image-processing/uiimage-raw-pixels/
+        Used to access the raw pixels of a UIImage
+        */
         
-        // Given the height, width and pixelSize, the locations should have inherent coordinates.
-        self.canvas = [Location]()
-        let noPixelsWide = width/pixelSize
-        let noPixelsHigh = height/pixelSize
-        for _ in 0..<noPixelsWide*noPixelsHigh {
-            let location = Location()
-            canvas.append(location)
-        }
-        
-        
-        test = UIImageView(image: image)
-        
-        // CODE NOT BY ME
-        
-        guard let cgImage = image.cgImage,
-            let data = cgImage.dataProvider?.data,
-            let bytes = CFDataGetBytePtr(data) else {
+        guard let cgImage = image.cgImage, let data = cgImage.dataProvider?.data, let bytes = CFDataGetBytePtr(data) else {
             fatalError("Couldn't access image data")
         }
         assert(cgImage.colorSpace?.model == .rgb)
 
         let bytesPerPixel = cgImage.bitsPerPixel / cgImage.bitsPerComponent
-        
-        /*
-        for i in 0 ..< (height*width){  //bytesPerPixel {
-            print(bytes[i])
-            // So it is b,g,r,a
-            // And this is printing out right...
-        }
-        */
-        
-        for y in 0 ..< noPixelsHigh {
-            for x in 0 ..< noPixelsWide {
-                //let point = Art.pixelCenter(pixelTLX: x*pixelSize, pixelTLY: y*pixelSize, pixelSize: pixelSize)
-                //print(point)
-                let testY = y*pixelSize//Int(point.y)
-                let testX = x*pixelSize//Int(point.x)
-                let offset = (testY * cgImage.bytesPerRow) + (testX * bytesPerPixel)
-                //let components = (r: bytes[offset], g: bytes[offset + 1], b: bytes[offset + 2], a: bytes[offset+3])
-                //print("[x:\(x), y:\(y)] \(components)")
-                let b = CGFloat(bytes[offset])/255.0 // FUUUUUUUUCKKKKKKK, RNDS TO INT
+        for guntherY in 0 ..< noGuntherPixelsHigh {
+            for guntherX in 0 ..< noGuntherPixelsWide {
+                
+                let y = guntherY*pixelSize
+                let x = guntherX*pixelSize
+                let offset = (y * cgImage.bytesPerRow) + (x * bytesPerPixel)
+                let b = CGFloat(bytes[offset])/255.0 // Without the CGFloat cast and '.0', the result rounds itself to the nearest int
                 let g = CGFloat(bytes[offset+1])/255.0
                 let r = CGFloat(bytes[offset+2])/255.0
                 let a = CGFloat(bytes[offset+3])/255.0
-                /*
-                if x == 0 && y == 0 {
-                    print(r,g,b,a)
-                    print(bytes[offset+2],bytes[offset+1],bytes[offset])
-                    print(bytes[2],bytes[1],bytes[0],bytes[3])
-                }
-                */
-                //print(r,g,b,a)
-                let c = CGColor(red: r, green: g, blue: b, alpha: a)
+                let color = CGColor(red: r, green: g, blue: b, alpha: a)
                 
-                let i = y*noPixelsWide+x
-                canvas[i].clear()
-                let p = Pixel(color: c)
-                canvas[i].push(pixel: p)
+                let index = guntherY*noGuntherPixelsWide+guntherX
+                canvas[index].clear()
+                canvas[index].push(pixel: Pixel(color: color))
                 
             }
-            //print("---")
         }
- 
+        
     }
     
     // Sort Coords class scope out -- this function should be temp for now
