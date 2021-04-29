@@ -78,13 +78,6 @@ class Art: NSObject {
         
     }
     
-    // Sort Coords class scope out -- this function should be temp for now
-    static func pixelCenter(pixelTLX: Int, pixelTLY: Int, pixelSize: Int) -> CGPoint {
-        let pixelCenterX = pixelTLX + pixelSize/2
-        let pixelCenterY = pixelTLY + pixelSize/2
-        return CGPoint(x: pixelCenterX, y: pixelCenterY)
-    }
-    
     func getLocation(x: Int, y: Int) -> Location {
         let guntherX = x/pixelSize
         let guntherY = y/pixelSize
