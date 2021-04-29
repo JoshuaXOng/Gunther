@@ -78,16 +78,28 @@ class Art: NSObject {
         
     }
     
-    func getLocation(x: Int, y: Int) -> Location {
+    func getLocation(x: Int, y: Int) throws -> Location {
+        
+        if width <= x || x < 0 || height <= y || y < 0 {
+            throw ArtExceptions.outOfBoundsError("The coords provided is out of the canvas' bounds")
+        }
+        
         let guntherX = x/pixelSize
         let guntherY = y/pixelSize
         let index = guntherY*noGuntherPixelsWide + guntherX
         return canvas[index]
+        
     }
     
-    func getLocation(guntherX: Int, guntherY: Int) -> Location {
+    func getLocation(guntherX: Int, guntherY: Int) throws -> Location {
+        
+        if noGuntherPixelsWide <= guntherX || guntherX < 0 || noGuntherPixelsHigh <= guntherY || guntherY < 0 {
+            throw ArtExceptions.outOfBoundsError("The coords provided is out of the canvas' bounds")
+        }
+        
         let index = guntherY*noGuntherPixelsWide + guntherX
         return canvas[index]
+        
     }
     
     /*
@@ -105,15 +117,18 @@ class Art: NSObject {
             let x = (index*pixelSize)%width
             let y = ((index*pixelSize-x)/width)*pixelSize
             
-            let location = getLocation(x: x, y: y)
-            var color: CGColor = UIColor.white.cgColor
-            if !location.content.isEmpty {
-                color = location.peek()!.color
+            do  {
+                let location = try getLocation(x: x, y: y)
+                var color: CGColor = UIColor.white.cgColor
+                if !location.content.isEmpty {
+                    color = location.peek()!.color
+                }
+                graphicsContext.setFillColor(color)
+                
+                graphicsContext.fill(CGRect(x: x, y: y, width: pixelSize, height: pixelSize))
             }
-            graphicsContext.setFillColor(color)
-             
-            graphicsContext.fill(CGRect(x: x, y: y, width: pixelSize, height: pixelSize))
-             
+            catch { continue }
+            
          }
      
      }

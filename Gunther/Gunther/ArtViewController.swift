@@ -16,6 +16,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     var art: Art?
     var tool: Tool?
     let colorPickerController = UIColorPickerViewController()
+    var isDrawing = true
     
     @IBAction func SaveButton(_ sender: UIBarButtonItem) {
         self.save()
@@ -27,6 +28,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     @IBAction func DragButton(_ sender: UIButton) {
         scrollView.isScrollEnabled = !(scrollView.isScrollEnabled)
+        isDrawing = !isDrawing
     }
     
     override func viewDidLoad() {
@@ -132,6 +134,10 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     func onTouchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        if !isDrawing {
+            return
+        }
+        
         guard let canvas = canvas, let point = touches.first?.location(in: canvas), let art = art else {
             return
         }
@@ -143,10 +149,13 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         for point in area! {
             let x = point[0]*self.art!.pixelSize
             let y = point[1]*self.art!.pixelSize
-            let location = art.getLocation(x: x, y: y)
-            location.clear()
-            let pixel = Pixel(color: colorPickerController.selectedColor.cgColor)
-            location.push(pixel: pixel)
+            do {
+                let location = try art.getLocation(x: x, y: y)
+                location.clear()
+                let pixel = Pixel(color: colorPickerController.selectedColor.cgColor)
+                location.push(pixel: pixel)
+            }
+            catch { continue }
         }
         
     }
