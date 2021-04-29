@@ -13,7 +13,6 @@
 		8B00C715262913C600504203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C714262913C600504203 /* Assets.xcassets */; };
 		8B00C718262913C600504203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C716262913C600504203 /* LaunchScreen.storyboard */; };
 		8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */; };
-		8B3C241B2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C241A2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift */; };
 		8B614EDC263A6A36005B5C50 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B614EDB263A6A36005B5C50 /* UIImage+Extensions.swift */; };
 		8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */; };
 		8BC213A626328D8B00719579 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BC213A526328D8B00719579 /* GoogleService-Info.plist */; };
@@ -49,7 +48,6 @@
 		8B00C717262913C600504203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B00C719262913C600504203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewController.swift; sourceTree = "<group>"; };
-		8B3C241A2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewCell.swift; sourceTree = "<group>"; };
 		8B614EDB263A6A36005B5C50 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewArtViewController.swift; sourceTree = "<group>"; };
 		8BC213A526328D8B00719579 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 				8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
 				8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */,
-				8B3C241A2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift */,
 				8BC213BF2632ABF400719579 /* CanvasView */,
 				8BC213C02632AC5F00719579 /* Art */,
 				8BC213BE2632ABD800719579 /* Tool */,
@@ -274,7 +271,6 @@
 				8BC213BB2632961700719579 /* Category.swift in Sources */,
 				8BCACA22263284D700FAF97B /* Pixel.swift in Sources */,
 				8BD433DD263A47B500D3C281 /* ArtExceptions.swift in Sources */,
-				8B3C241B2634FF8B00E3E751 /* SavedArtCollectionViewCell.swift in Sources */,
 				8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */,
 				8BC213B72632933F00719579 /* User.swift in Sources */,
 				8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */,
