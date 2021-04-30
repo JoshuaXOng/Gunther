@@ -76,12 +76,9 @@ class FirebaseController: NSObject, DatabaseProtocol {
     }
     
     func removeArtFromCategory(category: Category, art: SavedArt) -> Bool {
-        if category.artworks.contains(art), let categoryID = category.id, let artID = art.id {
-            let removedArtRef = savedArtRef.document(artID)
-            categoriesRef?.document(categoryID).updateData(["artworks": FieldValue.arrayRemove([removedArtRef])])
-            return true
-        }
-        return false
+        guard let categoryID = category.id else { return false }
+        categoriesRef?.document(categoryID).updateData(["artworks": FieldValue.arrayRemove([art])])
+        return true
     }
     
     func addArtToUser(user: User, art: SavedArt) -> Bool {
