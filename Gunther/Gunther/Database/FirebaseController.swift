@@ -71,7 +71,7 @@ class FirebaseController: NSObject, DatabaseProtocol {
         guard let categoryID = category.id else {
             return false
         }
-        categoriesRef?.document(categoryID).updateData( ["artworks" : FieldValue.arrayUnion([art])] )
+        categoriesRef?.document(categoryID).updateData(["artworks" : FieldValue.arrayUnion([art])])
         return true
     }
     
@@ -82,15 +82,8 @@ class FirebaseController: NSObject, DatabaseProtocol {
     }
     
     func addArtToUser(user: User, art: SavedArt) -> Bool {
-    
-        guard let artID = art.id else {
-            return false
-        }
-                
-        let newSavedArtRef = savedArtRef.document(artID)
-        userRef?.updateData(["artworks" : FieldValue.arrayUnion([newSavedArtRef])])
+        userRef?.updateData(["artworks" : FieldValue.arrayUnion([art])])
         return true
-        
     }
     
     func removeArtFromUser(user: User, art: SavedArt) -> Bool {
