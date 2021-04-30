@@ -87,12 +87,8 @@ class FirebaseController: NSObject, DatabaseProtocol {
     }
     
     func removeArtFromUser(user: User, art: SavedArt) -> Bool {
-        if user.artworks.contains(art), let artID = art.id {
-            let removedArtRef = savedArtRef.document(artID)
-            userRef?.updateData(["artworks": FieldValue.arrayRemove([removedArtRef])])
-            return true
-        }
-        return false
+        userRef?.updateData(["artworks": FieldValue.arrayRemove([art])])
+        return true
     }
     
     // MARK: - Firebase Controller Specific Methods
