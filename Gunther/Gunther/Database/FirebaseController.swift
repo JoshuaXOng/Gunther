@@ -108,13 +108,98 @@ class FirebaseController: NSObject, DatabaseProtocol {
     }
     
     // MARK: - Firebase Controller Specific Methods
-    
-    /*func getHeroIndexByID(_ id: String) -> Int? {}
-    func getHeroByID(_ id: String) -> SuperHero? {}
      
-    func setupCategoriesListener() {}
-    func setupUserListener() {}
-    func parseCategoriesSnapshot(snapshot: QuerySnapshot) {}
-    func parseUserSnapshot(snapshot: QueryDocumentSnapshot) {}*/
+    func setupCategoriesListener() {
+        
+        categoriesRef = firestore.collection("Categories")
+        categoriesRef?.addSnapshotListener() { (querySnapshot, error) in
+                    
+            guard let querySnapshot = querySnapshot else {
+                print("Yikes! Error fetching categories: \(String(describing: error))")
+                return
+            }
+                    
+            self.parseCategoriesSnapshot(snapshot: querySnapshot)
+                
+        }
+        
+    }
+    
+    func setupUserListener() {
+        userRef?.addSnapshotListener() { (documentSnapshot, error) in
+            guard let documentSnapshot = documentSnapshot else {
+                print("Yikes. Failed to fetch document with error: \(String(describing: error))")
+                return
+            }
+            self.parseUserSnapshot(snapshot: documentSnapshot)
+        }
+        
+    }
+    
+    func parseCategoriesSnapshot(snapshot: QuerySnapshot) {
+        
+        snapshot.documentChanges.forEach { change in
+            
+            var parsedCategory: Category?
+            
+            do {
+                parsedCategory = try change.document.data(as: Category.self)
+            }
+            catch {
+                print("Unable to decode category. Is the category malformed?")
+                return
+            }
+            
+            guard let category = parsedCategory else {
+                print("Document doesn't exist")
+                return
+            }
+            
+            if change.type == .added {
+                categories.insert(category, at: Int(change.newIndex))
+            }
+            else if change.type == .modified {
+                categories[Int(change.oldIndex)] = category
+            }
+            else if change.type == .removed {
+                categories.remove(at: Int(change.oldIndex))
+            }
+            
+            listeners.invoke { listener in
+                if listener.listenerType == ListenerType.categories || listener.listenerType == ListenerType.all {
+                    listener.onCategoriesChange(change: .update, categories: self.categories)
+                }
+            }
+            
+        }
+        
+    }
+    
+    func parseUserSnapshot(snapshot: DocumentSnapshot) {
+        
+        if !snapshot.exists {
+            print("The document does not exist")
+            return
+        }
+        
+        do {
+            guard let updatedUser = try snapshot.data(as: User.self) else {
+                print("The user document does not exist.")
+                return
+            }
+            self.user = updatedUser
+        }
+        catch {
+            print("The user document cannot be decoded -- perhaps it is malformed")
+            return
+        }
+                    
+        listeners.invoke { listener in
+            if listener.listenerType == ListenerType.user || listener.listenerType == ListenerType.all {
+                listener.onUserChange(change: .update, user: self.user)
+            }
+        }
+                
+    }
 
 }
