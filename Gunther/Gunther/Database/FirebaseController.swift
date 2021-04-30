@@ -185,17 +185,29 @@ class FirebaseController: NSObject, DatabaseProtocol {
         
         do {
             
-            print(snapshot.get("name"))
-            print(snapshot.get("id"))
-            print(snapshot.get("artworks"))
+            print(snapshot.data())
             
-            guard let updatedUser = try snapshot.data(as: User.self) else {
+            user.name = snapshot.get("name") as? String
+            user.id = snapshot.get("id") as? String
+            
+            //user.artworks = []
+            if let savedArtReferences = snapshot.data()?["artworks"] as? [DocumentReference] {
+                for reference in savedArtReferences {
+                    guard let savedArt = createSavedArtFromRef(reference: reference) else {
+                        return
+                    }
+                    user.artworks.append(savedArt)
+                }
+            }
+            
+            /*guard let updatedUser = try snapshot.data(as: User.self) else {
                 print("The user document does not exist.")
                 return
-            }
-            self.user = updatedUser
+            }*/
+
         }
         catch {
+            print(error)
             print("The user document cannot be decoded -- perhaps it is malformed")
             return
         }
@@ -208,4 +220,31 @@ class FirebaseController: NSObject, DatabaseProtocol {
                 
     }
 
+}
+
+private func createSavedArtFromRef(reference: DocumentReference) -> SavedArt? {
+    
+    var parsedSavedArt: SavedArt?
+    reference.getDocument() { document, error in
+        
+        if let error = error {
+            print("Art could not be created from ref: \(error)")
+            return
+        }
+        
+        do {
+            parsedSavedArt = try document?.data(as: SavedArt.self)
+        }
+        catch {
+            print("Art could not be decoded: \(error.localizedDescription)")
+            return
+        }
+        print("ok")
+        print(parsedSavedArt)
+        
+    }
+    sleep(5)
+    print(parsedSavedArt)
+    return parsedSavedArt
+    
 }
