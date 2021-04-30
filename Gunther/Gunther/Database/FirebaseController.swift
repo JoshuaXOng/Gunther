@@ -41,7 +41,7 @@ class FirebaseController: NSObject, DatabaseProtocol {
             guard authResult != nil else {
                 fatalError("Firebase Auth failed with Error: \(String(describing: error))")
             }
-            self.userRef = self.firestore.collection("Users").document("VZrvCWcVyw3uHrSHEtli")
+            self.userRef = self.firestore.collection("Users").document("FnRAR2gPt6sprPdfTEN3")
             self.setupUserListener()
             self.setupCategoriesListener()
         }
@@ -147,7 +147,7 @@ class FirebaseController: NSObject, DatabaseProtocol {
                 parsedCategory = try change.document.data(as: Category.self)
             }
             catch {
-                print("Unable to decode category. Is the category malformed?")
+                print("Unable to decode category: \(error)")
                 return
             }
             
@@ -185,30 +185,15 @@ class FirebaseController: NSObject, DatabaseProtocol {
         
         do {
             
-            print(snapshot.data())
-            
-            user.name = snapshot.get("name") as? String
-            user.id = snapshot.get("id") as? String
-            
-            //user.artworks = []
-            if let savedArtReferences = snapshot.data()?["artworks"] as? [DocumentReference] {
-                for reference in savedArtReferences {
-                    guard let savedArt = createSavedArtFromRef(reference: reference) else {
-                        return
-                    }
-                    user.artworks.append(savedArt)
-                }
-            }
-            
-            /*guard let updatedUser = try snapshot.data(as: User.self) else {
+            guard let updatedUser = try snapshot.data(as: User.self) else {
                 print("The user document does not exist.")
                 return
-            }*/
-
+            }
+            self.user = updatedUser
+        
         }
         catch {
-            print(error)
-            print("The user document cannot be decoded -- perhaps it is malformed")
+            print("The user document cannot be decoded \(error)")
             return
         }
                     
@@ -222,29 +207,4 @@ class FirebaseController: NSObject, DatabaseProtocol {
 
 }
 
-private func createSavedArtFromRef(reference: DocumentReference) -> SavedArt? {
-    
-    var parsedSavedArt: SavedArt?
-    reference.getDocument() { document, error in
-        
-        if let error = error {
-            print("Art could not be created from ref: \(error)")
-            return
-        }
-        
-        do {
-            parsedSavedArt = try document?.data(as: SavedArt.self)
-        }
-        catch {
-            print("Art could not be decoded: \(error.localizedDescription)")
-            return
-        }
-        print("ok")
-        print(parsedSavedArt)
-        
-    }
-    sleep(5)
-    print(parsedSavedArt)
-    return parsedSavedArt
-    
-}
+
