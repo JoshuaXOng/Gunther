@@ -41,7 +41,9 @@ class FirebaseController: NSObject, DatabaseProtocol {
             guard authResult != nil else {
                 fatalError("Firebase Auth failed with Error: \(String(describing: error))")
             }
-            //self.setupHeroListener()
+            self.userRef = self.firestore.collection("Users").document("VZrvCWcVyw3uHrSHEtli")
+            self.setupUserListener()
+            self.setupCategoriesListener()
         }
         
     }
@@ -133,7 +135,6 @@ class FirebaseController: NSObject, DatabaseProtocol {
             }
             self.parseUserSnapshot(snapshot: documentSnapshot)
         }
-        
     }
     
     func parseCategoriesSnapshot(snapshot: QuerySnapshot) {
@@ -183,6 +184,11 @@ class FirebaseController: NSObject, DatabaseProtocol {
         }
         
         do {
+            
+            print(snapshot.get("name"))
+            print(snapshot.get("id"))
+            print(snapshot.get("artworks"))
+            
             guard let updatedUser = try snapshot.data(as: User.self) else {
                 print("The user document does not exist.")
                 return

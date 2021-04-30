@@ -8,8 +8,9 @@
 import Foundation
 
 class SavedArt: NSObject, Codable {
-
+    
     var id: String?
+    var name: String?
     var source: String?
     
 }
