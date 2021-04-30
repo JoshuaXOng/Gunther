@@ -9,11 +9,14 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
-class SavedArtCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
+class SavedArtCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DatabaseListener {
+    
+    var databaseController: DatabaseProtocol?
+    var listenerType = ListenerType.user
+    
     let SAVED_ART_SECTION = 0
     let SAVED_ART_CELL = "SavedArtCell"
-    var savedArt = [UIImage]()
+    var savedArt = [SavedArt]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,83 +26,77 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         
         // Get a reference to the applications database controller
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        guard let databaseController = appDelegate.databaseController else { return }
-        guard let firebaseController = databaseController as? FirebaseController else {
-            return
-        }
-        
-        let rootRef = firebaseController.storage.reference()
-        
-        let gPPNGRef = firebaseController.storage.reference(withPath: "GuntherPixi.png")
-        let testRef = rootRef.child("test.png")
-        
-        gPPNGRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                let image = UIImage(data: data!)
-                //let iv = UIImageView(image: image)
-                self.savedArt.append(image!)
-                self.savedArt.append(image!)
-                //self.view.addSubview(iv)
-                
-                DispatchQueue.main.async {
-                    self.collectionView.reloadSections([self.SAVED_ART_SECTION])
-                }
-            }
-        }
-        
-        testRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                let image = UIImage(data: data!)
-                //let iv = UIImageView(image: image)
-                self.savedArt.append(image!)
-                self.savedArt.append(image!)
-                //self.view.addSubview(iv)
-                
-                DispatchQueue.main.async {
-                    self.collectionView.reloadSections([self.SAVED_ART_SECTION])
-                }
-            }
-        }
-        
-        // This controller needs database listeners (along with community section -- average pooling to scale art)
+        databaseController = appDelegate.databaseController
         
     }
+    
+    // MARK: - Implement DatabaseListner
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
+    
+    func onUserChange(change: DatabaseChange, user: User) {
+        savedArt = user.artworks
+        collectionView.reloadSections([SAVED_ART_SECTION])
     }
-    */
+    
+    // MARK: - View (dis)appearance setup/deconstructing
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        databaseController?.addListener(listener: self)
+    }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        databaseController?.removeListener(listener: self)
+    }
+    
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return savedArt.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath)
         
-        let iv = UIImageView(image: savedArt[indexPath.row])
-        // Need to remove all subviews
-        savedArtCell.contentView.addSubview(iv)
-        //savedArtCell.contentView.backgroundColor = UIColor.black
-        iv.frame = savedArtCell.contentView.bounds
+        let savedArtSingular = savedArt[indexPath.row]
+        guard let source = savedArtSingular.source,
+              let firebaseController = databaseController as? FirebaseController else {
+            return savedArtCell
+        }
+        // Makes sure to encode the URL.
+        let reference = firebaseController.storage.reference(withPath: source)
+        
+        reference.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            
+            if let error = error {
+                print(error)
+            }
+            
+            else {
+                
+                guard let imageOfSavedArt = UIImage(data: data!) else { return }
+                let imageViewOfSavedArt = UIImageView(image: imageOfSavedArt)
+                
+                DispatchQueue.main.async {
+                    savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
+                    savedArtCell.contentView.addSubview(imageViewOfSavedArt)
+                    imageViewOfSavedArt.frame = savedArtCell.contentView.bounds
+                    //self.collectionView.reloadSections([self.SAVED_ART_SECTION])
+                }
+                
+            }
+            
+        }
     
         return savedArtCell
+        
     }
     
     // MARK: - Implement UICollectionViewDelegateFlowLayout
@@ -162,6 +159,16 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
 
     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    }
+    */
+    
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
     }
     */
 
