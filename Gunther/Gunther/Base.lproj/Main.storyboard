@@ -42,7 +42,7 @@
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="16n-Vg-Hem">
                                 <rect key="frame" x="20" y="387.5" width="374" height="185"/>
                                 <color key="backgroundColor" name="AccentColor"/>
-                                <state key="normal" title="From Image">
+                                <state key="normal" title="From Camera">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
