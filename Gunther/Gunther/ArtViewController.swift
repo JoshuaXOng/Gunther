@@ -20,7 +20,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     var isDrawing = true
     
     @IBAction func SaveButton(_ sender: UIBarButtonItem) {
-        self.save()
+        self.updateSavedArt()
     }
     
     @IBAction func ColorPickerButton(_ sender: UIButton) {
@@ -46,60 +46,54 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         scrollView.isScrollEnabled = false
         scrollView.delegate = self
         
-        // Initialize a test canvas view
-        canvas = CanvasView(width: 500, height: 300)
+        // Setup a test saved art object.
+        savedArt = SavedArt()
+        savedArt?.id = "ThisIsATestID"
+        savedArt?.name = "ATestArt"
+        savedArt?.source = "rigbone.png"
+        savedArt?.width = "500"
+        savedArt?.height = "300"
+        savedArt?.pixelSize = "4" // Going lower vastly increases the amount of location/pixel classes instantiated.
         
-        // Setup canvas
-        guard let canvas = canvas else { return }
-        canvas.canvasViewDelegate = self
-        scrollView.addSubview(canvas)
-        // Adjust scrollView to canvas
-        scrollView.contentSize = CGSize(width: 500 + 50*4, height: 300 + 30*4)
-        let centerOfSVContent = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
-        canvas.center = centerOfSVContent
-        scrollView.zoom(to: canvas.bounds, animated: false)
-        
-        // Give shadow to canvas
-        canvas.layer.shadowColor = UIColor.black.cgColor
-        canvas.layer.shadowOpacity = 1
-        canvas.layer.shadowOffset = .zero
-        canvas.layer.shadowRadius = 5
+        insertSavedArtSource()
         
         // Setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
         colorPickerController.delegate = self
         
         // Initialize a test tool
-        self.tool = Pencil()
-        self.tool!.size = 11 // 1,3,11
+        tool = Pencil()
+        tool!.size = 5 // 1,3,5,7,9,11
         
-        /*
-        // Pull a test art -- TEMP -- Put this in the DB package somewhere...
-        guard let firebaseController = databaseController as? FirebaseController else {
-            return
-        }
-        let rootRef = firebaseController.storage.reference()
-        let testRef = rootRef.child("test.png")
-        testRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                var image = UIImage(data: data!)
-                image = UIImage.resizeImage(image: image!, targetSize: CGSize(width: 500, height: 300))
-                self.art = Art(name: "", height: 300, width: 500, pixelSize: 4, image: image!)
-                                
-                DispatchQueue.main.async {
-                    self.canvas?.setNeedsDisplay()
-                }
-                
-            }
-        }*/
-    
     }
     
-    // MARK: - Setup canvas view
+    // MARK: - Setup canvas view with saved artwork.
     
-    private func setupCanvasView() {
+    private func setupCanvasView(width: CGFloat, height: CGFloat) {
+                    
+        self.canvas = CanvasView(width: width, height: height)
+        guard let canvas = self.canvas else {
+            return
+        }
+        canvas.canvasViewDelegate = self
+        
+        self.scrollView.addSubview(canvas)
+        self.scrollView.contentSize = CGSize(width: 1.4*width, height: 1.4*height)
+        let centerOfSVContent = CGPoint(x: self.scrollView.contentSize.width/2, y: self.scrollView.contentSize.height/2)
+        canvas.center = centerOfSVContent
+        //self.scrollView.zoom(to: canvas.bounds, animated: false)
+                    
+        // Give shadow to canvas
+        canvas.layer.shadowColor = UIColor.black.cgColor
+        canvas.layer.shadowOpacity = 0.5
+        canvas.layer.shadowOffset = .zero
+        canvas.layer.shadowRadius = 2
+
+        self.canvas?.setNeedsDisplay()
+        
+    }
+    
+    private func insertSavedArtSource() {
         
         guard let firebaseController = databaseController as? FirebaseController,
               let savedArt = self.savedArt,
@@ -109,18 +103,31 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         let savedArtRef = firebaseController.storage.reference(withPath: savedArtSource)
         savedArtRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            
             if let error = error {
                 print(error)
-            } else {
-                var image = UIImage(data: data!)
-                image = UIImage.resizeImage(image: image!, targetSize: CGSize(width: 500, height: 300))
-                self.art = Art(name: "", height: 300, width: 500, pixelSize: 4, image: image!)
+            }
+            
+            else {
+                
+                guard let name = savedArt.name,
+                      let width = savedArt.width,
+                      let height = savedArt.height,
+                      let pixelSize = savedArt.pixelSize else {
+                    return
+                }
+                
+                var imageOfSavedArt = UIImage(data: data!)
+                imageOfSavedArt = UIImage.resizeImage(image: imageOfSavedArt!, targetSize: CGSize(width: Int(width)!, height: Int(height)!))
+                
+                self.art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: imageOfSavedArt!)
                                 
                 DispatchQueue.main.async {
-                    self.canvas?.setNeedsDisplay()
+                    self.setupCanvasView(width: CGFloat(Int(width)!), height: CGFloat(Int(height)!))
                 }
                 
             }
+            
         }
         
     }
@@ -163,21 +170,18 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     // MARK: - Save art to database
     
-    func save() {
+    func updateSavedArt() {
         
-        guard let firebaseController = databaseController as? FirebaseController else {
+        guard let firebaseController = databaseController as? FirebaseController,
+              let savedArt = self.savedArt,
+              let savedArtSource = savedArt.source else {
             return
         }
-        let rootRef = firebaseController.storage.reference()
-        let testRef = rootRef.child("test.png")
         
-        /*guard let canvas = canvas else {
-            return
-        }
-        guard let data = canvas.getPNGData() else { return }*/
         let data = art!.getPNGData()!
         
-        let _ = testRef.putData(data, metadata: nil) { (metadata, error) in
+        let savedArtRef = firebaseController.storage.reference(withPath: savedArtSource)
+        let _ = savedArtRef.putData(data, metadata: nil) { (metadata, error) in
             if let error = error {
                 print(error)
             }
