@@ -140,22 +140,41 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         return true
     }
     */
-
-    /*
+    
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        
+        guard let firebaseController = databaseController as? FirebaseController else {
+            return false
+        }
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+        })
+        
+        actionSheet.addAction(UIAlertAction(title: "Share", style: .default))
+        
+        actionSheet.addAction(UIAlertAction(title: "Edit", style: .default) { _ in
+            self.performSegue(withIdentifier: "SavedArtToArtSegue", sender: nil)
+        })
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+ 
+        self.present(actionSheet, animated: true, completion: nil)
+        
         return true
+        
     }
-    */
 
     /*
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
+        return true
     }
 
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
+        return true
     }
 
     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
@@ -163,14 +182,16 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     }
     */
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "SavedArtToArtSegue" {
+            let noOfSelectedArt = collectionView.indexPathsForSelectedItems![0].row
+            let selectedArt = savedArt[noOfSelectedArt]
+            let destination = segue.destination as? ArtViewController
+            destination?.savedArt = selectedArt
+        }
     }
-    */
 
 }

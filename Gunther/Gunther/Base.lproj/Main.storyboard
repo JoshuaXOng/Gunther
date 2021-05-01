@@ -262,6 +262,9 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Saved Art" id="Rae-o1-q3g"/>
+                    <connections>
+                        <segue destination="dwa-5h-0Oc" kind="show" identifier="SavedArtToArtSegue" id="Siv-pa-nu8"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QMv-zF-NZN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -305,6 +308,9 @@
             <point key="canvasLocation" x="769.56521739130437" y="143.97321428571428"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Siv-pa-nu8"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

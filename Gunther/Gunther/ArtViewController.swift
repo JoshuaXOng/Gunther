@@ -46,14 +46,16 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         scrollView.isScrollEnabled = false
         scrollView.delegate = self
         
+        /*
         // Setup a test saved art object.
         savedArt = SavedArt()
         savedArt?.id = "ThisIsATestID"
         savedArt?.name = "ATestArt"
-        savedArt?.source = "rigbone.png"
-        savedArt?.width = "500"
+        savedArt?.source = "GuntherPixi.png"
+        savedArt?.width = "300" // Have to be a multiple of pixelSize.
         savedArt?.height = "300"
         savedArt?.pixelSize = "4" // Going lower vastly increases the amount of location/pixel classes instantiated.
+        */
         
         insertSavedArtSource()
         
