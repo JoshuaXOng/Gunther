@@ -84,6 +84,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
                 guard let imageOfSavedArt = UIImage(data: data!) else { return }
                 let imageViewOfSavedArt = UIImageView(image: imageOfSavedArt)
                 
+                // You need to identify which piece has changed and do the below just for that one.
                 DispatchQueue.main.async {
                     savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
                     savedArtCell.contentView.addSubview(imageViewOfSavedArt)
