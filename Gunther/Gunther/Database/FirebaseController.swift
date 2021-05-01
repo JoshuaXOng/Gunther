@@ -82,12 +82,26 @@ class FirebaseController: NSObject, DatabaseProtocol {
     }
     
     func addArtToUser(user: User, art: SavedArt) -> Bool {
-        userRef?.updateData(["artworks" : FieldValue.arrayUnion([art])])
+        userRef?.updateData(["artworks" : FieldValue.arrayUnion([[
+            "id": art.id,
+            "name": art.name,
+            "source": art.source,
+            "width": art.width,
+            "height": art.height,
+            "pixelSize": art.pixelSize
+        ]])])
         return true
     }
     
     func removeArtFromUser(user: User, art: SavedArt) -> Bool {
-        userRef?.updateData(["artworks": FieldValue.arrayRemove([art])])
+        userRef?.updateData(["artworks": FieldValue.arrayRemove([[
+            "id": art.id,
+            "name": art.name,
+            "source": art.source,
+            "width": art.width,
+            "height": art.height,
+            "pixelSize": art.pixelSize
+        ]])])
         return true
     }
     

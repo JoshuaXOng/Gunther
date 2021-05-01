@@ -151,6 +151,9 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            let user = firebaseController.user
+            let art = self.savedArt[indexPath.row]
+            let _ = firebaseController.removeArtFromUser(user: user, art: art)
         })
         
         actionSheet.addAction(UIAlertAction(title: "Share", style: .default))

@@ -46,18 +46,23 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         scrollView.isScrollEnabled = false
         scrollView.delegate = self
         
-        /*
-        // Setup a test saved art object.
-        savedArt = SavedArt()
-        savedArt?.id = "ThisIsATestID"
-        savedArt?.name = "ATestArt"
-        savedArt?.source = "GuntherPixi.png"
-        savedArt?.width = "300" // Have to be a multiple of pixelSize.
-        savedArt?.height = "300"
-        savedArt?.pixelSize = "4" // Going lower vastly increases the amount of location/pixel classes instantiated.
-        */
-        
-        insertSavedArtSource()
+        guard let navStack = navigationController?.viewControllers else { return }
+        let prevViewController = navStack[navStack.count-2]
+        let cameFromNewArt = prevViewController is NewArtViewController
+        if !cameFromNewArt {
+            insertSavedArtSource()
+        }
+        else {
+            guard let name = savedArt?.name,
+                  let width = savedArt?.width, let height = savedArt?.height,
+                  let pixelSize = savedArt?.pixelSize else {
+                return
+            }
+            setupCanvasView(width: CGFloat(Int(width)!), height: CGFloat(Int(height)!))
+            art = Art(name: name, height: Int(height)!,
+                      width: Int(width)!, pixelSize: Int(pixelSize)!)
+            //updateSavedArt()
+        }
         
         // Setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
@@ -179,6 +184,8 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
               let savedArtSource = savedArt.source else {
             return
         }
+        
+        let _ = firebaseController.addArtToUser(user: firebaseController.user, art: savedArt)
         
         let data = art!.getPNGData()!
         
