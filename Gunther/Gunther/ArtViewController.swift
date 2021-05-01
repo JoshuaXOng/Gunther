@@ -10,6 +10,7 @@ import UIKit
 class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate, CanvasViewDelegate {
     
     var databaseController: DatabaseProtocol?
+    var savedArt: SavedArt?
     
     @IBOutlet weak var scrollView: UIScrollView!
     var canvas: CanvasView?
@@ -70,8 +71,9 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         // Initialize a test tool
         self.tool = Pencil()
-        self.tool!.size = 11
+        self.tool!.size = 11 // 1,3,11
         
+        /*
         // Pull a test art -- TEMP -- Put this in the DB package somewhere...
         guard let firebaseController = databaseController as? FirebaseController else {
             return
@@ -91,8 +93,36 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
                 }
                 
             }
-        }
+        }*/
     
+    }
+    
+    // MARK: - Setup canvas view
+    
+    private func setupCanvasView() {
+        
+        guard let firebaseController = databaseController as? FirebaseController,
+              let savedArt = self.savedArt,
+              let savedArtSource = savedArt.source else {
+            return
+        }
+        
+        let savedArtRef = firebaseController.storage.reference(withPath: savedArtSource)
+        savedArtRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                var image = UIImage(data: data!)
+                image = UIImage.resizeImage(image: image!, targetSize: CGSize(width: 500, height: 300))
+                self.art = Art(name: "", height: 300, width: 500, pixelSize: 4, image: image!)
+                                
+                DispatchQueue.main.async {
+                    self.canvas?.setNeedsDisplay()
+                }
+                
+            }
+        }
+        
     }
     
     // MARK: - Implement CanvasViewDelegate
