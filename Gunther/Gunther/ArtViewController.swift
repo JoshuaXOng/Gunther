@@ -85,12 +85,10 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
                 var image = UIImage(data: data!)
                 image = UIImage.resizeImage(image: image!, targetSize: CGSize(width: 500, height: 300))
                 self.art = Art(name: "", height: 300, width: 500, pixelSize: 4, image: image!)
-                
-                /*
+                                
                 DispatchQueue.main.async {
-                    let v = self.art!.test
-                    self.view.addSubview(v!)
-                }*/
+                    self.canvas?.setNeedsDisplay()
+                }
                 
             }
         }
