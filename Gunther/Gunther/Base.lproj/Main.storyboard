@@ -13,18 +13,45 @@
         <!--Take a Photo-->
         <scene sceneID="IWI-Te-7we">
             <objects>
-                <viewController id="hTx-qk-F76" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="hTx-qk-F76" customClass="FromCameraViewController" customModule="Gunther" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PvU-Lz-hul">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OM2-aL-Lnl">
+                                <rect key="frame" x="120" y="812" width="174" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="takePhotoButton:" destination="hTx-qk-F76" eventType="touchUpInside" id="8Z9-fr-eaC"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f6E-oz-YCb">
+                                <rect key="frame" x="59" y="227" width="296" height="270"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="0fV-vi-4U6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0fV-vi-4U6" firstAttribute="trailing" secondItem="f6E-oz-YCb" secondAttribute="trailing" constant="59" id="MQM-XU-fJV"/>
+                            <constraint firstItem="OM2-aL-Lnl" firstAttribute="leading" secondItem="0fV-vi-4U6" secondAttribute="leading" constant="120" id="PIB-cS-DEm"/>
+                            <constraint firstItem="0fV-vi-4U6" firstAttribute="bottom" secondItem="OM2-aL-Lnl" secondAttribute="bottom" constant="20" id="b2c-D6-UIf"/>
+                            <constraint firstItem="f6E-oz-YCb" firstAttribute="top" secondItem="0fV-vi-4U6" secondAttribute="top" constant="139" id="glC-8k-rT4"/>
+                            <constraint firstItem="0fV-vi-4U6" firstAttribute="trailing" secondItem="OM2-aL-Lnl" secondAttribute="trailing" constant="120" id="obU-D9-e8N"/>
+                            <constraint firstItem="f6E-oz-YCb" firstAttribute="leading" secondItem="0fV-vi-4U6" secondAttribute="leading" constant="59" id="uR3-H1-Gzz"/>
+                            <constraint firstItem="OM2-aL-Lnl" firstAttribute="top" secondItem="f6E-oz-YCb" secondAttribute="bottom" constant="315" id="zow-jj-jRD"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Take a Photo" id="YFk-3L-aRf"/>
+                    <connections>
+                        <outlet property="previewImageView" destination="f6E-oz-YCb" id="gO2-eu-nMn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1JT-7A-PqH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3474" y="-1267"/>
+            <point key="canvasLocation" x="3473.913043478261" y="-1267.6339285714284"/>
         </scene>
         <!--New Art-->
         <scene sceneID="JFB-4S-VmV">
@@ -320,6 +347,9 @@
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
