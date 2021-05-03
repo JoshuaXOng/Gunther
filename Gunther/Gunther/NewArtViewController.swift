@@ -7,11 +7,11 @@
 
 import UIKit
 
-class NewArtViewController: UIViewController {
+class NewArtViewController: UIViewController, UITextFieldDelegate {
 
     var databaseController: DatabaseProtocol?
     
-    @IBOutlet weak var ArtNameField: UITextField!
+    @IBOutlet weak var artNameField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,15 @@ class NewArtViewController: UIViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         databaseController = appDelegate.databaseController
         
+        artNameField.delegate = self
+        
+    }
+    
+    // MARK: - Implement UITextFieldDelegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     // MARK: - Navigation
@@ -27,22 +36,22 @@ class NewArtViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        let savedArt = SavedArt()
+        savedArt.id = "ThisIsATestID" // Some test data because UI is not quite ready.
+        savedArt.name = "ATestArt"
+        savedArt.source = artNameField.text!+".png"
+        savedArt.width = "300"
+        savedArt.height = "300"
+        savedArt.pixelSize = "4"
+        
         if segue.identifier == "NewArtBCToArtSegue" {
-            
-            let savedArt = SavedArt()
-            savedArt.id = "ThisIsATestID" // Some test data because UI is not quite ready.
-            savedArt.name = "ATestArt"
-            savedArt.source = ArtNameField.text!+".png"
-            savedArt.width = "300"
-            savedArt.height = "300"
-            savedArt.pixelSize = "4"
-            
-            //guard let firebaseController = databaseController as? FirebaseController else { return }
-            //let _ = firebaseController.addArtToUser(user: firebaseController.user, art: savedArt)
-            
             let destination = segue.destination as? ArtViewController
             destination?.savedArt = savedArt
-            
+            destination?.isNew = true
+        }
+        else if segue.identifier == "NewArtToFromPhotoSegue" {
+            let destination = segue.destination as? FromCameraViewController
+            destination?.savedArt = savedArt
         }
         
     }
