@@ -10,6 +10,15 @@ import UIKit
 
 extension UIImage {
     
+    static func cropImage(image: UIImage, region: CGRect) -> UIImage? {
+        guard let cgImage = image.cgImage,
+              let croppedCGImage = cgImage.cropping(to: region) else {
+            return nil
+        }
+        let image = UIImage(cgImage: croppedCGImage)
+        return image
+    }
+    
     /* CODE FROM: https://stackoverflow.com/questions/31314412/how-to-resize-image-in-swift#:~:text=Image%20resize%20function%20in%20swift%20as%20below.&text=swift3%20updated-,func%20resizeImage(image%3A%20UIImage%2C%20targetSize%3A%20CGSize)%20%2D,width%20%2F%20size.
     By user Kirit Modi
     */
