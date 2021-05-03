@@ -11,6 +11,9 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     var databaseController: DatabaseProtocol?
     var savedArt: SavedArt?
+
+    var basis: UIImage?
+    var isNew = false
     
     @IBOutlet weak var scrollView: UIScrollView!
     var canvas: CanvasView?
@@ -46,23 +49,35 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         scrollView.isScrollEnabled = false
         scrollView.delegate = self
         
-        guard let navStack = navigationController?.viewControllers else { return }
-        let prevViewController = navStack[navStack.count-2]
-        let cameFromNewArt = prevViewController is NewArtViewController
-        if !cameFromNewArt {
-            insertSavedArtSource()
-        }
-        else {
+        // Setup canvas view, art and graphics context.
+        if isNew {
+            
             guard let name = savedArt?.name,
                   let width = savedArt?.width, let height = savedArt?.height,
                   let pixelSize = savedArt?.pixelSize else {
                 return
             }
             setupCanvasView(width: CGFloat(Int(width)!), height: CGFloat(Int(height)!))
+            
+            if let basis = basis {
+                art = Art(:image)
+            }
+            else {
+                art = Art()
+            }
+            
+        }
+        else {
+            insertSavedArtSource()
+        }
+ 
+
+            
+            
             art = Art(name: name, height: Int(height)!,
                       width: Int(width)!, pixelSize: Int(pixelSize)!)
-            //updateSavedArt()
-        }
+
+
         
         // Setup colorPickerController
         colorPickerController.selectedColor = UIColor.black

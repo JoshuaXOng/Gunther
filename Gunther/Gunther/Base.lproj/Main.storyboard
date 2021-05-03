@@ -26,28 +26,19 @@
                                 </state>
                                 <connections>
                                     <action selector="takePhotoButton:" destination="hTx-qk-F76" eventType="touchUpInside" id="8Z9-fr-eaC"/>
+                                    <segue destination="dwa-5h-0Oc" kind="show" identifier="FromPhotoToArtSegue" id="kKf-xR-3as"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f6E-oz-YCb">
-                                <rect key="frame" x="59" y="227" width="296" height="270"/>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0fV-vi-4U6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="0fV-vi-4U6" firstAttribute="trailing" secondItem="f6E-oz-YCb" secondAttribute="trailing" constant="59" id="MQM-XU-fJV"/>
                             <constraint firstItem="OM2-aL-Lnl" firstAttribute="leading" secondItem="0fV-vi-4U6" secondAttribute="leading" constant="120" id="PIB-cS-DEm"/>
                             <constraint firstItem="0fV-vi-4U6" firstAttribute="bottom" secondItem="OM2-aL-Lnl" secondAttribute="bottom" constant="20" id="b2c-D6-UIf"/>
-                            <constraint firstItem="f6E-oz-YCb" firstAttribute="top" secondItem="0fV-vi-4U6" secondAttribute="top" constant="139" id="glC-8k-rT4"/>
                             <constraint firstItem="0fV-vi-4U6" firstAttribute="trailing" secondItem="OM2-aL-Lnl" secondAttribute="trailing" constant="120" id="obU-D9-e8N"/>
-                            <constraint firstItem="f6E-oz-YCb" firstAttribute="leading" secondItem="0fV-vi-4U6" secondAttribute="leading" constant="59" id="uR3-H1-Gzz"/>
-                            <constraint firstItem="OM2-aL-Lnl" firstAttribute="top" secondItem="f6E-oz-YCb" secondAttribute="bottom" constant="315" id="zow-jj-jRD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Take a Photo" id="YFk-3L-aRf"/>
-                    <connections>
-                        <outlet property="previewImageView" destination="f6E-oz-YCb" id="gO2-eu-nMn"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1JT-7A-PqH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -339,7 +330,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pdC-5v-doJ"/>
+        <segue reference="kKf-xR-3as"/>
     </inferredMetricsTieBreakers>
     <resources>
         <namedColor name="AccentColor">
