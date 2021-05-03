@@ -12,7 +12,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     var databaseController: DatabaseProtocol?
     var savedArt: SavedArt?
 
-    var basis: UIImage?
+    var baseImage: UIImage?
     var isNew = false
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -59,25 +59,17 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             }
             setupCanvasView(width: CGFloat(Int(width)!), height: CGFloat(Int(height)!))
             
-            if let basis = basis {
-                art = Art(:image)
+            if let baseImage = baseImage {
+                art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: baseImage)
             }
             else {
-                art = Art()
+                art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!)
             }
             
         }
         else {
             insertSavedArtSource()
         }
- 
-
-            
-            
-            art = Art(name: name, height: Int(height)!,
-                      width: Int(width)!, pixelSize: Int(pixelSize)!)
-
-
         
         // Setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
