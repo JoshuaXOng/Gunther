@@ -42,7 +42,7 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
         savedArt.source = artNameField.text!+".png"
         savedArt.width = "300"
         savedArt.height = "300"
-        savedArt.pixelSize = "4"
+        savedArt.pixelSize = "10" //4
         
         if segue.identifier == "NewArtBCToArtSegue" {
             let destination = segue.destination as? ArtViewController

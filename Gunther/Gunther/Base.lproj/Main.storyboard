@@ -143,6 +143,22 @@
                                             <action selector="ColorPickerButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="aBk-um-0o0"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nLA-ij-1on">
+                                        <rect key="frame" x="95" y="14" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="+"/>
+                                        <connections>
+                                            <action selector="increaseToolSizeButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="0fZ-Rd-U8d"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRJ-fN-y7H">
+                                        <rect key="frame" x="50" y="14" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="-"/>
+                                        <connections>
+                                            <action selector="decreaseToolSizeButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="e3f-5f-l6Y"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <constraints>

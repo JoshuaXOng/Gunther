@@ -26,6 +26,17 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         self.updateSavedArt()
     }
     
+    @IBAction func decreaseToolSizeButton(_ sender: UIButton) {
+        let minToolSize = 1
+        if (tool?.size)! >= minToolSize+1 {
+            tool?.size! -= 1
+        }
+    }
+    
+    @IBAction func increaseToolSizeButton(_ sender: UIButton) {
+        tool?.size! += 1
+    }
+    
     @IBAction func ColorPickerButton(_ sender: UIButton) {
         self.present(colorPickerController, animated: true, completion: nil)
     }
