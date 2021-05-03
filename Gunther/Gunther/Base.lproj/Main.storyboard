@@ -52,7 +52,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Name of Art" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="36y-A1-G49">
+                            <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name of Art" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="36y-A1-G49">
                                 <rect key="frame" x="20" y="118" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -64,7 +64,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="hTx-qk-F76" kind="show" id="NwW-UB-cOJ"/>
+                                    <segue destination="hTx-qk-F76" kind="show" identifier="NewArtToFromPhotoSegue" id="NwW-UB-cOJ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w7Q-P3-MSI">
@@ -107,7 +107,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="New Art" id="ljb-uk-6fs"/>
                     <connections>
-                        <outlet property="ArtNameField" destination="36y-A1-G49" id="umc-qW-z5c"/>
+                        <outlet property="artNameField" destination="36y-A1-G49" id="iCw-UT-4bi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lhf-qQ-kGP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

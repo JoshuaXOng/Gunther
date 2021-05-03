@@ -16,6 +16,7 @@ class FromCameraViewController: UIViewController, AVCapturePhotoCaptureDelegate 
     var captureOutput: AVCapturePhotoOutput?
     
     var croppedImage: UIImage?
+    var savedArt: SavedArt?
     var width: Int?
     var height: Int?
 
@@ -68,8 +69,8 @@ class FromCameraViewController: UIViewController, AVCapturePhotoCaptureDelegate 
             return
         }
         
-        let topLeftOfCrop = CGPoint(x: (Int(image.size.width) - width!)/2, y: (Int(image.size.height) - height!)/2)
-        let sizeOfCrop = CGSize(width: width!, height: height!)
+        let topLeftOfCrop = CGPoint(x: (Int(image.size.width) - Int((savedArt?.width)!)!)/2, y: (Int(image.size.height) - Int((savedArt?.height)!)!)/2)
+        let sizeOfCrop = CGSize(width: Int((savedArt?.width)!)!, height: Int((savedArt?.height)!)!)
         
         let region = CGRect(origin: topLeftOfCrop, size: sizeOfCrop)
         croppedImage = UIImage.cropImage(image: image, region: region)
@@ -84,8 +85,9 @@ class FromCameraViewController: UIViewController, AVCapturePhotoCaptureDelegate 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "FromPhotoToArtSegue" {
             let destination = segue.destination as? ArtViewController
-            destination.is
-            
+            destination?.isNew = true
+            destination?.baseImage = croppedImage
+            destination?.savedArt = savedArt
         }
     }
 
