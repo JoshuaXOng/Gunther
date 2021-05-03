@@ -13,6 +13,7 @@
 		8B00C715262913C600504203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C714262913C600504203 /* Assets.xcassets */; };
 		8B00C718262913C600504203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C716262913C600504203 /* LaunchScreen.storyboard */; };
 		8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */; };
+		8B584986263FE06700443C14 /* SavedArtCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B584985263FE06700443C14 /* SavedArtCollectionViewCell.swift */; };
 		8B5D8974263EE6CA00B37B61 /* FromCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */; };
 		8B614EDC263A6A36005B5C50 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B614EDB263A6A36005B5C50 /* UIImage+Extensions.swift */; };
 		8B7EFBA2263AD72C00A99675 /* SavedArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7EFBA1263AD72C00A99675 /* SavedArt.swift */; };
@@ -50,6 +51,7 @@
 		8B00C717262913C600504203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B00C719262913C600504203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewController.swift; sourceTree = "<group>"; };
+		8B584985263FE06700443C14 /* SavedArtCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewCell.swift; sourceTree = "<group>"; };
 		8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromCameraViewController.swift; sourceTree = "<group>"; };
 		8B614EDB263A6A36005B5C50 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		8B7EFBA1263AD72C00A99675 /* SavedArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArt.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
 				8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */,
+				8B584985263FE06700443C14 /* SavedArtCollectionViewCell.swift */,
 				8BC213BF2632ABF400719579 /* CanvasView */,
 				8BC213C02632AC5F00719579 /* Art */,
 				8BC213BE2632ABD800719579 /* Tool */,
@@ -285,6 +288,7 @@
 				8BC213B42632928E00719579 /* DatabaseProtocol.swift in Sources */,
 				8BCACA1C2632847800FAF97B /* Art.swift in Sources */,
 				8BC213A92632908100719579 /* FirebaseController.swift in Sources */,
+				8B584986263FE06700443C14 /* SavedArtCollectionViewCell.swift in Sources */,
 				8BC3F7FA2629557600503419 /* CanvasView.swift in Sources */,
 				8B7EFBA2263AD72C00A99675 /* SavedArt.swift in Sources */,
 				8B00C70E262913C500504203 /* SceneDelegate.swift in Sources */,
