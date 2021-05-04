@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C7F67C82640F70900A0B0C1 /* CommunityCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F67C72640F70900A0B0C1 /* CommunityCollectionViewController.swift */; };
 		8B00C70C262913C500504203 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00C70B262913C500504203 /* AppDelegate.swift */; };
 		8B00C70E262913C500504203 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00C70D262913C500504203 /* SceneDelegate.swift */; };
 		8B00C713262913C500504203 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C711262913C500504203 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C7F67C72640F70900A0B0C1 /* CommunityCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCollectionViewController.swift; sourceTree = "<group>"; };
 		8B00C708262913C500504203 /* Gunther.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gunther.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B00C70B262913C500504203 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B00C70D262913C500504203 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				8B00C714262913C600504203 /* Assets.xcassets */,
 				8BC213A526328D8B00719579 /* GoogleService-Info.plist */,
 				8B00C719262913C600504203 /* Info.plist */,
+				1C7F67C72640F70900A0B0C1 /* CommunityCollectionViewController.swift */,
 				8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */,
 				8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
@@ -285,6 +288,7 @@
 				8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */,
 				8B00C70C262913C500504203 /* AppDelegate.swift in Sources */,
 				8B614EDC263A6A36005B5C50 /* UIImage+Extensions.swift in Sources */,
+				1C7F67C82640F70900A0B0C1 /* CommunityCollectionViewController.swift in Sources */,
 				8BC213B42632928E00719579 /* DatabaseProtocol.swift in Sources */,
 				8BCACA1C2632847800FAF97B /* Art.swift in Sources */,
 				8BC213A92632908100719579 /* FirebaseController.swift in Sources */,
