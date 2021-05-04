@@ -38,6 +38,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     
     func onUserChange(change: DatabaseChange, user: User) {
         savedArt = user.artworks
+        // Try .reloadItems() or .reloadData()
         collectionView.reloadSections([SAVED_ART_SECTION])
     }
     
