@@ -26,7 +26,8 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         self.collectionView!.register(SavedArtCollectionViewCell.self, forCellWithReuseIdentifier: SAVED_ART_CELL)
         
         // Get a reference to the applications database controller
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return
+        }
         databaseController = appDelegate.databaseController
         
     }
