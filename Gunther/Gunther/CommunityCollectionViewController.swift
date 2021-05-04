@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CommunityCollectionViewController: UICollectionViewController {
+class CommunityCollectionViewController: UICollectionViewController, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
     var listenerType = ListenerType.user
@@ -28,26 +28,47 @@ class CommunityCollectionViewController: UICollectionViewController {
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: COMMUNITY_CELL)
 
     }
+    
+    // MARK: - Implement DatabaseListener protocol
+    
+    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
+        self.categories = categories
+    }
+    
+    func onUserChange(change: DatabaseChange, user: User) {}
+    
+    // MARK: - Implement setup/destruction on view appear and disappear
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        databaseController?.addListener(listener: self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        databaseController?.removeListener(listener: self)
+    }
 
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 0
     }
 
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return categories.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        
+        let communityCell = collectionView.dequeueReusableCell(withReuseIdentifier: COMMUNITY_CELL, for: indexPath)
+        
+        let category = categories[indexPath.row]
+        //communityCell.name = category.name
+        // Also have a cover image.
+        
+        return communityCell
     
-        // Configure the cell
-    
-        return cell
     }
 
     // MARK: UICollectionViewDelegate

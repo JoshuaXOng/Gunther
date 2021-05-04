@@ -37,6 +37,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
     
     func onUserChange(change: DatabaseChange, user: User) {
+        // Iterate through old art, if differnt to new, reload.
         savedArt = user.artworks
         // Try .reloadItems() or .reloadData()
         collectionView.reloadSections([SAVED_ART_SECTION])
