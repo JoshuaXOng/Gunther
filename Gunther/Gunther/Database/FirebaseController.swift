@@ -200,6 +200,19 @@ class FirebaseController: NSObject, DatabaseProtocol {
         }
                 
     }
+    
+    func fetchDataAtStorageRef(source: String, completionHandler: (Data) -> Void) {
+        let targetRef = storage.reference(withPath: source)
+        targetRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print(error)
+            }
+            else {
+                guard let data = data else { return }
+                completionHandler(data)
+            }
+        }
+    }
 
 }
 
