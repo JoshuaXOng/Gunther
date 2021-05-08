@@ -103,7 +103,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvas.canvasViewDelegate = self
         
         self.scrollView.addSubview(canvas)
-        self.scrollView.contentSize = CGSize(width: 1.4*width, height: 1.4*height)
+        self.scrollView.contentSize = CGSize(width: 2*width, height: 4*height)
         let centerOfSVContent = CGPoint(x: self.scrollView.contentSize.width/2, y: self.scrollView.contentSize.height/2)
         canvas.center = centerOfSVContent
         //self.scrollView.zoom(to: canvas.bounds, animated: false)
