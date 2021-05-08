@@ -39,27 +39,33 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         
         savedArtImages = [UIImage?](repeating: nil, count: savedArt.count)
         var counter = 0
+        
         for (index, savedArtSingular) in savedArt.enumerated() {
             
             guard let source = savedArtSingular.source else { return }
             
             firebaseController?.fetchDataAtStorageRef(source: source) { data in
                 
+                counter += 1
+                
                 guard let savedArtUIImage = UIImage(data: data) else { return }
                 
                 self.savedArtImages.remove(at: index)
                 self.savedArtImages.insert(savedArtUIImage, at: index)
-                
-                counter += 1
+
                 // Can't append must replace -- we do not know the order in which responses will be delivered.
                 if counter == self.savedArt.count {
-                    self.collectionView.reloadSections([self.SAVED_ART_SECTION])
+                    self.onFetchImagesCompletion()
                 }
                 
             }
             
         }
         
+    }
+    
+    private func onFetchImagesCompletion() {
+        self.collectionView.reloadSections([self.SAVED_ART_SECTION])
     }
     
     // MARK: - Implement DatabaseListner
