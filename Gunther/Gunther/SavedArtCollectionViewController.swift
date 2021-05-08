@@ -24,7 +24,6 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         super.viewDidLoad()
 
         // Register cell classes
-        //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: SAVED_ART_CELL)
         self.collectionView!.register(SavedArtCollectionViewCell.self, forCellWithReuseIdentifier: SAVED_ART_CELL)
         
         // Get a reference to the applications database controller (cast it into Firebase controller)
@@ -34,11 +33,10 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         databaseController = appDelegate.databaseController
         firebaseController = databaseController as? FirebaseController
         
-        //fetchImages()
-        
     }
     
     private func fetchImages() {
+        
         savedArtImages = [UIImage?](repeating: nil, count: savedArt.count)
         var counter = 0
         for (index, savedArtSingular) in savedArt.enumerated() {
@@ -46,24 +44,21 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
             guard let source = savedArtSingular.source else { return }
             
             firebaseController?.fetchDataAtStorageRef(source: source) { data in
+                
                 guard let savedArtUIImage = UIImage(data: data) else { return }
                 
                 self.savedArtImages.remove(at: index)
                 self.savedArtImages.insert(savedArtUIImage, at: index)
                 
                 counter += 1
-                //append(savedArtUIImage) // Can't append must replace -- we do not know the order in which responses will be delivered.
-                //if self.savedArtImages.count == self.savedArt.count {
-                    //onSavedArtImagesLoaded
+                // Can't append must replace -- we do not know the order in which responses will be delivered.
                 if counter == self.savedArt.count {
                     self.collectionView.reloadSections([self.SAVED_ART_SECTION])
                 }
-                //}
+                
             }
             
         }
-        
-        
         
     }
     
@@ -73,32 +68,20 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
     
     func onUserChange(change: DatabaseChange, user: User) {
-        // Iterate through old art, if differnt to new, reload.
         savedArt = user.artworks
-        // Try .reloadItems() or .reloadData()
         fetchImages()
-        //collectionView.reloadSections([SAVED_ART_SECTION])
     }
     
     // MARK: - View (dis)appearance setup/deconstructing
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //savedArt = [SavedArt]()
         databaseController?.addListener(listener: self)
-        //fetchImages()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         databaseController?.removeListener(listener: self)
-        //let savedArtSection = IndexSet(integer: SAVED_ART_SECTION)
-        //collectionView.deleteSections(savedArtSection)
-        for i in 0 ..< savedArt.count {
-            let ip = IndexPath(item: i, section: SAVED_ART_SECTION)
-            collectionView.deleteItems(at: [ip])
-        }
-        collectionView.reloadSections([SAVED_ART_SECTION])
     }
     
     // MARK: UICollectionViewDataSource
@@ -114,25 +97,6 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath)
-        
-        
-        
-        /*
-        let savedArtSingular = savedArt[indexPath.row]
-        guard let source = savedArtSingular.source else {
-            return savedArtCell
-        }
-        
-        firebaseController?.fetchDataAtStorageRef(source: source) { data in
-            guard let savedArtUIImage = UIImage(data: data) else { return }
-            let savedArtImageView = UIImageView(image: savedArtUIImage)
-            DispatchQueue.main.async {
-                savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
-                savedArtCell.contentView.addSubview(savedArtImageView)
-                savedArtImageView.frame = savedArtCell.contentView.bounds
-            }
-        }
-        */
         
         if savedArtImages.count == savedArt.count {
             savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
