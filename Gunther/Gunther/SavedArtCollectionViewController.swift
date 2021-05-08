@@ -102,7 +102,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath)
+        let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath) as! SavedArtCollectionViewCell
         
         if savedArtImages.count == savedArt.count {
             savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
@@ -158,16 +158,17 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        
-        guard let firebaseController = databaseController as? FirebaseController else {
+
+        guard let firebaseController = firebaseController else {
             return false
         }
+        let user = firebaseController.user
+        let art = self.savedArt[indexPath.row]
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.title = art.name
         
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
-            let user = firebaseController.user
-            let art = self.savedArt[indexPath.row]
             let _ = firebaseController.removeArtFromUser(user: user, art: art)
         })
         
