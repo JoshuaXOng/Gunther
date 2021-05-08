@@ -37,9 +37,9 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let savedArt = SavedArt()
-        savedArt.id = "ThisIsATestID" // Some test data because UI is not quite ready.
-        savedArt.name = "ATestArt"
-        savedArt.source = artNameField.text!+".png"
+        savedArt.id = UUID().uuidString
+        savedArt.name = artNameField.text!
+        savedArt.source = UUID().uuidString+".png"
         savedArt.width = "300"
         savedArt.height = "300"
         savedArt.pixelSize = "10" //4
