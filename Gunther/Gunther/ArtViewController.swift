@@ -103,10 +103,13 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         canvas.canvasViewDelegate = self
         
         self.scrollView.addSubview(canvas)
-        self.scrollView.contentSize = CGSize(width: 2*width, height: 4*height)
-        let centerOfSVContent = CGPoint(x: self.scrollView.contentSize.width/2, y: self.scrollView.contentSize.height/2)
-        canvas.center = centerOfSVContent
+        self.scrollView.contentSize = CGSize(width: width, height: height)
+        //let centerOfSVContent = CGPoint(x: self.scrollView.contentSize.width/2, y: self.scrollView.contentSize.height/2) // This does not compute the center.
+        //canvas.center = centerOfSVContent // Comment out!!!
         //self.scrollView.zoom(to: canvas.bounds, animated: false)
+        //self.scrollView.contentOffset = centerOfSVContent
+        let edges = UIEdgeInsets(top: 1*height, left: 0.5*width, bottom: 1*height, right: 0.5*width)
+        scrollView.contentInset = edges
                     
         // Give shadow to canvas
         canvas.layer.shadowColor = UIColor.black.cgColor
@@ -190,8 +193,8 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     // MARK: - Implement UIColorPickerViewControllerDelegate
     
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-        print(scrollView.contentSize)
-        print(scrollView.contentOffset, scrollView.contentInset)
+        //let centerOfSVContent = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
+        //canvas?.center = centerOfSVContent
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -204,7 +207,8 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        
+        //let centerOfSVContent = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
+        //canvas?.center = centerOfSVContent
     }
     
     // MARK: - Save art to database
