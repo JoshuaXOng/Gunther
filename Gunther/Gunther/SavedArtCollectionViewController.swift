@@ -108,6 +108,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
             savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
             let savedArtImageView = UIImageView(image: savedArtImages[indexPath.row])
             savedArtCell.contentView.addSubview(savedArtImageView)
+            savedArtCell.label?.text = savedArt[indexPath.row].name
             savedArtImageView.frame = savedArtCell.contentView.bounds
         }
         
