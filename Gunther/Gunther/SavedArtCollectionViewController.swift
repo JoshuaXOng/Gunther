@@ -82,7 +82,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        databaseController?.addListener(listener: self)
+        databaseController?.addListener(listener: self) // Only add listener once...
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -144,8 +144,8 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         return sectionInsets
     }
     
-    func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout:UICollectionViewLayout,minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.bottom
     }
     
     // MARK: UICollectionViewDelegate
