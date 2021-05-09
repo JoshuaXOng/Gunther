@@ -189,8 +189,22 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     // MARK: - Implement UIColorPickerViewControllerDelegate
     
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        print(scrollView.contentSize)
+        print(scrollView.contentOffset, scrollView.contentInset)
+    }
+    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        //var size = CGSize()
+        //size.width = CGFloat(art!.width)
+        //size.height = CGFloat(art!.height)
+        //scrollView.contentSize = size
+        //print(scrollView.contentSize)
         return canvas
+    }
+    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        
     }
     
     // MARK: - Save art to database
