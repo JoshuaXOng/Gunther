@@ -59,7 +59,7 @@ class FirebaseController: NSObject, DatabaseProtocol {
             listener.onCategoriesChange(change: .update, categories: categories)
         }
         else if listenerType == .user || listenerType == .all {
-            listener.onUserChange(change: .update, user: user)
+            listener.onUserChange(change: .update, user: user) // Changed to .add from .update
         }
     }
     
