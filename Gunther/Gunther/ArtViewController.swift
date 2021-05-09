@@ -110,6 +110,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         //self.scrollView.contentOffset = centerOfSVContent
         let edges = UIEdgeInsets(top: 1*height, left: 0.5*width, bottom: 1*height, right: 0.5*width)
         scrollView.contentInset = edges
+        scrollView.zoom(to: canvas.bounds, animated: false)
                     
         // Give shadow to canvas
         canvas.layer.shadowColor = UIColor.black.cgColor
