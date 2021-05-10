@@ -106,7 +106,9 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         
         if savedArtImages.count == savedArt.count {
             savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
-            let savedArtImageView = UIImageView(image: savedArtImages[indexPath.row])
+            guard let image = savedArtImages[indexPath.row] else { return savedArtCell }
+            let savedArtImageView = UIImageView(image: image)
+            savedArtImageView.contentMode = UIView.ContentMode.scaleAspectFit
             savedArtCell.contentView.addSubview(savedArtImageView)
             savedArtCell.label?.text = savedArt[indexPath.row].name
             savedArtImageView.frame = savedArtCell.contentView.bounds
