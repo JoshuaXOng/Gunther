@@ -10,21 +10,27 @@ import UIKit
 class SavedArtCollectionViewCell: UICollectionViewCell {
     
     var label: UILabel?
+    var imageView: UIImageView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.contentView.backgroundColor = UIColor.white // Background should be that MS Paint color
+        self.contentView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
         self.contentView.layer.cornerRadius = 2.5
-        self.contentView.layer.masksToBounds = true
-
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 0.5, height: 1)
-        self.layer.shadowRadius = 2
-        self.layer.shadowOpacity = 0.5
         
-        label = UILabel(frame: CGRect(x: 0, y: self.bounds.size.height-10, width: self.bounds.size.width, height: 40))
-        self.addSubview(label!)
+        imageView = UIImageView(frame: CGRect(x: 15, y: 15, width: self.bounds.size.width-30, height: self.bounds.size.height-30))
+        imageView!.contentMode = UIView.ContentMode.scaleAspectFit
+        imageView!.layer.shadowColor = UIColor.black.cgColor
+        imageView!.layer.shadowOffset = CGSize(width: 0.5, height: 1)
+        imageView!.layer.shadowRadius = 2
+        imageView!.layer.shadowOpacity = 0.5
+        self.contentView.addSubview(imageView!)
+        
+        label = UILabel(frame: CGRect(x: 0, y: self.bounds.size.height-8, width: self.bounds.size.width, height: 40))
+        self.contentView.addSubview(label!)
+        label!.translatesAutoresizingMaskIntoConstraints = false
+        label!.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0).isActive = true
+        label!.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 3).isActive = true
         
     }
     

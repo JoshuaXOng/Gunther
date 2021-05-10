@@ -105,13 +105,20 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath) as! SavedArtCollectionViewCell
         
         if savedArtImages.count == savedArt.count {
-            savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
+            //savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
             guard let image = savedArtImages[indexPath.row] else { return savedArtCell }
-            let savedArtImageView = UIImageView(image: image)
-            savedArtImageView.contentMode = UIView.ContentMode.scaleAspectFit
-            savedArtCell.contentView.addSubview(savedArtImageView)
+            //let savedArtImageView = UIImageView(image: image)
+            //savedArtImageView.contentMode = UIView.ContentMode.scaleAspectFit
+            //savedArtCell.contentView.addSubview(savedArtImageView)
+            savedArtCell.imageView?.image = image
             savedArtCell.label?.text = savedArt[indexPath.row].name
-            savedArtImageView.frame = savedArtCell.contentView.bounds
+            //savedArtImageView.frame = savedArtCell.contentView.bounds
+            
+            //savedArtImageView.layer.shadowColor = UIColor.black.cgColor
+            //savedArtImageView.layer.shadowOffset = CGSize(width: 0.5, height: 1)
+            //savedArtImageView.layer.shadowRadius = 2
+            //savedArtImageView.layer.shadowOpacity = 0.5
+            
         }
         
         return savedArtCell
