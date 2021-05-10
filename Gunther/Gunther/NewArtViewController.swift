@@ -22,7 +22,9 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var fromCameraButton: UIButton!
     @IBOutlet weak var fromBlankCanvasButton: UIButton!
-    let buttons = [fromCameraButton, fromBlankCanvasButton]
+    let START_FROM_CAMERA = "startFromCamera"
+    let START_FROM_BLANK_CANVAS = "startFromBlankCanvas"
+    var startFromChoice: String?
     
     @IBAction func widthSlider(_ sender: UISlider) {
         let roundedWidth = widthSlider.value - widthSlider.value.truncatingRemainder(dividingBy: 5)
@@ -38,22 +40,62 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func fromCameraButton(_ sender: UIButton) {
-        updateButtonsRadiolike(buttons: buttons, choice: sender)
+        updateButtonsRadiolike(buttons: [fromCameraButton, fromBlankCanvasButton], choice: fromCameraButton)
+        startFromChoice = START_FROM_CAMERA
     }
     
     @IBAction func fromBlankCanvasButton(_ sender: UIButton) {
-        updateButtonsRadiolike(buttons: buttons, choice: sender)
+        updateButtonsRadiolike(buttons: [fromCameraButton, fromBlankCanvasButton], choice: fromBlankCanvasButton)
+        startFromChoice = START_FROM_BLANK_CANVAS
     }
     
     @IBAction func startBarButton(_ sender: UIBarButtonItem) {
-        let isInputValid = !(artNameField.text?.trimmingCharacters(in: .whitespaces) == "")
+        let isInputValid = validateInput()
         if isInputValid {
-            performSegue(withIdentifier: "NewArtBCToArtSegue", sender: nil)
+            switch startFromChoice {
+                case START_FROM_CAMERA:
+                    performSegue(withIdentifier: "NewArtToFromPhotoSegue", sender: nil)
+                case START_FROM_BLANK_CANVAS:
+                    performSegue(withIdentifier: "NewArtBCToArtSegue", sender: nil)
+                default:
+                    print("Something ain't right sir.")
+            }
+            resetInputs()
         }
         else {
-            displayMessage(title: "Invalid Input", message: "Please enter a valid name.")
+            displayMessage(title: "Invalid Input", message: "Please enter a valid name and a 'Start From' choice.")
         }
-        resetInputs()
+    }
+    
+    // MARK: - Util for validating form input
+    
+    private func validateInput() -> Bool {
+        let isArtNameValid = !(artNameField.text?.trimmingCharacters(in: .whitespaces) == "")
+        let isStartFromChoiceValid = startFromChoice
+        if isArtNameValid && isStartFromChoiceValid != nil {
+            return true
+        }
+        return false
+    }
+    
+    // MARK: - Utils for adding radio-like behaviour to UIButtons
+    
+    private func applyToggleAppearance(button: UIButton) {
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 1, height: 1)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 1
+    }
+    
+    private func applyUntoggleAppearance(button: UIButton) {
+        button.layer.shadowOpacity = 0
+    }
+    
+    private func updateButtonsRadiolike(buttons: [UIButton], choice: UIButton) {
+        for button in buttons {
+            applyUntoggleAppearance(button: button)
+        }
+        applyToggleAppearance(button: choice)
     }
     
     // MARK: - viewDidLoad()
@@ -73,16 +115,14 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    // MARK: - Util for adding radio button like behaviour to a group of UIButtons
-    
-    private func updateButtonsRadiolike(buttons: [UIButton], choice: UIButton) {
-        
-    }
-    
     // MARK: - Util for clearing inputs upon view transition
     
     private func resetInputs() {
         self.artNameField.text = ""
+        let buttons = [fromCameraButton, fromBlankCanvasButton]
+        for button in buttons {
+            applyUntoggleAppearance(button: button!)
+        }
     }
     
     // MARK: - Functions for resizing width, height and pixel size
@@ -109,9 +149,11 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
         savedArt.id = UUID().uuidString
         savedArt.name = artNameField.text!
         savedArt.source = UUID().uuidString+".png"
-        savedArt.width = "300"
-        savedArt.height = "300"
-        savedArt.pixelSize = "10" //4
+        let ps = Float(pixelSize.text!)
+        let (width, height) = roundDimensionsForPixelSize(width: Float(Int(widthSlider.value)), height: Float(Int(heightSlider.value)), pixelSize: ps!)
+        savedArt.width = String(Int(width)) //"300"
+        savedArt.height = String(Int(height)) //"300"
+        savedArt.pixelSize = pixelSize.text //"10" //4
         
         if segue.identifier == "NewArtBCToArtSegue" {
             let destination = segue.destination as? ArtViewController

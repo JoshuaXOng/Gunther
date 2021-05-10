@@ -68,7 +68,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
                   let pixelSize = savedArt?.pixelSize else {
                 return
             }
-            setupCanvasView(width: CGFloat(Int(width)!), height: CGFloat(Int(height)!))
+            setupCanvasView(width: CGFloat(Float(width)!), height: CGFloat(Float(height)!))
             
             if let baseImage = baseImage {
                 art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: baseImage)

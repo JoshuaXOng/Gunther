@@ -78,7 +78,6 @@
                                 </state>
                                 <connections>
                                     <action selector="fromCameraButton:" destination="mmc-z1-v3Z" eventType="touchUpInside" id="Rk8-X8-NSY"/>
-                                    <action selector="fromCameraButtonAction:" destination="mmc-z1-v3Z" eventType="touchUpInside" id="WQG-Ir-iry"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start From:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KJM-wW-J3l">
