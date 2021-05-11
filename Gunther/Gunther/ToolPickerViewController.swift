@@ -45,7 +45,10 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = sectionInsetsTypeVC
         layout.itemSize = CGSize(width: 60, height: 60)
-        typeCollectionView = UICollectionView(frame: CGRect(x: 10, y: 120, width: 300, height: 150), collectionViewLayout: layout)
+        layout.scrollDirection = .horizontal
+        typeCollectionView = UICollectionView(frame: CGRect(x: (view.frame.size.width-300)/2, y: 100, width: 300, height: 150), collectionViewLayout: layout)
+        
+        typeCollectionView?.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
         
         typeCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: TYPE_VC_TYPE_CELL)
         
@@ -58,16 +61,18 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     private func setupSizeCVC() {
         
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = sectionInsetsTypeVC
+        layout.sectionInset = sectionInsetsSizeVC
         layout.itemSize = CGSize(width: 60, height: 60)
-        typeCollectionView = UICollectionView(frame: CGRect(x: 10, y: 120, width: 300, height: 150), collectionViewLayout: layout)
+        sizeCollectionView = UICollectionView(frame: CGRect(x: (view.frame.size.width-300)/2, y: 300, width: 300, height: 400), collectionViewLayout: layout)
         
-        typeCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: TYPE_VC_TYPE_CELL)
+        sizeCollectionView?.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
+        
+        sizeCollectionView?.register(ToolSizeCollectionViewCell.self, forCellWithReuseIdentifier: SIZE_VC_SIZE_CELL)
         
         sizeCollectionView?.delegate = self
         sizeCollectionView?.dataSource = self
         view.addSubview(sizeCollectionView!)
-        
+
     }
     
     // MARK: - Utils for changing visuals of cells
@@ -137,17 +142,19 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
             else {
                 applyDeselectVisualsToCell(cell: typeCell)
             }
+            typeCell.backgroundColor = UIColor.white
             return typeCell
         }
         
-        let sizeCell = collectionView.dequeueReusableCell(withReuseIdentifier: SIZE_VC_SIZE_CELL, for: indexPath)
+        let sizeCell = collectionView.dequeueReusableCell(withReuseIdentifier: SIZE_VC_SIZE_CELL, for: indexPath) as? ToolSizeCollectionViewCell
         if indexPath.row == selectedToolSizeIndex {
             applySelectedVisualsToCell(cell: sizeCell)
         }
         else {
             applyDeselectVisualsToCell(cell: sizeCell)
         }
-        return sizeCell
+        sizeCell!.backgroundColor = UIColor.white
+        return sizeCell!
         
     }
     
@@ -155,14 +162,14 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     
     private let sectionInsetsTypeVC = UIEdgeInsets(
         top: 5.0,
-        left: 5.0,
+        left: 10.0,
         bottom: 5.0,
-        right: 5.0)
+        right: 10.0)
     private let sectionInsetsSizeVC = UIEdgeInsets(
-        top: 5.0,
-        left: 5.0,
-        bottom: 5.0,
-        right: 5.0)
+        top: 10.0,
+        left: 10.0,
+        bottom: 10.0,
+        right: 10.0)
     
     private let itemsPerRowTypeVC: CGFloat = 2
     private let itemsPerRowSizeVC: CGFloat = 1
