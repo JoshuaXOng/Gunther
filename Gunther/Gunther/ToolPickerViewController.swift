@@ -9,31 +9,64 @@ import UIKit
 
 class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    @IBOutlet weak var typeCollectionView: UICollectionView!
-    @IBOutlet weak var sizeCollectionView: UICollectionView!
-    //var typeCollectionView = UICollectionView(frame: CGRect(x: 10, y: 40, width: 500, height: 150))
+    var typeCollectionView: UICollectionView?
+    var sizeCollectionView: UICollectionView?
     
-    let TYPE_CELL = "TypeCell"
-    let SIZE_CELL = "SizeCell"
+    let TYPE_VC_TYPE_CELL = "TypeCell"
+    let SIZE_VC_SIZE_CELL = "SizeCell"
     
     var selectedToolTypeIndex = 0
     var selectedToolSizeIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        typeCollectionView.delegate = self
-        sizeCollectionView.delegate = self
-        typeCollectionView.dataSource = self
-        sizeCollectionView.dataSource = self
         
-        /*
-        let typeIndexPath = IndexPath(row: selectedToolTypeIndex, section: 0)
-        let typeCell = typeCollectionView.cellForItem(at: typeIndexPath)
-        applySelectedVisualsToCell(cell: typeCell)
-        let sizeIndexPath = IndexPath(row: selectedToolSizeIndex+7, section: 0)
-        let sizeCell = sizeCollectionView.cellForItem(at: sizeIndexPath)
-        applySelectedVisualsToCell(cell: sizeCell)*/
+        setupVC()
+        
+        setupTypeCVC()
+        setupSizeCVC()
+        
+    }
+    
+    // MARK: - Encapsulation for setting up
+    
+    private func setupVC() {
+        
+        view.backgroundColor = UIColor.white
+        
+        let title = UILabel(frame: CGRect(x: 50, y: 40, width: 60, height: 20))
+        title.text = "Tools"
+        view.addSubview(title)
+        
+    }
+    
+    private func setupTypeCVC() {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = sectionInsetsTypeVC
+        layout.itemSize = CGSize(width: 60, height: 60)
+        typeCollectionView = UICollectionView(frame: CGRect(x: 10, y: 120, width: 300, height: 150), collectionViewLayout: layout)
+        
+        typeCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: TYPE_VC_TYPE_CELL)
+        
+        typeCollectionView?.delegate = self
+        typeCollectionView?.dataSource = self
+        view.addSubview(typeCollectionView!)
+        
+    }
+    
+    private func setupSizeCVC() {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = sectionInsetsTypeVC
+        layout.itemSize = CGSize(width: 60, height: 60)
+        typeCollectionView = UICollectionView(frame: CGRect(x: 10, y: 120, width: 300, height: 150), collectionViewLayout: layout)
+        
+        typeCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: TYPE_VC_TYPE_CELL)
+        
+        sizeCollectionView?.delegate = self
+        sizeCollectionView?.dataSource = self
+        view.addSubview(sizeCollectionView!)
         
     }
     
@@ -97,7 +130,7 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionView == typeCollectionView {
-            let typeCell = collectionView.dequeueReusableCell(withReuseIdentifier: TYPE_CELL, for: indexPath)
+            let typeCell = collectionView.dequeueReusableCell(withReuseIdentifier: TYPE_VC_TYPE_CELL, for: indexPath)
             if indexPath.row == selectedToolTypeIndex {
                 applySelectedVisualsToCell(cell: typeCell)
             }
@@ -107,7 +140,7 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
             return typeCell
         }
         
-        let sizeCell = collectionView.dequeueReusableCell(withReuseIdentifier: SIZE_CELL, for: indexPath)
+        let sizeCell = collectionView.dequeueReusableCell(withReuseIdentifier: SIZE_VC_SIZE_CELL, for: indexPath)
         if indexPath.row == selectedToolSizeIndex {
             applySelectedVisualsToCell(cell: sizeCell)
         }

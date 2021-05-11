@@ -19,7 +19,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     var canvas: CanvasView?
     var art: Art?
     var tool: Tool?
-    var toolPickerController: ToolPickerViewController?
+    var toolPickerController = ToolPickerViewController()
     let colorPickerController = UIColorPickerViewController()
     var isDrawing = true
     
@@ -40,6 +40,10 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     @IBAction func ColorPickerButton(_ sender: UIButton) {
         self.present(colorPickerController, animated: true, completion: nil)
+    }
+    
+    @IBAction func brushButton(_ sender: UIButton) {
+        self.present(toolPickerController, animated: true, completion: nil)
     }
     
     @IBAction func DragButton(_ sender: UIButton) {
@@ -240,12 +244,12 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ArtToToolsSegue" {
+        /*if segue.identifier == "ArtToToolsSegue" {
             let destination = segue.destination as? ToolPickerViewController
             toolPickerController = destination
             print(toolPickerController?.selectedToolTypeIndex)
             toolPickerController?.selectedToolSizeIndex = 1
-        }
+        }*/
     }
 
 }
