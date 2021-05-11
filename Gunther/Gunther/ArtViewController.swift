@@ -19,6 +19,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     var canvas: CanvasView?
     var art: Art?
     var tool: Tool?
+    var toolPickerController: ToolPickerViewController?
     let colorPickerController = UIColorPickerViewController()
     var isDrawing = true
     
@@ -235,14 +236,16 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
     }
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ArtToToolsSegue" {
+            let destination = segue.destination as? ToolPickerViewController
+            toolPickerController = destination
+            print(toolPickerController?.selectedToolTypeIndex)
+            toolPickerController?.selectedToolSizeIndex = 1
+        }
     }
-    */
 
 }
