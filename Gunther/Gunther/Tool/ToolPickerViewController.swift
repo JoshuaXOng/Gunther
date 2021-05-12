@@ -21,36 +21,48 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupVC()
+        setupToolViewController()
         
-        setupTypeCVC()
-        setupSizeCVC()
+        setupTypeCollectionViewController()
+        setupSizeCollectionViewController()
         
     }
     
     // MARK: - Encapsulation for setting up
     
-    private func setupVC() {
+    private func setupToolViewController() {
         
         view.backgroundColor = UIColor.white
         
-        let title = UILabel(frame: CGRect(x: 50, y: 40, width: 60, height: 20))
+        let title = UILabel(frame: CGRect(x: 0, y: 0, width: 60, height: 20))
         title.text = "Tools"
         view.addSubview(title)
         
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        title.topAnchor.constraint(equalTo: view.topAnchor, constant: 24).isActive = true
+        
     }
     
-    private func setupTypeCVC() {
+    private func setupTypeCollectionViewController() {
+        
+        let typeCVCHeader = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+        typeCVCHeader.text = "Brushes"
+        view.addSubview(typeCVCHeader)
+        
+        typeCVCHeader.translatesAutoresizingMaskIntoConstraints = false
+        typeCVCHeader.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        typeCVCHeader.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
         
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = sectionInsetsTypeVC
-        layout.itemSize = CGSize(width: 60, height: 60)
+        layout.sectionInset = sectionInsetsTypeCollectionViewController
+        layout.itemSize = CGSize(width: 80, height: 80)
         layout.scrollDirection = .horizontal
-        typeCollectionView = UICollectionView(frame: CGRect(x: (view.frame.size.width-300)/2, y: 100, width: 300, height: 150), collectionViewLayout: layout)
+        typeCollectionView = UICollectionView(frame: CGRect(x: ((view.frame.size.width-300)/2) - 20, y: 100, width: 170, height: 80), collectionViewLayout: layout)
         
-        typeCollectionView?.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
+        typeCollectionView?.backgroundColor = UIColor.white//UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
         
-        typeCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: TYPE_VC_TYPE_CELL)
+        typeCollectionView?.register(ToolBrushCollectionViewCell.self, forCellWithReuseIdentifier: TYPE_VC_TYPE_CELL)
         
         typeCollectionView?.delegate = self
         typeCollectionView?.dataSource = self
@@ -58,14 +70,24 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
         
     }
     
-    private func setupSizeCVC() {
+    private func setupSizeCollectionViewController() {
+        
+        let sizeCVCHeader = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+        sizeCVCHeader.text = "Sizes"
+        view.addSubview(sizeCVCHeader)
+        
+        sizeCVCHeader.translatesAutoresizingMaskIntoConstraints = false
+        sizeCVCHeader.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        sizeCVCHeader.topAnchor.constraint(equalTo: typeCollectionView!.bottomAnchor, constant: 30).isActive = true
         
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = sectionInsetsSizeVC
+        layout.sectionInset = sectionInsetsSizeCollectionViewController
         layout.itemSize = CGSize(width: 60, height: 60)
-        sizeCollectionView = UICollectionView(frame: CGRect(x: (view.frame.size.width-300)/2, y: 300, width: 300, height: 400), collectionViewLayout: layout)
+        sizeCollectionView = UICollectionView(frame: CGRect(x: ((view.frame.size.width-300)/2)-10, y: 240, width: 300, height: 200), collectionViewLayout: layout)
         
-        sizeCollectionView?.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
+        sizeCollectionView?.backgroundColor = UIColor.white //UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
+        sizeCollectionView?.layer.cornerRadius = 2.5
+        sizeCollectionView?.layer.masksToBounds = true
         
         sizeCollectionView?.register(ToolSizeCollectionViewCell.self, forCellWithReuseIdentifier: SIZE_VC_SIZE_CELL)
         
@@ -135,15 +157,15 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionView == typeCollectionView {
-            let typeCell = collectionView.dequeueReusableCell(withReuseIdentifier: TYPE_VC_TYPE_CELL, for: indexPath)
+            let typeCell = collectionView.dequeueReusableCell(withReuseIdentifier: TYPE_VC_TYPE_CELL, for: indexPath) as? ToolBrushCollectionViewCell
             if indexPath.row == selectedToolTypeIndex {
                 applySelectedVisualsToCell(cell: typeCell)
             }
             else {
                 applyDeselectVisualsToCell(cell: typeCell)
             }
-            typeCell.backgroundColor = UIColor.white
-            return typeCell
+            typeCell!.backgroundColor = UIColor.white
+            return typeCell!
         }
         
         let sizeCell = collectionView.dequeueReusableCell(withReuseIdentifier: SIZE_VC_SIZE_CELL, for: indexPath) as? ToolSizeCollectionViewCell
@@ -161,12 +183,12 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     
     // MARK: - Implement UICollectionViewDelegateFlowLayout
     
-    private let sectionInsetsTypeVC = UIEdgeInsets(
+    private let sectionInsetsTypeCollectionViewController = UIEdgeInsets(
         top: 5.0,
         left: 10.0,
         bottom: 5.0,
         right: 10.0)
-    private let sectionInsetsSizeVC = UIEdgeInsets(
+    private let sectionInsetsSizeCollectionViewController = UIEdgeInsets(
         top: 10.0,
         left: 10.0,
         bottom: 10.0,
@@ -178,12 +200,13 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if collectionView == typeCollectionView {
-            let paddingSpace = sectionInsetsTypeVC.left * (itemsPerRowTypeVC + 1)
+            let paddingSpace = sectionInsetsTypeCollectionViewController.left * (itemsPerRowTypeVC + 1)
             let availableWidth = collectionView.frame.width - paddingSpace
             let widthPerItem = availableWidth / itemsPerRowTypeVC
-            return CGSize(width: widthPerItem, height: widthPerItem-50)
+            return CGSize(width: widthPerItem, height: collectionView.frame.size.height-5)
         }
-        let paddingSpace = sectionInsetsSizeVC.left * (itemsPerRowSizeVC + 1)
+        
+        let paddingSpace = sectionInsetsSizeCollectionViewController.left * (itemsPerRowSizeVC + 1)
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRowSizeVC
         return CGSize(width: widthPerItem, height: 60)
@@ -192,16 +215,16 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == typeCollectionView {
-            return sectionInsetsTypeVC
+            return sectionInsetsTypeCollectionViewController
         }
-        return sectionInsetsSizeVC
+        return sectionInsetsSizeCollectionViewController
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == typeCollectionView {
-            return sectionInsetsTypeVC.bottom
+            return sectionInsetsTypeCollectionViewController.bottom
         }
-        return sectionInsetsSizeVC.bottom
+        return sectionInsetsSizeCollectionViewController.bottom
     }
     
     /*

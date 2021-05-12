@@ -131,7 +131,6 @@
 				8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */,
 				8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
-				8B1471FA2648C16400ED5264 /* ToolPickerViewController.swift */,
 				8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */,
 				8B584985263FE06700443C14 /* SavedArtCollectionViewCell.swift */,
 				8BC213BF2632ABF400719579 /* CanvasView */,
@@ -174,6 +173,7 @@
 		8BC213BE2632ABD800719579 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				8B1471FA2648C16400ED5264 /* ToolPickerViewController.swift */,
 				8B53829D264ABD3C00AE0238 /* ToolBrushCollectionViewCell.swift */,
 				8B5382A1264ABD5900AE0238 /* ToolSizeCollectionViewCell.swift */,
 				8BCACA08263280EB00FAF97B /* Tool.swift */,

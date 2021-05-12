@@ -14,12 +14,15 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
     private var MAX_TOOL_SIZE: Int = 11
     private var toolSize: Int = 1
     
+    private var imageViewTopConstraint: NSLayoutConstraint?
+    private var imageViewBotConstraint: NSLayoutConstraint?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         //self.contentView.backgroundColor = UIColor.white
-        self.contentView.layer.cornerRadius = 2.5
-        self.contentView.layer.masksToBounds = true
+        //self.contentView.layer.cornerRadius = 22.5
+        //self.contentView.layer.masksToBounds = true
                
         //self.layer.shadowColor = UIColor.black.cgColor
         //self.layer.shadowOpacity = 0.5
@@ -29,7 +32,7 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
         setupLabel()
         setupImageView()
         
-        //updateToolSize(toolSize: 1)
+        updateToolSize(toolSize: toolSize)
         
     }
     
@@ -71,7 +74,7 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
     
     private func setupImageViewConstraintsMinusTB() {
         imageView!.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0).isActive = true
-        imageView!.leftAnchor.constraint(equalTo: label!.rightAnchor, constant: 12).isActive = true
+        imageView!.leftAnchor.constraint(equalTo: label!.rightAnchor, constant: 20).isActive = true
         imageView!.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12).isActive = true
     }
     
@@ -88,11 +91,21 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
         let spacing = computeIVSpacing()
         let halfSpacing = spacing/2
         
-        let constraints = imageView!.constraints
-        imageView!.removeConstraints(constraints)
-        setupImageViewConstraintsMinusTB()
-        imageView!.topAnchor.constraint(equalTo: self.topAnchor, constant: halfSpacing).isActive = true
-        imageView!.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -halfSpacing).isActive = true
+        //let constraints = imageView!.constraints
+        //imageView!.removeConstraints(constraints)
+        //setupImageViewConstraintsMinusTB()
+        if imageViewTopConstraint != nil && imageViewBotConstraint != nil {
+            //print(imageView!.constraints)
+            imageViewTopConstraint?.isActive = false
+            imageViewBotConstraint?.isActive = false
+            imageView!.removeConstraint(imageViewTopConstraint!)
+            imageView!.removeConstraint(imageViewBotConstraint!)
+            //print(imageView!.constraints)
+        }
+        imageViewTopConstraint = imageView!.topAnchor.constraint(equalTo: self.topAnchor, constant: halfSpacing)
+        imageViewTopConstraint?.isActive = true
+        imageViewBotConstraint = imageView!.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -halfSpacing)
+        imageViewBotConstraint?.isActive = true
     
     }
     
