@@ -153,7 +153,8 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
         else {
             applyDeselectVisualsToCell(cell: sizeCell)
         }
-        sizeCell!.backgroundColor = UIColor.white
+        sizeCell?.updateToolSize(toolSize: indexPath.row+1)
+        //sizeCell!.backgroundColor = UIColor.white
         return sizeCell!
         
     }
