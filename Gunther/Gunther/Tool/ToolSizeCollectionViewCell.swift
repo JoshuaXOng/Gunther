@@ -32,7 +32,7 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
         setupLabel()
         setupImageView()
         
-        updateToolSize(toolSize: toolSize)
+        //updateToolSize(toolSize: toolSize)
         
     }
     

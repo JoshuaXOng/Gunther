@@ -93,7 +93,10 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         // Initialize a test tool
         tool = Pencil()
-        tool!.size = 5 // 1,3,5,7,9,11
+        tool!.size = toolPickerController.selectedToolSizeIndex+1//5 // 1,3,5,7,9,11
+        
+        // Setup toolPickerViewController.
+        toolPickerController.toolPickerDelegate = self
         
     }
     
@@ -252,4 +255,16 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         }*/
     }
 
+}
+
+extension ArtViewController: ToolPickerDelegate {
+    
+    func onBrushSelection(brushNO: Int) {
+        
+    }
+    
+    func onSizeSelection(sizeNO: Int) {
+        tool?.size = sizeNO+1
+    }
+    
 }

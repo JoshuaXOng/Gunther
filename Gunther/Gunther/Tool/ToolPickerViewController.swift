@@ -9,6 +9,8 @@ import UIKit
 
 class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    var toolPickerDelegate: ToolPickerDelegate?
+    
     var typeCollectionView: UICollectionView?
     var sizeCollectionView: UICollectionView?
     
@@ -25,6 +27,10 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
         
         setupTypeCollectionViewController()
         setupSizeCollectionViewController()
+        
+        // Do initial inform.
+        toolPickerDelegate?.onBrushSelection(brushNO: selectedToolTypeIndex)
+        toolPickerDelegate?.onSizeSelection(sizeNO: selectedToolSizeIndex)
         
     }
     
@@ -113,17 +119,27 @@ class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == typeCollectionView {
+            
             let oldIndexPath = IndexPath(row: selectedToolTypeIndex, section: 0)
             let oldCell = collectionView.cellForItem(at: oldIndexPath)
             applyDeselectVisualsToCell(cell: oldCell)
             selectedToolTypeIndex = indexPath.row
+            
+            // Inform delegate about selection.
+            toolPickerDelegate?.onBrushSelection(brushNO: selectedToolTypeIndex)
+            
         }
         
         else {
+            
             let oldIndexPath = IndexPath(row: selectedToolSizeIndex, section: 0)
             let oldCell = collectionView.cellForItem(at: oldIndexPath)
             applyDeselectVisualsToCell(cell: oldCell)
             selectedToolSizeIndex = indexPath.row
+            
+            // Inform delegate about selection.
+            toolPickerDelegate?.onSizeSelection(sizeNO: selectedToolSizeIndex)
+            
         }
         
         let cell = collectionView.cellForItem(at: indexPath)
