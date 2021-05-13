@@ -142,3 +142,15 @@ class Art: NSObject {
     }
     
 }
+
+extension Art {
+    
+    func copy() -> Art {
+        let artCopy = Art(name: self.name, height: self.height, width: self.width, pixelSize: self.pixelSize)
+        artCopy.noGuntherPixelsWide = self.noGuntherPixelsWide
+        artCopy.noGuntherPixelsHigh = self.noGuntherPixelsHigh
+        artCopy.canvas = self.canvas.map { $0.copy() } 
+        return artCopy
+    }
+    
+}

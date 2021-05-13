@@ -17,6 +17,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     @IBOutlet weak var scrollView: UIScrollView!
     var canvas: CanvasView?
+    var artManager: ArtManager?
     var art: Art?
     var tool: Tool?
     var toolPickerController = ToolPickerViewController()
@@ -28,14 +29,18 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
     
     @IBAction func decreaseToolSizeButton(_ sender: UIButton) {
-        let minToolSize = 1
+        /*let minToolSize = 1
         if (tool?.size)! >= minToolSize+1 {
             tool?.size! -= 1
-        }
+        }*/
+        art = artManager?.undo()
+        self.canvas?.setNeedsDisplay()
     }
     
     @IBAction func increaseToolSizeButton(_ sender: UIButton) {
-        tool?.size! += 1
+        //tool?.size! += 1
+        art = artManager?.redo()
+        self.canvas?.setNeedsDisplay()
     }
     
     @IBAction func ColorPickerButton(_ sender: UIButton) {
@@ -86,6 +91,9 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         else {
             insertSavedArtSource()
         }
+        
+        // Setup test artManager -- wrong position... for insertSaved...
+        artManager = ArtManager(art: art!)
         
         // Setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
@@ -197,6 +205,13 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             catch { continue }
         }
         
+    }
+    
+    func onTouchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !isDrawing {
+            return
+        }
+        artManager?.update(updatedArt: art!)
     }
     
     // MARK: - Implement UIColorPickerViewControllerDelegate

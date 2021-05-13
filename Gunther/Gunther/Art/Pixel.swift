@@ -20,3 +20,11 @@ class Pixel {
     
 }
 
+extension Pixel {
+    
+    func copy() -> Pixel {
+        return Pixel(color: self.color)
+    }
+    
+}
+

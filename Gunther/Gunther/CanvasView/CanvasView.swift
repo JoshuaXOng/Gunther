@@ -39,6 +39,10 @@ class CanvasView: UIView {
         canvasViewDelegate?.onTouchesMoved(touches, with: event)
         setNeedsDisplay()
     }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        canvasViewDelegate?.onTouchesEnded(touches, with: event)
+    }
 
 }
 

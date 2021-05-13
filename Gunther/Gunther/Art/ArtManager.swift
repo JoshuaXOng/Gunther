@@ -14,31 +14,31 @@ class ArtManager {
     private var futureArt = [Art]()
     
     init(art: Art) {
-        currentArt = art
+        currentArt = art.copy()
     }
     
     public func update(updatedArt: Art) {
         pastArt.append(currentArt)
-        currentArt = updatedArt
+        currentArt = updatedArt.copy()
         futureArt = [Art]()
     }
     
-    public func undo() -> Art? {
+    public func undo() -> Art {
         if hasPast() {
             futureArt.insert(currentArt, at: 0)
             currentArt = pastArt.popLast()!
-            return currentArt
+            return currentArt.copy()
         }
-        return nil
+        return currentArt.copy()
     }
     
-    public func redo() -> Art? {
+    public func redo() -> Art {
         if hasFuture() {
             pastArt.append(currentArt)
             currentArt = futureArt.remove(at: 0)
-            return currentArt
+            return currentArt.copy()
         }
-        return nil
+        return currentArt.copy()
     }
     
     public func hasPast() -> Bool {

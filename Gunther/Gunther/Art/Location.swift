@@ -38,3 +38,13 @@ class Location {
     }
     
 }
+
+extension Location {
+    
+    func copy() -> Location {
+        let locationCopy = Location()
+        locationCopy.content = self.content.map { $0.copy() }
+        return locationCopy
+    }
+    
+}
