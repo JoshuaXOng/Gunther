@@ -13,6 +13,7 @@
 		8B00C713262913C500504203 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C711262913C500504203 /* Main.storyboard */; };
 		8B00C715262913C600504203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C714262913C600504203 /* Assets.xcassets */; };
 		8B00C718262913C600504203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C716262913C600504203 /* LaunchScreen.storyboard */; };
+		8B04A46B264CB9D1006BC1CB /* ArtManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B04A46A264CB9D1006BC1CB /* ArtManager.swift */; };
 		8B0FDC0A2646AA8E006868DD /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0FDC092646AA8E006868DD /* UIViewController+Extensions.swift */; };
 		8B1471FB2648C16400ED5264 /* ToolPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1471FA2648C16400ED5264 /* ToolPickerViewController.swift */; };
 		8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */; };
@@ -56,6 +57,7 @@
 		8B00C714262913C600504203 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B00C717262913C600504203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B00C719262913C600504203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B04A46A264CB9D1006BC1CB /* ArtManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtManager.swift; sourceTree = "<group>"; };
 		8B0FDC092646AA8E006868DD /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		8B1471FA2648C16400ED5264 /* ToolPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolPickerViewController.swift; sourceTree = "<group>"; };
 		8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 		8BC213C02632AC5F00719579 /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				8B04A46A264CB9D1006BC1CB /* ArtManager.swift */,
 				8BCACA1B2632847800FAF97B /* Art.swift */,
 				8BCACA1E2632849A00FAF97B /* Location.swift */,
 				8BCACA21263284D700FAF97B /* Pixel.swift */,
@@ -314,6 +317,7 @@
 				8B7EFBA2263AD72C00A99675 /* SavedArt.swift in Sources */,
 				8B00C70E262913C500504203 /* SceneDelegate.swift in Sources */,
 				8BCACA15263282B800FAF97B /* Marker.swift in Sources */,
+				8B04A46B264CB9D1006BC1CB /* ArtManager.swift in Sources */,
 				8B5D8974263EE6CA00B37B61 /* FromCameraViewController.swift in Sources */,
 				8BCACA1F2632849A00FAF97B /* Location.swift in Sources */,
 			);
