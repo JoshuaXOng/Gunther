@@ -331,7 +331,7 @@
         <!--Community-->
         <scene sceneID="hZk-u0-tec">
             <objects>
-                <collectionViewController id="Wz7-U9-3Fe" sceneMemberID="viewController">
+                <collectionViewController id="Wz7-U9-3Fe" customClass="CommunityCollectionViewController" customModule="Gunther" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="fHZ-S2-SY7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -349,7 +349,9 @@
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="O6Z-oC-FLY">
                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </collectionViewCellContentView>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -358,10 +360,48 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Community" id="ZP4-Db-mnJ"/>
+                    <connections>
+                        <segue destination="uWA-cI-jP2" kind="show" identifier="ComToSpecComSegue" id="AdV-gx-LTS"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JfT-9G-ikA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2589.8550724637685" y="143.97321428571428"/>
+        </scene>
+        <!--Spec Community Collection View Controller-->
+        <scene sceneID="XIV-oH-DFF">
+            <objects>
+                <collectionViewController id="uWA-cI-jP2" customClass="SpecCommunityCollectionViewController" customModule="Gunther" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Yqr-mm-RHB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="AZa-AQ-mhm">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Sb7-Dd-k3B" customClass="SavedArtCollectionViewCell" customModule="Gunther" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hAH-ml-0pA">
+                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionViewCellContentView>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="uWA-cI-jP2" id="Mum-iZ-bEK"/>
+                            <outlet property="delegate" destination="uWA-cI-jP2" id="7zX-IS-JPe"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="BRK-ZN-txi"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tcu-i7-ejB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3474" y="143"/>
         </scene>
         <!--Item-->
         <scene sceneID="HEW-0M-cLb">
@@ -459,7 +499,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eWg-Cl-nVc"/>
+        <segue reference="Siv-pa-nu8"/>
     </inferredMetricsTieBreakers>
     <resources>
         <namedColor name="AccentColor">

@@ -14,6 +14,8 @@
 		8B00C715262913C600504203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C714262913C600504203 /* Assets.xcassets */; };
 		8B00C718262913C600504203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B00C716262913C600504203 /* LaunchScreen.storyboard */; };
 		8B04A46B264CB9D1006BC1CB /* ArtManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B04A46A264CB9D1006BC1CB /* ArtManager.swift */; };
+		8B04A46F264CFC42006BC1CB /* CommunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B04A46E264CFC42006BC1CB /* CommunityCollectionViewCell.swift */; };
+		8B04A472264D0B2F006BC1CB /* SpecCommunityCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B04A471264D0B2F006BC1CB /* SpecCommunityCollectionViewController.swift */; };
 		8B0FDC0A2646AA8E006868DD /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0FDC092646AA8E006868DD /* UIViewController+Extensions.swift */; };
 		8B1471FB2648C16400ED5264 /* ToolPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1471FA2648C16400ED5264 /* ToolPickerViewController.swift */; };
 		8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */; };
@@ -58,6 +60,8 @@
 		8B00C717262913C600504203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B00C719262913C600504203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B04A46A264CB9D1006BC1CB /* ArtManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtManager.swift; sourceTree = "<group>"; };
+		8B04A46E264CFC42006BC1CB /* CommunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCollectionViewCell.swift; sourceTree = "<group>"; };
+		8B04A471264D0B2F006BC1CB /* SpecCommunityCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecCommunityCollectionViewController.swift; sourceTree = "<group>"; };
 		8B0FDC092646AA8E006868DD /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		8B1471FA2648C16400ED5264 /* ToolPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolPickerViewController.swift; sourceTree = "<group>"; };
 		8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 				8BC213A526328D8B00719579 /* GoogleService-Info.plist */,
 				8B00C719262913C600504203 /* Info.plist */,
 				1C7F67C72640F70900A0B0C1 /* CommunityCollectionViewController.swift */,
+				8B04A46E264CFC42006BC1CB /* CommunityCollectionViewCell.swift */,
+				8B04A471264D0B2F006BC1CB /* SpecCommunityCollectionViewController.swift */,
 				8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */,
 				8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
@@ -291,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BCACA0C2632811900FAF97B /* CanvasViewDelegate.swift in Sources */,
+				8B04A472264D0B2F006BC1CB /* SpecCommunityCollectionViewController.swift in Sources */,
 				8BC3F7F726294F1300503419 /* ArtViewController.swift in Sources */,
 				8B0FDC0A2646AA8E006868DD /* UIViewController+Extensions.swift in Sources */,
 				8BCACA112632827A00FAF97B /* Pencil.swift in Sources */,
@@ -303,6 +310,7 @@
 				8BC213B72632933F00719579 /* User.swift in Sources */,
 				8B1471FB2648C16400ED5264 /* ToolPickerViewController.swift in Sources */,
 				8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */,
+				8B04A46F264CFC42006BC1CB /* CommunityCollectionViewCell.swift in Sources */,
 				8B6DEEF2264BAF1500DFAAD4 /* ToolPickerDelegate.swift in Sources */,
 				8B00C70C262913C500504203 /* AppDelegate.swift in Sources */,
 				8B614EDC263A6A36005B5C50 /* UIImage+Extensions.swift in Sources */,
