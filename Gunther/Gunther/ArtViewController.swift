@@ -92,8 +92,8 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             insertSavedArtSource()
         }
         
-        // Setup test artManager -- wrong position... for insertSaved...
-        artManager = ArtManager(art: art!)
+        // Setup test artManager -- wrong position... for insertSavedArtSource()
+        //artManager = ArtManager(art: art!)
         
         // Setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
@@ -166,6 +166,8 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
                 imageOfSavedArt = UIImage.resizeImage(image: imageOfSavedArt!, targetSize: CGSize(width: Int(width)!, height: Int(height)!))
                 
                 self.art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: imageOfSavedArt!)
+                
+                self.artManager = ArtManager(art: self.art!)
                                 
                 DispatchQueue.main.async {
                     self.setupCanvasView(width: CGFloat(Int(width)!), height: CGFloat(Int(height)!))

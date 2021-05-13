@@ -65,7 +65,8 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     }
     
     private func onFetchImagesCompletion() {
-        self.collectionView.reloadSections([self.SAVED_ART_SECTION])
+        self.collectionView.reloadData()
+        //self.collectionView.reloadSections([self.SAVED_ART_SECTION])
     }
     
     // MARK: - Implement DatabaseListner
