@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SavedArtCollectionViewCell: UICollectionViewCell {
+class ArtCollectionViewCell: UICollectionViewCell {
     
     var label: UILabel?
     var imageView: UIImageView?
@@ -16,7 +16,7 @@ class SavedArtCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
 
         self.contentView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
-        self.contentView.layer.cornerRadius = 2.5
+        self.contentView.layer.cornerRadius = 5
         
         imageView = UIImageView(frame: CGRect(x: 15, y: 15, width: self.bounds.size.width-30, height: self.bounds.size.height-30))
         imageView!.contentMode = UIView.ContentMode.scaleAspectFit
