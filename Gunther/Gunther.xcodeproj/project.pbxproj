@@ -21,7 +21,7 @@
 		8B3C24172634F6E400E3E751 /* SavedArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */; };
 		8B53829E264ABD3C00AE0238 /* ToolBrushCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B53829D264ABD3C00AE0238 /* ToolBrushCollectionViewCell.swift */; };
 		8B5382A2264ABD5900AE0238 /* ToolSizeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5382A1264ABD5900AE0238 /* ToolSizeCollectionViewCell.swift */; };
-		8B584986263FE06700443C14 /* SavedArtCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B584985263FE06700443C14 /* SavedArtCollectionViewCell.swift */; };
+		8B584986263FE06700443C14 /* ArtCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B584985263FE06700443C14 /* ArtCollectionViewCell.swift */; };
 		8B5D8974263EE6CA00B37B61 /* FromCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */; };
 		8B614EDC263A6A36005B5C50 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B614EDB263A6A36005B5C50 /* UIImage+Extensions.swift */; };
 		8B6DEEF2264BAF1500DFAAD4 /* ToolPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6DEEF1264BAF1500DFAAD4 /* ToolPickerDelegate.swift */; };
@@ -67,7 +67,7 @@
 		8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewController.swift; sourceTree = "<group>"; };
 		8B53829D264ABD3C00AE0238 /* ToolBrushCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBrushCollectionViewCell.swift; sourceTree = "<group>"; };
 		8B5382A1264ABD5900AE0238 /* ToolSizeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolSizeCollectionViewCell.swift; sourceTree = "<group>"; };
-		8B584985263FE06700443C14 /* SavedArtCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArtCollectionViewCell.swift; sourceTree = "<group>"; };
+		8B584985263FE06700443C14 /* ArtCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtCollectionViewCell.swift; sourceTree = "<group>"; };
 		8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromCameraViewController.swift; sourceTree = "<group>"; };
 		8B614EDB263A6A36005B5C50 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		8B6DEEF1264BAF1500DFAAD4 /* ToolPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolPickerDelegate.swift; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 				8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
 				8B3C24162634F6E400E3E751 /* SavedArtCollectionViewController.swift */,
-				8B584985263FE06700443C14 /* SavedArtCollectionViewCell.swift */,
+				8B584985263FE06700443C14 /* ArtCollectionViewCell.swift */,
 				8BC213BF2632ABF400719579 /* CanvasView */,
 				8BC213C02632AC5F00719579 /* Art */,
 				8BC213BE2632ABD800719579 /* Tool */,
@@ -320,7 +320,7 @@
 				8B5382A2264ABD5900AE0238 /* ToolSizeCollectionViewCell.swift in Sources */,
 				8B53829E264ABD3C00AE0238 /* ToolBrushCollectionViewCell.swift in Sources */,
 				8BC213A92632908100719579 /* FirebaseController.swift in Sources */,
-				8B584986263FE06700443C14 /* SavedArtCollectionViewCell.swift in Sources */,
+				8B584986263FE06700443C14 /* ArtCollectionViewCell.swift in Sources */,
 				8BC3F7FA2629557600503419 /* CanvasView.swift in Sources */,
 				8B7EFBA2263AD72C00A99675 /* SavedArt.swift in Sources */,
 				8B00C70E262913C500504203 /* SceneDelegate.swift in Sources */,

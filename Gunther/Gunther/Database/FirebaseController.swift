@@ -83,9 +83,9 @@ class FirebaseController: NSObject, DatabaseProtocol {
     
     func addArtToUser(user: User, art: SavedArt) -> Bool {
         userRef?.updateData(["artworks" : FieldValue.arrayUnion([[
-            "id": art.id,
+            "id": art.id, // Auto-generate
             "name": art.name,
-            "source": art.source,
+            "source": art.source, // Auto-generate
             "width": art.width,
             "height": art.height,
             "pixelSize": art.pixelSize

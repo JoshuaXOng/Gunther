@@ -9,7 +9,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class SpecCommunityCollectionViewController: UICollectionViewController {
+class SpecCommunityCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
     var firebaseController: FirebaseController?
@@ -25,7 +25,7 @@ class SpecCommunityCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
 
         // Register cell classes
-        self.collectionView!.register(SavedArtCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(ArtCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         // Get a reference to the applications database controller (cast it into Firebase controller)
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -38,16 +38,44 @@ class SpecCommunityCollectionViewController: UICollectionViewController {
         fetchImages()
         
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        databaseController?.addListener(listener: self)
     }
-    */
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        databaseController?.removeListener(listener: self)
+    }
+    
+    // MARK: - UICollectionViewDelegateFlowLayout
+    
+    private let sectionInsets = UIEdgeInsets(
+      top: 50.0,
+      left: 20.0,
+      bottom: 50.0,
+      right: 20.0)
+    
+    private let itemsPerRow: CGFloat = 2
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        let availableWidth = view.frame.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        
+        return CGSize(width: widthPerItem, height: widthPerItem)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.bottom
+    }
 
     // MARK: UICollectionViewDataSource
 
@@ -64,7 +92,7 @@ class SpecCommunityCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
  
-        let artCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? SavedArtCollectionViewCell
+        let artCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? ArtCollectionViewCell
     
         if artImages.count == art.count {
             guard let image = artImages[indexPath.row] else { return artCell! }
@@ -85,12 +113,26 @@ class SpecCommunityCollectionViewController: UICollectionViewController {
     }
     */
 
-    /*
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+
+        guard let user = firebaseController?.user else { return true }
+        let art = self.art[indexPath.row]
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.title = art.name
+        
+        actionSheet.addAction(UIAlertAction(title: "Download", style: .default) { _ in
+            _ = self.firebaseController?.addArtToUser(user: user, art: art)
+        })
+
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+ 
+        self.present(actionSheet, animated: true, completion: nil)
+        
         return true
+        
     }
-    */
 
     /*
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
@@ -104,6 +146,16 @@ class SpecCommunityCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    }
+    */
+    
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
     }
     */
 
@@ -145,5 +197,19 @@ extension SpecCommunityCollectionViewController {
     private func onFetchImagesCompletion() {
         self.collectionView.reloadData()
     }
+    
+}
+
+// MARK: - DatabaseListener
+
+extension SpecCommunityCollectionViewController {
+
+    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
+        let updatedCommunity = categories.filter { $0.id == community?.id }
+        community = updatedCommunity.first
+        fetchImages()
+    }
+    
+    func onUserChange(change: DatabaseChange, user: User) {}
     
 }

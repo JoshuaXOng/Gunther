@@ -10,11 +10,13 @@ import UIKit
 class CommunityCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var databaseController: DatabaseProtocol?
+    var firebaseController: FirebaseController?
     var listenerType = ListenerType.categories
     
     let COMMUNITY_SECTION = 0
     let COMMUNITY_CELL = "CommunityCell"
     var categories = [Category]()
+    var categoryImages = [UIImage?]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +25,40 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return
         }
         databaseController = appDelegate.databaseController
+        firebaseController = databaseController as? FirebaseController
         
         // Register cell classes
         self.collectionView!.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: COMMUNITY_CELL)
+        
+        setupBackground()
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        databaseController?.addListener(listener: self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        databaseController?.removeListener(listener: self)
+    }
+    
+    private func setupBackground() {
+        
+        // Initialize the background view.
+        collectionView.backgroundView = UIView(frame: CGRect(x: 1, y: 1, width: 1, height: 1))
+        
+        let bgView = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+        bgView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
+        bgView.layer.cornerRadius = 5
+        collectionView.backgroundView?.addSubview(bgView)
+        
+        bgView.translatesAutoresizingMaskIntoConstraints = false
+        bgView.leftAnchor.constraint(equalTo: collectionView.backgroundView!.leftAnchor, constant: 10).isActive = true
+        bgView.rightAnchor.constraint(equalTo: collectionView.backgroundView!.rightAnchor, constant: -10).isActive = true
+        bgView.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 40).isActive = true
+        bgView.bottomAnchor.constraint(equalTo: collectionView.backgroundView!.bottomAnchor, constant: -10).isActive = true
         
     }
     
@@ -71,9 +104,11 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         
         let communityCell = collectionView.dequeueReusableCell(withReuseIdentifier: COMMUNITY_CELL, for: indexPath) as? CommunityCollectionViewCell
         
-        //let category = categories[indexPath.row]
-        //communityCell.name = category.name
-        // Also have a cover image.
+        if categories.count == categoryImages.count {
+            let category = categories[indexPath.row]
+            communityCell?.label?.text = category.name
+            communityCell?.imageView?.image = categoryImages[indexPath.row]
+        }
         
         return communityCell!
     
@@ -127,25 +162,55 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
     
 }
 
-// MARK: - DatabaseListener related functions
+// MARK: - DatabaseListener
 
 extension CommunityCollectionViewController: DatabaseListener {
     
     func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
         self.categories = categories
-        collectionView.reloadData()
+        fetchImages()
+        //collectionView.reloadData()
     }
     
     func onUserChange(change: DatabaseChange, user: User) {}
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        databaseController?.addListener(listener: self)
+}
+
+// MARK: - Database functions
+
+extension CommunityCollectionViewController {
+    
+    private func fetchImages() {
+        
+        categoryImages = [UIImage?](repeating: nil, count: categories.count)
+        var counter = 0
+        
+        for (index, category) in categories.enumerated() {
+            
+            guard let source = category.source else { return }
+            
+            firebaseController?.fetchDataAtStorageRef(source: source) { data in
+                
+                counter += 1
+                
+                guard let categoryUIImage = UIImage(data: data) else { return }
+                
+                self.categoryImages.remove(at: index)
+                self.categoryImages.insert(categoryUIImage, at: index)
+
+                // Can't append must replace -- we do not know the order in which responses will be delivered.
+                if counter == self.categories.count {
+                    self.onFetchImagesCompletion()
+                }
+                
+            }
+            
+        }
+        
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        databaseController?.removeListener(listener: self)
+    private func onFetchImagesCompletion() {
+        self.collectionView.reloadData()
     }
     
 }

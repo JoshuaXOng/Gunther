@@ -24,7 +24,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         super.viewDidLoad()
 
         // Register cell classes
-        self.collectionView!.register(SavedArtCollectionViewCell.self, forCellWithReuseIdentifier: SAVED_ART_CELL)
+        self.collectionView!.register(ArtCollectionViewCell.self, forCellWithReuseIdentifier: SAVED_ART_CELL)
         
         // Get a reference to the applications database controller (cast it into Firebase controller)
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -103,7 +103,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath) as! SavedArtCollectionViewCell
+        let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath) as! ArtCollectionViewCell
         
         if savedArtImages.count == savedArt.count {
             //savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
