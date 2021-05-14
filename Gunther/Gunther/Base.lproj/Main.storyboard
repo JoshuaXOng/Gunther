@@ -311,11 +311,11 @@
             </objects>
             <point key="canvasLocation" x="3473.913043478261" y="-583.25892857142856"/>
         </scene>
-        <!--Item-->
+        <!--New Art-->
         <scene sceneID="nm0-v8-bXM">
             <objects>
                 <navigationController id="oBc-XB-buq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Rc6-SI-LLO"/>
+                    <tabBarItem key="tabBarItem" title="New Art" image="pencil" catalog="system" id="Rc6-SI-LLO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="WoH-cf-yMx">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -403,11 +403,11 @@
             </objects>
             <point key="canvasLocation" x="3474" y="143"/>
         </scene>
-        <!--Item-->
+        <!--Community-->
         <scene sceneID="HEW-0M-cLb">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NIW-J9-6wI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="cgr-Ew-UqK"/>
+                    <tabBarItem key="tabBarItem" title="Community" image="person.3.fill" catalog="system" id="cgr-Ew-UqK"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mjr-wI-2Xk">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -460,11 +460,11 @@
             </objects>
             <point key="canvasLocation" x="2589.8550724637685" y="894.64285714285711"/>
         </scene>
-        <!--Item-->
+        <!--Saved Art-->
         <scene sceneID="5RZ-G3-5PG">
             <objects>
                 <navigationController id="gdp-6K-EEH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="bmh-gg-Lmc"/>
+                    <tabBarItem key="tabBarItem" title="Saved Art" image="person.fill" catalog="system" id="bmh-gg-Lmc"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="V3n-Ab-VQz">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -504,6 +504,9 @@
     <resources>
         <image name="arrowshape.turn.up.backward.fill" catalog="system" width="128" height="106"/>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="person.3.fill" catalog="system" width="128" height="61"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
