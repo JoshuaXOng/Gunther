@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum DatabaseChange {
     
@@ -37,15 +38,14 @@ protocol DatabaseProtocol: AnyObject {
     
     func addListener(listener: DatabaseListener)
     func removeListener(listener: DatabaseListener)
-
-    //func fetchAllCategories() -> [Category]
     
     func addArtToCategory(category: Category, art: SavedArt) -> Bool
     func removeArtFromCategory(category: Category, art: SavedArt) -> Bool
+    func fetchAllArtImagesFromCategory(category: Category, completionHandler: @escaping ([UIImage?]) -> Void) -> [UIImage?]
     
     func addArtToUser(user: User, art: SavedArt) -> Bool
     func removeArtFromUser(user: User, art: SavedArt) -> Bool
-    //func fetchAllArtFromUser(user: User) -> [Art]
+    func fetchAllArtImagesFromUser(user: User, completionHandler: @escaping ([UIImage?]) -> Void) -> [UIImage?]
     
 }
 
