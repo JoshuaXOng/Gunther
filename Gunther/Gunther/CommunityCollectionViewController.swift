@@ -7,10 +7,9 @@
 
 import UIKit
 
-class CommunityCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class CommunityCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
-    var firebaseController: FirebaseController?
     var listenerType = ListenerType.categories
     
     let COMMUNITY_SECTION = 0
@@ -22,10 +21,10 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         super.viewDidLoad()
             
         // Get reference to database contoller
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
         }
         databaseController = appDelegate.databaseController
-        firebaseController = databaseController as? FirebaseController
         
         // Register cell classes
         self.collectionView!.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: COMMUNITY_CELL)
@@ -62,6 +61,64 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         
     }
     
+    // MARK: - DatabaseListner
+    
+    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
+        self.categories = categories
+        //categoryImages = ...len of self.categories...
+        fetchCategoryImages()
+    }
+    
+    func onUserChange(change: DatabaseChange, user: User) {}
+    
+    // MARK: - Database functions
+        
+    private func fetchCategoryImages() {
+        
+        let firebaseController = databaseController as? FirebaseController
+        
+        categoryImages = [UIImage?](repeating: nil, count: categories.count)
+        
+        var noAttempts = 0
+        
+        for (index, category) in categories.enumerated() {
+            
+            guard let source = category.source else {
+                noAttempts += 1
+                continue
+            }
+            
+            firebaseController?.fetchDataAtStorageRef(source: source) { data, error in
+                
+                if let error = error {
+                    noAttempts += 1
+                    print(error)
+                    return
+                }
+                
+                guard let categoryUIImage = UIImage(data: data!) else {
+                    noAttempts += 1
+                    print("The data from the reference endpoint could not be decoded into a UIImage.")
+                    return
+                }
+                
+                self.categoryImages[index] = categoryUIImage
+                noAttempts += 1
+                
+                if noAttempts == self.categories.count {
+                    self.onFetchCategoryImagesCompletion()
+                }
+                
+            }
+            
+        }
+        
+    }
+        
+    private func onFetchCategoryImagesCompletion() {
+        self.collectionView.reloadData()
+    }
+    
     // MARK: - UICollectionViewDelegateFlowLayout
     
     private let sectionInsets = UIEdgeInsets(
@@ -90,7 +147,7 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         return sectionInsets.bottom
     }
     
-    // MARK: UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -104,11 +161,11 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         
         let communityCell = collectionView.dequeueReusableCell(withReuseIdentifier: COMMUNITY_CELL, for: indexPath) as? CommunityCollectionViewCell
         
-        if categories.count == categoryImages.count {
+        //if categories.count == categoryImages.count {
             let category = categories[indexPath.row]
             communityCell?.label?.text = category.name
             communityCell?.imageView?.image = categoryImages[indexPath.row]
-        }
+        //}
         
         return communityCell!
     
@@ -162,55 +219,3 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
     
 }
 
-// MARK: - DatabaseListener
-
-extension CommunityCollectionViewController: DatabaseListener {
-    
-    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
-        self.categories = categories
-        fetchImages()
-        //collectionView.reloadData()
-    }
-    
-    func onUserChange(change: DatabaseChange, user: User) {}
-    
-}
-
-// MARK: - Database functions
-
-extension CommunityCollectionViewController {
-    
-    private func fetchImages() {
-        
-        categoryImages = [UIImage?](repeating: nil, count: categories.count)
-        var counter = 0
-        
-        for (index, category) in categories.enumerated() {
-            
-            guard let source = category.source else { return }
-            
-            firebaseController?.fetchDataAtStorageRef(source: source) { data in
-                
-                counter += 1
-                
-                guard let categoryUIImage = UIImage(data: data) else { return }
-                
-                self.categoryImages.remove(at: index)
-                self.categoryImages.insert(categoryUIImage, at: index)
-
-                // Can't append must replace -- we do not know the order in which responses will be delivered.
-                if counter == self.categories.count {
-                    self.onFetchImagesCompletion()
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-    private func onFetchImagesCompletion() {
-        self.collectionView.reloadData()
-    }
-    
-}

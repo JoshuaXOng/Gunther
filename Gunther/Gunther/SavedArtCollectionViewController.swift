@@ -12,7 +12,6 @@ import FirebaseFirestoreSwift
 class SavedArtCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
-    var firebaseController: FirebaseController?
     var listenerType = ListenerType.user
     
     let SAVED_ART_SECTION = 0
@@ -31,59 +30,12 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
             return
         }
         databaseController = appDelegate.databaseController
-        firebaseController = databaseController as? FirebaseController
         
     }
-    
-    private func fetchImages() {
-        
-        savedArtImages = [UIImage?](repeating: nil, count: savedArt.count)
-        var counter = 0
-        
-        for (index, savedArtSingular) in savedArt.enumerated() {
-            
-            guard let source = savedArtSingular.source else { return }
-            
-            firebaseController?.fetchDataAtStorageRef(source: source) { data in
-                
-                counter += 1
-                
-                guard let savedArtUIImage = UIImage(data: data) else { return }
-                
-                self.savedArtImages.remove(at: index)
-                self.savedArtImages.insert(savedArtUIImage, at: index)
-
-                // Can't append must replace -- we do not know the order in which responses will be delivered.
-                if counter == self.savedArt.count {
-                    self.onFetchImagesCompletion()
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-    private func onFetchImagesCompletion() {
-        self.collectionView.reloadData()
-        //self.collectionView.reloadSections([self.SAVED_ART_SECTION])
-    }
-    
-    // MARK: - Implement DatabaseListner
-    // With the flashing problem -- solution is likely, always listen, or prevent tab controller from caching.
-
-    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
-    
-    func onUserChange(change: DatabaseChange, user: User) {
-        savedArt = user.artworks
-        fetchImages()
-    }
-    
-    // MARK: - View (dis)appearance setup/deconstructing
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        databaseController?.addListener(listener: self) // Only add listener once...
+        databaseController?.addListener(listener: self)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,6 +43,30 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         databaseController?.removeListener(listener: self)
     }
     
+    // MARK: - Implement DatabaseListner
+
+    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
+    
+    func onUserChange(change: DatabaseChange, user: User) {
+        
+        //savedArt = user.artworks
+        //fetchImages()
+        
+        let firebaseController = databaseController as? FirebaseController
+        _ = firebaseController?.fetchAllArtImagesFromUser(user: user) { images in
+            self.savedArt = user.artworks
+            self.savedArtImages = images
+            self.onFetchArtImagesCompletion()
+        }
+        
+    }
+    
+    // MARK: - Database functions
+    
+    private func onFetchArtImagesCompletion() {
+        self.collectionView.reloadData()
+    }
+
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -170,7 +146,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
 
-        guard let firebaseController = firebaseController else {
+        guard let firebaseController = databaseController as? FirebaseController else {
             return false
         }
         let user = firebaseController.user

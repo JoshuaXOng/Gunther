@@ -12,7 +12,6 @@ private let reuseIdentifier = "Cell"
 class SpecCommunityCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
-    var firebaseController: FirebaseController?
     var listenerType = ListenerType.categories
     
     let ART_SECTION = 0
@@ -32,10 +31,10 @@ class SpecCommunityCollectionViewController: UICollectionViewController, UIColle
             return
         }
         databaseController = appDelegate.databaseController
-        firebaseController = databaseController as? FirebaseController
         
         art = community!.artworks
-        fetchImages()
+        artImages = [UIImage?](repeating: nil, count: art.count)
+        //fetchImages()
         
     }
     
@@ -47,6 +46,29 @@ class SpecCommunityCollectionViewController: UICollectionViewController, UIColle
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         databaseController?.removeListener(listener: self)
+    }
+    
+    // MARK: - DatabaseListener
+
+    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
+        
+        let updatedCommunity = categories.filter { $0.id == community?.id }
+        community = updatedCommunity.first
+        
+        let firebaseController = databaseController as? FirebaseController
+        _ = firebaseController?.fetchAllArtImagesFromCategory(category: self.community!) { images in
+            self.art = self.community!.artworks
+            self.onFetchArtImagesCompletion(images: images)
+        }
+        
+    }
+    
+    func onUserChange(change: DatabaseChange, user: User) {}
+    
+    // MARK: - Database functions
+    
+    private func onFetchArtImagesCompletion(images: [UIImage?]) {
+        self.collectionView.reloadData()
     }
     
     // MARK: - UICollectionViewDelegateFlowLayout
@@ -94,11 +116,11 @@ class SpecCommunityCollectionViewController: UICollectionViewController, UIColle
  
         let artCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? ArtCollectionViewCell
     
-        if artImages.count == art.count {
+        //if artImages.count == art.count {
             guard let image = artImages[indexPath.row] else { return artCell! }
             artCell!.imageView?.image = image
             artCell!.label?.text = art[indexPath.row].name
-        }
+        //}
         
         return artCell!
     
@@ -115,7 +137,8 @@ class SpecCommunityCollectionViewController: UICollectionViewController, UIColle
 
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-
+        
+        let firebaseController = databaseController as? FirebaseController
         guard let user = firebaseController?.user else { return true }
         let art = self.art[indexPath.row]
         
@@ -123,7 +146,7 @@ class SpecCommunityCollectionViewController: UICollectionViewController, UIColle
         actionSheet.title = art.name
         
         actionSheet.addAction(UIAlertAction(title: "Download", style: .default) { _ in
-            _ = self.firebaseController?.addArtToUser(user: user, art: art)
+            _ = firebaseController?.addArtToUser(user: user, art: art)
         })
 
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -161,55 +184,8 @@ class SpecCommunityCollectionViewController: UICollectionViewController, UIColle
 
 }
 
-// MARK: - Database functions
 
-extension SpecCommunityCollectionViewController {
-    
-    private func fetchImages() {
-        
-        artImages = [UIImage?](repeating: nil, count: art.count)
-        var counter = 0
-        
-        for (index, artSingular) in art.enumerated() {
-            
-            guard let source = artSingular.source else { return }
-            
-            firebaseController?.fetchDataAtStorageRef(source: source) { data in
-                
-                counter += 1
-                
-                guard let artUIImage = UIImage(data: data) else { return }
-                
-                self.artImages.remove(at: index)
-                self.artImages.insert(artUIImage, at: index)
 
-                // Can't append must replace -- we do not know the order in which responses will be delivered.
-                if counter == self.art.count {
-                    self.onFetchImagesCompletion()
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-    private func onFetchImagesCompletion() {
-        self.collectionView.reloadData()
-    }
-    
-}
 
-// MARK: - DatabaseListener
-
-extension SpecCommunityCollectionViewController {
-
-    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
-        let updatedCommunity = categories.filter { $0.id == community?.id }
-        community = updatedCommunity.first
-        fetchImages()
-    }
     
-    func onUserChange(change: DatabaseChange, user: User) {}
-    
-}
+

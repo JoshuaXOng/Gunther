@@ -13,8 +13,8 @@ import FirebaseStorageSwift
 class FirebaseController: NSObject, DatabaseProtocol {
     
     var listeners = MulticastDelegate<DatabaseListener>()
-    var categories: [Category]
-    var user: User
+    var categories = [Category]()
+    var user = User()
     
     // References to Firebase services and entities.
     var authController: Auth
@@ -22,7 +22,6 @@ class FirebaseController: NSObject, DatabaseProtocol {
     var storage: Storage
     var categoriesRef: CollectionReference?
     var userRef: DocumentReference?
-    var savedArtRef: CollectionReference
     
     override init() {
         
@@ -30,11 +29,7 @@ class FirebaseController: NSObject, DatabaseProtocol {
         authController = Auth.auth()
         firestore = Firestore.firestore()
         storage = Storage.storage()
-        savedArtRef = firestore.collection("Artworks")
         
-        categories = [Category]()
-        user = User()
-
         super.init()
         
         authController.signInAnonymously() { (authResult, error) in
@@ -59,7 +54,7 @@ class FirebaseController: NSObject, DatabaseProtocol {
             listener.onCategoriesChange(change: .update, categories: categories)
         }
         else if listenerType == .user || listenerType == .all {
-            listener.onUserChange(change: .update, user: user) // Changed to .add from .update
+            listener.onUserChange(change: .update, user: user)
         }
     }
     
