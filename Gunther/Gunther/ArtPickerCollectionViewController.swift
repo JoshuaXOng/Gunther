@@ -1,18 +1,18 @@
 //
-//  SpecCommunityCollectionViewController.swift
+//  ArtPickerCollectionViewController.swift
 //  Gunther
 //
-//  Created by user184453 on 5/13/21.
+//  Created by user184453 on 5/15/21.
 //
 
 import UIKit
 
-class SpecCommunityCollectionViewController: GenericArtCollectionViewController, DatabaseListener {
-    
+class ArtPickerCollectionViewController: GenericArtCollectionViewController, DatabaseListener {
+
     var databaseController: DatabaseProtocol?
-    var listenerType = ListenerType.categories
+    var listenerType = ListenerType.user
     
-    var community: Category?
+    var category: Category?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +22,6 @@ class SpecCommunityCollectionViewController: GenericArtCollectionViewController,
             return
         }
         databaseController = appDelegate.databaseController
-        
-        art = community!.artworks
-        artImages = [UIImage?](repeating: nil, count: art.count)
         
     }
     
@@ -38,23 +35,28 @@ class SpecCommunityCollectionViewController: GenericArtCollectionViewController,
         databaseController?.removeListener(listener: self)
     }
     
-    // MARK: - DatabaseListener
+    // MARK: - Implement DatabaseListner
 
-    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
-        
-        let updatedCommunity = categories.filter { $0.id == community?.id }
-        community = updatedCommunity.first
-        
+    func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
+    
+    func onUserChange(change: DatabaseChange, user: User) {
         let firebaseController = databaseController as? FirebaseController
-        _ = firebaseController?.fetchAllArtImagesFromCategory(category: community!) { images in
-            self.art = self.community!.artworks
+        _ = firebaseController?.fetchAllArtImagesFromUser(user: user) { images in
+            self.art = user.artworks
             self.artImages = images
             self.collectionView.reloadData()
         }
-        
     }
-    
-    func onUserChange(change: DatabaseChange, user: User) {}
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+    }
+    */
 
     // MARK: UICollectionViewDelegate
 
@@ -67,24 +69,22 @@ class SpecCommunityCollectionViewController: GenericArtCollectionViewController,
 
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let firebaseController = databaseController as? FirebaseController
-        guard let user = firebaseController?.user else { return true }
-        let art = self.art[indexPath.row]
         
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        actionSheet.title = art.name
+        let artCopy = art[indexPath.row].copy_()
         
-        actionSheet.addAction(UIAlertAction(title: "Download", style: .default) { _ in
-            _ = firebaseController?.addArtToUser(user: user, art: art)
-        })
-
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
- 
-        self.present(actionSheet, animated: true, completion: nil)
+        _ = firebaseController?.addArtToCategory(category: category!, art: artCopy)
         
-        return true
-        
+        firebaseController?.fetchDataAtStorageRef(source: "UserArt/"+art[indexPath.row].source!) { data, error in
+            firebaseController?.putDataAtStorageRef(source: "CategoryArt/"+artCopy.source!, data: data!)
+        }
+            
+        dismiss(animated: true, completion: nil)
     }
 
     /*
@@ -101,21 +101,5 @@ class SpecCommunityCollectionViewController: GenericArtCollectionViewController,
     
     }
     */
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "SpecComToSavedArtPrevSegue" {
-            let destination = segue.destination as? ArtPickerCollectionViewController
-            destination?.category = community
-        }
-    }
 
 }
-
-
-
-
-    
-

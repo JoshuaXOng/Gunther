@@ -409,10 +409,10 @@
             </objects>
             <point key="canvasLocation" x="3474" y="143"/>
         </scene>
-        <!--Collection View Controller-->
+        <!--Art Picker Collection View Controller-->
         <scene sceneID="sq0-Xh-U0E">
             <objects>
-                <collectionViewController id="BU0-HL-jmm" sceneMemberID="viewController">
+                <collectionViewController interfaceStyle="light" id="BU0-HL-jmm" customClass="ArtPickerCollectionViewController" customModule="Gunther" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Hu1-kp-PiU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

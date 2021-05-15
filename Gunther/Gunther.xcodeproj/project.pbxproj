@@ -27,6 +27,7 @@
 		8B6DEEF2264BAF1500DFAAD4 /* ToolPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6DEEF1264BAF1500DFAAD4 /* ToolPickerDelegate.swift */; };
 		8B7EFBA2263AD72C00A99675 /* SavedArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7EFBA1263AD72C00A99675 /* SavedArt.swift */; };
 		8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */; };
+		8BA78419264FE61000607124 /* ArtPickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA78418264FE61000607124 /* ArtPickerCollectionViewController.swift */; };
 		8BBBDA34264FB1D000401538 /* GenericArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBBDA33264FB1D000401538 /* GenericArtCollectionViewController.swift */; };
 		8BC213A626328D8B00719579 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BC213A526328D8B00719579 /* GoogleService-Info.plist */; };
 		8BC213A92632908100719579 /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC213A82632908100719579 /* FirebaseController.swift */; };
@@ -74,6 +75,7 @@
 		8B6DEEF1264BAF1500DFAAD4 /* ToolPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolPickerDelegate.swift; sourceTree = "<group>"; };
 		8B7EFBA1263AD72C00A99675 /* SavedArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArt.swift; sourceTree = "<group>"; };
 		8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewArtViewController.swift; sourceTree = "<group>"; };
+		8BA78418264FE61000607124 /* ArtPickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtPickerCollectionViewController.swift; sourceTree = "<group>"; };
 		8BBBDA33264FB1D000401538 /* GenericArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericArtCollectionViewController.swift; sourceTree = "<group>"; };
 		8BC213A526328D8B00719579 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8BC213A82632908100719579 /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				1C7F67C72640F70900A0B0C1 /* CommunityCollectionViewController.swift */,
 				8B04A46E264CFC42006BC1CB /* CommunityCollectionViewCell.swift */,
 				8B04A471264D0B2F006BC1CB /* SpecCommunityCollectionViewController.swift */,
+				8BA78418264FE61000607124 /* ArtPickerCollectionViewController.swift */,
 				8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */,
 				8B5D8973263EE6CA00B37B61 /* FromCameraViewController.swift */,
 				8BC3F7F626294F1300503419 /* ArtViewController.swift */,
@@ -303,6 +306,7 @@
 				8B04A472264D0B2F006BC1CB /* SpecCommunityCollectionViewController.swift in Sources */,
 				8BC3F7F726294F1300503419 /* ArtViewController.swift in Sources */,
 				8B0FDC0A2646AA8E006868DD /* UIViewController+Extensions.swift in Sources */,
+				8BA78419264FE61000607124 /* ArtPickerCollectionViewController.swift in Sources */,
 				8BCACA112632827A00FAF97B /* Pencil.swift in Sources */,
 				8BC213B02632925E00719579 /* MulticastDelegate.swift in Sources */,
 				8BCACA09263280EB00FAF97B /* Tool.swift in Sources */,

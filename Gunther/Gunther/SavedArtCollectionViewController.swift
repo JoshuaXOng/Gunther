@@ -14,18 +14,8 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
     var databaseController: DatabaseProtocol?
     var listenerType = ListenerType.user
     
-    /*
-    let SAVED_ART_SECTION = 0
-    let SAVED_ART_CELL = "SavedArtCell"
-    var savedArt = [SavedArt]()
-    var savedArtImages = [UIImage?]()
-    */
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Register cell classes
-        //self.collectionView!.register(ArtCollectionViewCell.self, forCellWithReuseIdentifier: ART_CELL)
         
         // Get a reference to the applications database controller (cast it into Firebase controller)
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -54,14 +44,8 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
         _ = firebaseController?.fetchAllArtImagesFromUser(user: user) { images in
             self.art = user.artworks
             self.artImages = images
-            self.onFetchArtImagesCompletion()
+            self.collectionView.reloadData()
         }
-    }
-    
-    // MARK: - Database functions
-    
-    private func onFetchArtImagesCompletion() {
-        self.collectionView.reloadData()
     }
     
     // MARK: UICollectionViewDelegate

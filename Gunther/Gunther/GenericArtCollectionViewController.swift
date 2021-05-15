@@ -9,7 +9,6 @@ import UIKit
 
 class GenericArtCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    
     let ART_SECTION = 0
     let ART_CELL = "SavedArtCell"
     var art = [SavedArt]()
