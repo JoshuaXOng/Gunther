@@ -21,6 +21,7 @@ class ArtManager {
         pastArt.append(currentArt)
         currentArt = updatedArt.copy()
         futureArt = [Art]()
+        truncatePast()
     }
     
     public func undo() -> Art {
@@ -47,6 +48,12 @@ class ArtManager {
     
     public func hasFuture() -> Bool {
         return !futureArt.isEmpty
+    }
+    
+    private func truncatePast() {
+        if pastArt.count > 5 {
+            pastArt.remove(at: 0)
+        }
     }
     
 }

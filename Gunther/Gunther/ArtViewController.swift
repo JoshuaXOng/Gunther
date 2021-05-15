@@ -78,7 +78,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
                   let pixelSize = savedArt?.pixelSize else {
                 return
             }
-            setupCanvasView(width: CGFloat(Float(width)!), height: CGFloat(Float(height)!))
+            //setupCanvasView(width: CGFloat(Float(width)!), height: CGFloat(Float(height)!))
             
             if let baseImage = baseImage {
                 art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: baseImage)
@@ -86,14 +86,13 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             else {
                 art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!)
             }
-            
+            onArtAssigned()
         }
         else {
-            insertSavedArtSource()
+            assignArtFromSource() {
+                self.onArtAssigned()
+            }
         }
-        
-        // Setup test artManager -- wrong position... for insertSavedArtSource()
-        //artManager = ArtManager(art: art!)
         
         // Setup colorPickerController
         colorPickerController.selectedColor = UIColor.black
@@ -108,7 +107,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
     }
     
-    // MARK: - Setup canvas view with saved artwork.
+    // MARK: - Utils for canvas view setup
     
     private func setupCanvasView(width: CGFloat, height: CGFloat) {
                     
@@ -138,48 +137,38 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
     }
     
-    private func insertSavedArtSource() {
+    private func assignArtFromSource(completionHandler: @escaping () -> Void) {
         
         guard let firebaseController = databaseController as? FirebaseController,
-              let savedArt = self.savedArt,
-              let savedArtSource = savedArt.source else {
+              let savedArt = self.savedArt else {
             return
         }
         
-        let savedArtRef = firebaseController.storage.reference(withPath: savedArtSource)
-        savedArtRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+        _ = firebaseController.fetchArtImageFromArt(art: savedArt) { image in
             
-            if let error = error {
-                print(error)
+            guard let name = savedArt.name,
+                  let width = savedArt.width,
+                  let height = savedArt.height,
+                  let pixelSize = savedArt.pixelSize else {
+                return
             }
             
-            else {
-                
-                guard let name = savedArt.name,
-                      let width = savedArt.width,
-                      let height = savedArt.height,
-                      let pixelSize = savedArt.pixelSize else {
-                    return
-                }
-                
-                var imageOfSavedArt = UIImage(data: data!)
-                imageOfSavedArt = UIImage.resizeImage(image: imageOfSavedArt!, targetSize: CGSize(width: Int(width)!, height: Int(height)!))
-                
-                self.art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: imageOfSavedArt!)
-                
-                self.artManager = ArtManager(art: self.art!)
-                                
-                DispatchQueue.main.async {
-                    self.setupCanvasView(width: CGFloat(Int(width)!), height: CGFloat(Int(height)!))
-                }
-                
-            }
+            self.art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: image!)
+            
+            completionHandler()
             
         }
         
     }
     
-    // MARK: - Implement CanvasViewDelegate
+    private func onArtAssigned() {
+        
+        setupCanvasView(width: CGFloat(art!.width), height: CGFloat(art!.height))
+        artManager = ArtManager(art: art!)
+        
+    }
+    
+    // MARK: - CanvasViewDelegate
     
     func onTouchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -216,7 +205,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         artManager?.update(updatedArt: art!)
     }
     
-    // MARK: - Implement UIColorPickerViewControllerDelegate
+    // MARK: - UIColorPickerViewControllerDelegate
     
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
         //let centerOfSVContent = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
@@ -237,26 +226,19 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         //canvas?.center = centerOfSVContent
     }
     
-    // MARK: - Save art to database
+    // MARK: - Database functions
     
     func updateSavedArt() {
         
         guard let firebaseController = databaseController as? FirebaseController,
-              let savedArt = self.savedArt,
+              let savedArt = savedArt,
               let savedArtSource = savedArt.source else {
             return
         }
         
         let _ = firebaseController.addArtToUser(user: firebaseController.user, art: savedArt)
         
-        let data = art!.getPNGData()!
-        
-        let savedArtRef = firebaseController.storage.reference(withPath: savedArtSource)
-        let _ = savedArtRef.putData(data, metadata: nil) { (metadata, error) in
-            if let error = error {
-                print(error)
-            }
-        }
+        firebaseController.putDataAtStorageRef(source: "UserArt/"+savedArtSource, data: (art?.getPNGData())!)
         
     }
     

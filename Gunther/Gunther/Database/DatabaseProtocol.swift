@@ -39,6 +39,8 @@ protocol DatabaseProtocol: AnyObject {
     func addListener(listener: DatabaseListener)
     func removeListener(listener: DatabaseListener)
     
+    func fetchArtImageFromArt(art: SavedArt, completionHandler: @escaping (UIImage?) -> Void) -> [UIImage?]
+    
     func addArtToCategory(category: Category, art: SavedArt) -> Bool
     func removeArtFromCategory(category: Category, art: SavedArt) -> Bool
     func fetchAllArtImagesFromCategory(category: Category, completionHandler: @escaping ([UIImage?]) -> Void) -> [UIImage?]

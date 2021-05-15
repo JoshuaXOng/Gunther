@@ -36,7 +36,7 @@ class FirebaseController: NSObject, DatabaseProtocol {
             guard authResult != nil else {
                 fatalError("Firebase Auth failed with Error: \(String(describing: error))")
             }
-            self.userRef = self.firestore.collection("Users").document("FnRAR2gPt6sprPdfTEN3")
+            self.userRef = self.firestore.collection("Users").document("3TvMj0AkUw6BSRuFEW18")
             self.setupUserListener()
             self.setupCategoriesListener()
         }
@@ -60,6 +60,30 @@ class FirebaseController: NSObject, DatabaseProtocol {
     
     func removeListener(listener: DatabaseListener) {
         listeners.removeDelegate(listener)
+    }
+    
+    func fetchArtImageFromArt(art: SavedArt, completionHandler: @escaping (UIImage?) -> Void) -> [UIImage?] {
+        
+        fetchDataAtStorageRef(source: "UserArt/"+art.source!) { data, error in
+            
+            if let error = error {
+                print(error)
+            }
+                
+            guard let width = art.width,
+                  let height = art.height else {
+                return
+            }
+            
+            let artImage = UIImage(data: data!)
+            let resizedArtImage = UIImage.resizeImage(image: artImage!, targetSize: CGSize(width: Int(width)!, height: Int(height)!))
+            
+            completionHandler(resizedArtImage)
+            
+        }
+        
+        return [UIImage?]()
+        
     }
     
     func addArtToCategory(category: Category, art: SavedArt) -> Bool {
@@ -303,6 +327,8 @@ class FirebaseController: NSObject, DatabaseProtocol {
             completionHandler(data, error)
         }
     }
+    
+    func fetchDataAsUIImageAtStorageRef() {}
     
     func putDataAtStorageRef(source: String, data: Data) {
         let targetRef = storage.reference(withPath: source)

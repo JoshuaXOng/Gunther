@@ -16,4 +16,15 @@ class SavedArt: NSObject, Codable {
     var height: String?
     var pixelSize: String?
     
+    func copy() -> SavedArt {
+        let savedArtCopy = SavedArt()
+        savedArtCopy.id = UUID().uuidString
+        savedArtCopy.name = self.name
+        savedArtCopy.source = UUID().uuidString
+        savedArtCopy.width = self.width
+        savedArtCopy.height = self.height
+        savedArtCopy.pixelSize = self.pixelSize
+        return savedArtCopy
+    }
+    
 }
