@@ -45,7 +45,6 @@ class CommunityCollectionViewCell: UICollectionViewCell {
         label!.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 3).isActive = true
         label!.topAnchor.constraint(equalTo: bottomAnchor, constant: 3).isActive = true
         label?.text = "TEST"
-        //label?.textColor = UIColor.white
         
         reused = true
         

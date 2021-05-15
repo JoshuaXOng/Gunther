@@ -368,7 +368,7 @@
             </objects>
             <point key="canvasLocation" x="2589.8550724637685" y="143.97321428571428"/>
         </scene>
-        <!--Spec Community Collection View Controller-->
+        <!--Spec Com-->
         <scene sceneID="XIV-oH-DFF">
             <objects>
                 <collectionViewController id="uWA-cI-jP2" customClass="SpecCommunityCollectionViewController" customModule="Gunther" customModuleProvider="target" sceneMemberID="viewController">
@@ -397,11 +397,51 @@
                             <outlet property="delegate" destination="uWA-cI-jP2" id="7zX-IS-JPe"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="BRK-ZN-txi"/>
+                    <navigationItem key="navigationItem" title="Spec Com" id="BRK-ZN-txi">
+                        <barButtonItem key="rightBarButtonItem" title="Upload" id="cPR-ei-Maj">
+                            <connections>
+                                <segue destination="BU0-HL-jmm" kind="presentation" identifier="SpecComToSavedArtPrevSegue" id="ji2-Jf-FK7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tcu-i7-ejB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3474" y="143"/>
+        </scene>
+        <!--Collection View Controller-->
+        <scene sceneID="sq0-Xh-U0E">
+            <objects>
+                <collectionViewController id="BU0-HL-jmm" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Hu1-kp-PiU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="diF-hU-bPV">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9R1-hf-MNy">
+                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="jPx-Co-Lzw">
+                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionViewCellContentView>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="BU0-HL-jmm" id="3pY-Sd-NHB"/>
+                            <outlet property="delegate" destination="BU0-HL-jmm" id="xhq-yf-62t"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I1E-oI-65A" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4325" y="144"/>
         </scene>
         <!--Community-->
         <scene sceneID="HEW-0M-cLb">
@@ -499,7 +539,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eWg-Cl-nVc"/>
+        <segue reference="Siv-pa-nu8"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.turn.up.backward.fill" catalog="system" width="128" height="106"/>

@@ -49,7 +49,7 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         collectionView.backgroundView = UIView(frame: CGRect(x: 1, y: 1, width: 1, height: 1))
         
         let bgView = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        bgView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
+        //bgView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
         bgView.layer.cornerRadius = 5
         collectionView.backgroundView?.addSubview(bgView)
         

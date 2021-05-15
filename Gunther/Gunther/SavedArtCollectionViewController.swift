@@ -9,21 +9,23 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
-class SavedArtCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DatabaseListener {
+class SavedArtCollectionViewController: GenericArtCollectionViewController, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
     var listenerType = ListenerType.user
     
+    /*
     let SAVED_ART_SECTION = 0
     let SAVED_ART_CELL = "SavedArtCell"
     var savedArt = [SavedArt]()
     var savedArtImages = [UIImage?]()
+    */
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Register cell classes
-        self.collectionView!.register(ArtCollectionViewCell.self, forCellWithReuseIdentifier: SAVED_ART_CELL)
+        //self.collectionView!.register(ArtCollectionViewCell.self, forCellWithReuseIdentifier: ART_CELL)
         
         // Get a reference to the applications database controller (cast it into Firebase controller)
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -48,17 +50,12 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
     
     func onUserChange(change: DatabaseChange, user: User) {
-        
-        //savedArt = user.artworks
-        //fetchImages()
-        
         let firebaseController = databaseController as? FirebaseController
         _ = firebaseController?.fetchAllArtImagesFromUser(user: user) { images in
-            self.savedArt = user.artworks
-            self.savedArtImages = images
+            self.art = user.artworks
+            self.artImages = images
             self.onFetchArtImagesCompletion()
         }
-        
     }
     
     // MARK: - Database functions
@@ -66,82 +63,8 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     private func onFetchArtImagesCompletion() {
         self.collectionView.reloadData()
     }
-
-    // MARK: UICollectionViewDataSource
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return savedArt.count
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let savedArtCell = collectionView.dequeueReusableCell(withReuseIdentifier: SAVED_ART_CELL, for: indexPath) as! ArtCollectionViewCell
-        
-        if savedArtImages.count == savedArt.count {
-            //savedArtCell.contentView.subviews.forEach({ $0.removeFromSuperview() })
-            guard let image = savedArtImages[indexPath.row] else { return savedArtCell }
-            //let savedArtImageView = UIImageView(image: image)
-            //savedArtImageView.contentMode = UIView.ContentMode.scaleAspectFit
-            //savedArtCell.contentView.addSubview(savedArtImageView)
-            savedArtCell.imageView?.image = image
-            savedArtCell.label?.text = savedArt[indexPath.row].name
-            //savedArtImageView.frame = savedArtCell.contentView.bounds
-            
-            //savedArtImageView.layer.shadowColor = UIColor.black.cgColor
-            //savedArtImageView.layer.shadowOffset = CGSize(width: 0.5, height: 1)
-            //savedArtImageView.layer.shadowRadius = 2
-            //savedArtImageView.layer.shadowOpacity = 0.5
-            
-        }
-        
-        return savedArtCell
-        
-    }
-        
-    // MARK: - Implement UICollectionViewDelegateFlowLayout
-    
-    /* CODE FROM:
-     https://www.raywenderlich.com/18895088-uicollectionview-tutorial-getting-started/
-    */
-    
-    private let sectionInsets = UIEdgeInsets(
-      top: 50.0,
-      left: 20.0,
-      bottom: 50.0,
-      right: 20.0)
-    
-    private let itemsPerRow: CGFloat = 2
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
-        let availableWidth = view.frame.width - paddingSpace
-        let widthPerItem = availableWidth / itemsPerRow
-        
-        return CGSize(width: widthPerItem, height: widthPerItem)
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,insetForSectionAt section: Int) -> UIEdgeInsets {
-        return sectionInsets
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.bottom
-    }
     
     // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
     
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -150,16 +73,18 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
             return false
         }
         let user = firebaseController.user
-        let art = self.savedArt[indexPath.row]
+        let artSingular = self.art[indexPath.row]
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        actionSheet.title = art.name
+        actionSheet.title = artSingular.name
         
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
-            let _ = firebaseController.removeArtFromUser(user: user, art: art)
+            let _ = firebaseController.removeArtFromUser(user: user, art: artSingular)
         })
         
-        actionSheet.addAction(UIAlertAction(title: "Share", style: .default))
+        actionSheet.addAction(UIAlertAction(title: "Share", style: .default) { _ in
+            self.performSegue(withIdentifier: "SavedArtToShareArtSegue", sender: nil)
+        })
         
         actionSheet.addAction(UIAlertAction(title: "Edit", style: .default) { _ in
             self.performSegue(withIdentifier: "SavedArtToArtSegue", sender: nil)
@@ -172,21 +97,6 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
         return true
         
     }
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return true
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
     
     // MARK: - Navigation
 
@@ -194,7 +104,7 @@ class SavedArtCollectionViewController: UICollectionViewController, UICollection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SavedArtToArtSegue" {
             let noOfSelectedArt = collectionView.indexPathsForSelectedItems![0].row
-            let selectedArt = savedArt[noOfSelectedArt]
+            let selectedArt = art[noOfSelectedArt]
             let destination = segue.destination as? ArtViewController
             destination?.savedArt = selectedArt
         }
