@@ -62,6 +62,8 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         }
     }
     
+    // MARK: - viewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -113,7 +115,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
     }
     
-    // MARK: - Utils for canvas view setup
+    // MARK: - Canvas view setup utils
     
     private func setupCanvasView(width: CGFloat, height: CGFloat) {
                     
@@ -261,6 +263,8 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     }
 
 }
+
+// MARK: - ToolPickerDelegate
 
 extension ArtViewController: ToolPickerDelegate {
     
