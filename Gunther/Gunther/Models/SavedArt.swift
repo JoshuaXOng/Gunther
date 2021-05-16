@@ -16,6 +16,20 @@ class SavedArt: NSObject, Codable {
     var height: String?
     var pixelSize: String?
     
+    override init() {
+        super.init()
+    }
+    
+    init(name: String, width: String, height: String, pixelSize: String) {
+        super.init()
+        self.id = UUID().uuidString
+        self.name = name
+        self.source = UUID().uuidString+".png"
+        self.width = width
+        self.height = height
+        self.pixelSize = pixelSize
+    }
+    
     func copy_() -> SavedArt {
         let savedArtCopy = SavedArt()
         savedArtCopy.id = UUID().uuidString

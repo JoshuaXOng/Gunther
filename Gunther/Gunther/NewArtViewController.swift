@@ -183,15 +183,10 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let savedArt = SavedArt()
-        savedArt.id = UUID().uuidString
-        savedArt.name = artNameField.text!
-        savedArt.source = UUID().uuidString+".png"
-        let ps = Float(pixelSize.text!)
-        let (width, height) = roundDimensionsForPixelSize(width: Float(Int(widthSlider.value)), height: Float(Int(heightSlider.value)), pixelSize: ps!)
-        savedArt.width = String(Int(width)) //"300"
-        savedArt.height = String(Int(height)) //"300"
-        savedArt.pixelSize = pixelSize.text //"10" //4
+        let name = artNameField.text!
+        let (width, height) = roundDimensionsForPixelSize(width: Float(Int(widthSlider.value)), height: Float(Int(heightSlider.value)), pixelSize: Float(pixelSize.text!)!)
+        
+        let savedArt = SavedArt(name: name, width: String(Int(width)), height: String(Int(height)), pixelSize: pixelSize.text!)
         
         if segue.identifier == "NewArtBCToArtSegue" {
             let destination = segue.destination as? ArtViewController

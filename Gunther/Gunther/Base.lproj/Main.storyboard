@@ -190,7 +190,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="New Art" id="ljb-uk-6fs">
                         <barButtonItem key="rightBarButtonItem" title="Start" id="xGt-Bx-C7r">
-                            <color key="tintColor" red="0.4823529411764706" green="0.72156862745098038" blue="0.51372549019607838" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="startBarButton:" destination="mmc-z1-v3Z" id="uug-TH-0ig"/>
                             </connections>
@@ -537,6 +536,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="eWg-Cl-nVc"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.42745098040000001" green="0.76078431369999999" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
         <image name="arrowshape.turn.up.backward.fill" catalog="system" width="128" height="106"/>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
