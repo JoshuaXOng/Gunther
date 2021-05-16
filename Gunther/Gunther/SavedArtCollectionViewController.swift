@@ -67,8 +67,7 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
         })
         
         actionSheet.addAction(UIAlertAction(title: "Rename", style: .default) { _ in
-            guard let newName = self.promptRename() else { return }
-            self.renameAction(user: user, artSingular: artSingular, newName: newName)
+            self.promptRename(user: user, art: artSingular)
         })
         
         actionSheet.addAction(UIAlertAction(title: "Copy", style: .default) { _ in
@@ -89,10 +88,9 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
     
     // MARK: - Utils for action sheet.
     
-    private func promptRename() -> String? {
+    private func promptRename(user: User, art: SavedArt) {
         
         let prompt = UIAlertController(title: "Rename Art", message: "Enter a new name...", preferredStyle: .alert)
-        var newName: String? = nil
         
         prompt.addTextField() { textField in
             textField.placeholder = "Name"
@@ -108,13 +106,12 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
                 return
             }
             
-            newName = input
+            let newName = input
+            self.renameAction(user: user, artSingular: art, newName: newName)
             
         }))
         
-        present(prompt, animated: true, completion: nil)
-        
-        return newName
+        present(prompt, animated: true)
         
     }
     
