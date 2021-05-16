@@ -54,6 +54,12 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     @IBAction func DragButton(_ sender: UIButton) {
         scrollView.isScrollEnabled = !(scrollView.isScrollEnabled)
         isDrawing = !isDrawing
+        if isDrawing {
+            sender.tintColor = UIColor(red: 0.48, green: 0.72, blue: 0.51, alpha: 1)
+        }
+        else {
+            sender.tintColor = UIColor(red: 0.15, green: 0.25, blue: 0.18, alpha: 1)
+        }
     }
     
     override func viewDidLoad() {
