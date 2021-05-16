@@ -89,6 +89,7 @@ class ArtPickerCollectionViewController: GenericArtCollectionViewController, Dat
         }
             
         dismiss(animated: true, completion: nil)
+        
     }
 
     /*

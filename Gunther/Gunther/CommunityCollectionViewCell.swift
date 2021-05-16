@@ -15,7 +15,10 @@ class CommunityCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
+        layer.borderWidth = 1
+        layer.borderColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1).cgColor
+        
         contentView.layer.cornerRadius = 2.5
         //contentView.layer.masksToBounds = true
         /*contentView.layer.shadowColor = UIColor.black.cgColor

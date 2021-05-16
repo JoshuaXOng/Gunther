@@ -76,7 +76,19 @@ class SpecCommunityCollectionViewController: GenericArtCollectionViewController,
         actionSheet.title = art.name
         
         actionSheet.addAction(UIAlertAction(title: "Download", style: .default) { _ in
-            _ = firebaseController?.addArtToUser(user: user, art: art)
+            
+            let artCopy = art.copy_()
+            
+            firebaseController?.fetchDataAtStorageRef(source: "CategoryArt/"+art.source!) { data, error in
+                
+                firebaseController?.putDataAtStorageRef(source: "UserArt/"+artCopy.source!, data: data!) {
+                    
+                    _ = firebaseController?.addArtToUser(user: user, art: artCopy)
+                
+                }
+                
+            }
+            
         })
 
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))

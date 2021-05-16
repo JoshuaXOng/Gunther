@@ -213,6 +213,7 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
             let destination = segue.destination as? SpecCommunityCollectionViewController
             let index = collectionView.indexPathsForSelectedItems?.first?.row
             destination?.community = categories[index!]
+            destination?.title = categories[index!].name
         }
         
     }
