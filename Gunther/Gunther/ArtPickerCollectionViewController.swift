@@ -78,10 +78,14 @@ class ArtPickerCollectionViewController: GenericArtCollectionViewController, Dat
         
         let artCopy = art[indexPath.row].copy_()
         
-        _ = firebaseController?.addArtToCategory(category: category!, art: artCopy)
-        
         firebaseController?.fetchDataAtStorageRef(source: "UserArt/"+art[indexPath.row].source!) { data, error in
-            firebaseController?.putDataAtStorageRef(source: "CategoryArt/"+artCopy.source!, data: data!)
+            
+            firebaseController?.putDataAtStorageRef(source: "CategoryArt/"+artCopy.source!, data: data!) {
+            
+                _ = firebaseController?.addArtToCategory(category: self.category!, art: artCopy)
+                
+            }
+            
         }
             
         dismiss(animated: true, completion: nil)

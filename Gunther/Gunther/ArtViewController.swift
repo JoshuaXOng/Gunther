@@ -238,7 +238,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         let _ = firebaseController.addArtToUser(user: firebaseController.user, art: savedArt)
         
-        firebaseController.putDataAtStorageRef(source: "UserArt/"+savedArtSource, data: (art?.getPNGData())!)
+        firebaseController.putDataAtStorageRef(source: "UserArt/"+savedArtSource, data: (art?.getPNGData())!) {}
         
     }
     

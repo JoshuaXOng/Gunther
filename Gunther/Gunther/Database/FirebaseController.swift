@@ -330,12 +330,13 @@ class FirebaseController: NSObject, DatabaseProtocol {
     
     func fetchDataAsUIImageAtStorageRef() {}
     
-    func putDataAtStorageRef(source: String, data: Data) {
+    func putDataAtStorageRef(source: String, data: Data, completionHandler: @escaping () -> Void) {
         let targetRef = storage.reference(withPath: source)
         let _ = targetRef.putData(data, metadata: nil) { (metadata, error) in
             if let error = error {
                 print(error)
             }
+            completionHandler()
         }
     }
 

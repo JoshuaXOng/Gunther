@@ -66,8 +66,13 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
             let _ = firebaseController.removeArtFromUser(user: user, art: artSingular)
         })
         
-        actionSheet.addAction(UIAlertAction(title: "Share", style: .default) { _ in
-            self.performSegue(withIdentifier: "SavedArtToShareArtSegue", sender: nil)
+        actionSheet.addAction(UIAlertAction(title: "Rename", style: .default) { _ in
+            guard let newName = self.promptRename() else { return }
+            self.renameAction(user: user, artSingular: artSingular, newName: newName)
+        })
+        
+        actionSheet.addAction(UIAlertAction(title: "Copy", style: .default) { _ in
+            self.copyAction(user: user, artSingular: artSingular)
         })
         
         actionSheet.addAction(UIAlertAction(title: "Edit", style: .default) { _ in
@@ -79,6 +84,61 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
         self.present(actionSheet, animated: true, completion: nil)
         
         return true
+        
+    }
+    
+    // MARK: - Utils for action sheet.
+    
+    private func promptRename() -> String? {
+        
+        let prompt = UIAlertController(title: "Rename Art", message: "Enter a new name...", preferredStyle: .alert)
+        var newName: String? = nil
+        
+        prompt.addTextField() { textField in
+            textField.placeholder = "Name"
+        }
+        
+        prompt.addAction(UIAlertAction(title: "Cancel", style: .default))
+        
+        prompt.addAction(UIAlertAction(title: "Done", style: .default, handler: { _ in
+            
+            let input = prompt.textFields![0].text!
+            if input.trimmingCharacters(in: .whitespaces).isEmpty {
+                self.displayMessage(title: "Invalid name", message: "Please enter a valid name.")
+                return
+            }
+            
+            newName = input
+            
+        }))
+        
+        present(prompt, animated: true, completion: nil)
+        
+        return newName
+        
+    }
+    
+    private func renameAction(user: User, artSingular: SavedArt, newName: String) {
+        _ = databaseController?.removeArtFromUser(user: user, art: artSingular)
+        artSingular.name = newName
+        _ = databaseController?.addArtToUser(user: user, art: artSingular)
+    }
+    
+    private func copyAction(user: User, artSingular: SavedArt) {
+        
+        let artSingularCopy = artSingular.copy_()
+        
+        let firebaseController = self.databaseController as? FirebaseController
+        
+        firebaseController?.fetchDataAtStorageRef(source: "UserArt/"+artSingular.source!) { data, error in
+            
+            firebaseController?.putDataAtStorageRef(source: "UserArt/"+artSingularCopy.source!, data: data!) {
+            
+                _ = self.databaseController?.addArtToUser(user: user, art: artSingularCopy)
+                
+            }
+            
+        }
         
     }
     
