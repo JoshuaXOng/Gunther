@@ -52,7 +52,7 @@ class GenericArtCollectionViewController: UICollectionViewController, UICollecti
      https://www.raywenderlich.com/18895088-uicollectionview-tutorial-getting-started/
     */
     
-    private let sectionInsets = UIEdgeInsets(
+    public let sectionInsets = UIEdgeInsets(
       top: 50.0,
       left: 20.0,
       bottom: 50.0,

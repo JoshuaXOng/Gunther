@@ -410,7 +410,7 @@
                     <navigationItem key="navigationItem" title="Spec Com" id="BRK-ZN-txi">
                         <barButtonItem key="rightBarButtonItem" title="Upload" id="cPR-ei-Maj">
                             <connections>
-                                <segue destination="BU0-HL-jmm" kind="presentation" identifier="SpecComToSavedArtPrevSegue" id="ji2-Jf-FK7"/>
+                                <segue destination="BU0-HL-jmm" kind="presentation" identifier="SpecComToSavedArtPrevSegue" id="7HX-TI-mgS"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

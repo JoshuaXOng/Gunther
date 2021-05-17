@@ -144,7 +144,7 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.bottom
+        return sectionInsets.bottom + 30
     }
     
     // MARK: - UICollectionViewDataSource

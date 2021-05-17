@@ -35,7 +35,7 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
         databaseController?.removeListener(listener: self)
     }
     
-    // MARK: - Implement DatabaseListner
+    // MARK: - DatabaseListner
 
     func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
     
