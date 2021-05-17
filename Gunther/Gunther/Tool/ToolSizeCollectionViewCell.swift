@@ -20,9 +20,9 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        //self.contentView.backgroundColor = UIColor.white
-        //self.contentView.layer.cornerRadius = 22.5
-        //self.contentView.layer.masksToBounds = true
+        self.contentView.backgroundColor = UIColor(red: 0.48, green: 0.72, blue: 0.51, alpha: 1)
+        self.contentView.layer.cornerRadius = 2.5
+        self.contentView.layer.masksToBounds = true
                
         //self.layer.shadowColor = UIColor.black.cgColor
         //self.layer.shadowOpacity = 0.5
