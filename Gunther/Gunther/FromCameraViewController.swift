@@ -54,7 +54,7 @@ class FromCameraViewController: UIViewController, AVCapturePhotoCaptureDelegate 
         
     }
     
-    // MARK: - Implement AVCapturePhotoCaptureDelegate.
+    // MARK: - AVCapturePhotoCaptureDelegate.
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         
