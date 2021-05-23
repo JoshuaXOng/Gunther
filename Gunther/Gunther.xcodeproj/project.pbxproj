@@ -27,6 +27,8 @@
 		8B6DEEF2264BAF1500DFAAD4 /* ToolPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6DEEF1264BAF1500DFAAD4 /* ToolPickerDelegate.swift */; };
 		8B7EFBA2263AD72C00A99675 /* SavedArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7EFBA1263AD72C00A99675 /* SavedArt.swift */; };
 		8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */; };
+		8BA27F042659D9FC0099E956 /* RemoteDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA27F032659D9FC0099E956 /* RemoteDatabaseProtocol.swift */; };
+		8BA27F0D2659EEFC0099E956 /* DatabaseExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA27F0C2659EEFC0099E956 /* DatabaseExceptions.swift */; };
 		8BA78419264FE61000607124 /* ArtPickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA78418264FE61000607124 /* ArtPickerCollectionViewController.swift */; };
 		8BBBDA34264FB1D000401538 /* GenericArtCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBBDA33264FB1D000401538 /* GenericArtCollectionViewController.swift */; };
 		8BC213A626328D8B00719579 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BC213A526328D8B00719579 /* GoogleService-Info.plist */; };
@@ -75,6 +77,8 @@
 		8B6DEEF1264BAF1500DFAAD4 /* ToolPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolPickerDelegate.swift; sourceTree = "<group>"; };
 		8B7EFBA1263AD72C00A99675 /* SavedArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArt.swift; sourceTree = "<group>"; };
 		8B80EA0B263531AF00DD3281 /* NewArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewArtViewController.swift; sourceTree = "<group>"; };
+		8BA27F032659D9FC0099E956 /* RemoteDatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDatabaseProtocol.swift; sourceTree = "<group>"; };
+		8BA27F0C2659EEFC0099E956 /* DatabaseExceptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseExceptions.swift; sourceTree = "<group>"; };
 		8BA78418264FE61000607124 /* ArtPickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtPickerCollectionViewController.swift; sourceTree = "<group>"; };
 		8BBBDA33264FB1D000401538 /* GenericArtCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericArtCollectionViewController.swift; sourceTree = "<group>"; };
 		8BC213A526328D8B00719579 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -162,7 +166,9 @@
 			children = (
 				8BC213AF2632925E00719579 /* MulticastDelegate.swift */,
 				8BC213B32632928E00719579 /* DatabaseProtocol.swift */,
+				8BA27F032659D9FC0099E956 /* RemoteDatabaseProtocol.swift */,
 				8BC213A82632908100719579 /* FirebaseController.swift */,
+				8BA27F0C2659EEFC0099E956 /* DatabaseExceptions.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -311,6 +317,7 @@
 				8BC213B02632925E00719579 /* MulticastDelegate.swift in Sources */,
 				8BCACA09263280EB00FAF97B /* Tool.swift in Sources */,
 				8BC213BB2632961700719579 /* Category.swift in Sources */,
+				8BA27F042659D9FC0099E956 /* RemoteDatabaseProtocol.swift in Sources */,
 				8BCACA22263284D700FAF97B /* Pixel.swift in Sources */,
 				8BBBDA34264FB1D000401538 /* GenericArtCollectionViewController.swift in Sources */,
 				8BD433DD263A47B500D3C281 /* ArtExceptions.swift in Sources */,
@@ -319,6 +326,7 @@
 				8B1471FB2648C16400ED5264 /* ToolPickerViewController.swift in Sources */,
 				8B80EA0C263531AF00DD3281 /* NewArtViewController.swift in Sources */,
 				8B04A46F264CFC42006BC1CB /* CommunityCollectionViewCell.swift in Sources */,
+				8BA27F0D2659EEFC0099E956 /* DatabaseExceptions.swift in Sources */,
 				8B6DEEF2264BAF1500DFAAD4 /* ToolPickerDelegate.swift in Sources */,
 				8B00C70C262913C500504203 /* AppDelegate.swift in Sources */,
 				8B614EDC263A6A36005B5C50 /* UIImage+Extensions.swift in Sources */,

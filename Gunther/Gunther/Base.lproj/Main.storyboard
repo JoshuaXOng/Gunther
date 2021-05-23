@@ -235,28 +235,28 @@
                                         <rect key="frame" x="326" y="18" width="19" height="23"/>
                                         <state key="normal" image="hand.tap.fill" catalog="system"/>
                                         <connections>
-                                            <action selector="DragButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="LkL-at-mja"/>
+                                            <action selector="dragButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="Uag-9h-Zj3"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uej-li-m9J">
                                         <rect key="frame" x="196" y="18" width="22" height="22"/>
                                         <state key="normal" image="eyedropper.full" catalog="system"/>
                                         <connections>
-                                            <action selector="ColorPickerButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="aBk-um-0o0"/>
+                                            <action selector="colorPickerButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="4Co-Nn-MAE"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nLA-ij-1on">
                                         <rect key="frame" x="100" y="18" width="21" height="22"/>
                                         <state key="normal" image="arrowshape.turn.up.right.fill" catalog="system"/>
                                         <connections>
-                                            <action selector="increaseToolSizeButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="0fZ-Rd-U8d"/>
+                                            <action selector="redoButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="PY4-cC-ndF"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRJ-fN-y7H">
                                         <rect key="frame" x="56" y="18" width="21" height="22"/>
                                         <state key="normal" image="arrowshape.turn.up.backward.fill" catalog="system"/>
                                         <connections>
-                                            <action selector="decreaseToolSizeButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="e3f-5f-l6Y"/>
+                                            <action selector="undoButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="PHa-Sa-hhn"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Wj-Bd-ZvP">
@@ -309,7 +309,7 @@
                     <navigationItem key="navigationItem" title="Art" id="tmx-4H-QH4">
                         <barButtonItem key="rightBarButtonItem" title="Save" id="eRz-2k-aoa">
                             <connections>
-                                <action selector="SaveButton:" destination="dwa-5h-0Oc" id="Cug-jB-idf"/>
+                                <action selector="saveButton:" destination="dwa-5h-0Oc" id="i31-N9-pun"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
