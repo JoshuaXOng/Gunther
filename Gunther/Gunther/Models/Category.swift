@@ -13,5 +13,5 @@ class Category: NSObject, Codable {
     var name: String?
     var source: String?
     var artworks: [SavedArt] = []
-    
+
 }

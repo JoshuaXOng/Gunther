@@ -23,16 +23,9 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
         self.contentView.backgroundColor = UIColor(red: 0.48, green: 0.72, blue: 0.51, alpha: 1)
         self.contentView.layer.cornerRadius = 2.5
         self.contentView.layer.masksToBounds = true
-               
-        //self.layer.shadowColor = UIColor.black.cgColor
-        //self.layer.shadowOpacity = 0.5
-        //self.layer.shadowOffset = .zero
-        //self.layer.shadowRadius = 2
         
         setupLabel()
         setupImageView()
-        
-        //updateToolSize(toolSize: toolSize)
         
     }
     
@@ -68,7 +61,6 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
         // Constraints.
         imageView!.translatesAutoresizingMaskIntoConstraints = false
         setupImageViewConstraintsMinusTB()
-        //updateIVConstraints()
 
     }
     
@@ -91,16 +83,11 @@ class ToolSizeCollectionViewCell: UICollectionViewCell {
         let spacing = computeIVSpacing()
         let halfSpacing = spacing/2
         
-        //let constraints = imageView!.constraints
-        //imageView!.removeConstraints(constraints)
-        //setupImageViewConstraintsMinusTB()
         if imageViewTopConstraint != nil && imageViewBotConstraint != nil {
-            //print(imageView!.constraints)
             imageViewTopConstraint?.isActive = false
             imageViewBotConstraint?.isActive = false
             imageView!.removeConstraint(imageViewTopConstraint!)
             imageView!.removeConstraint(imageViewBotConstraint!)
-            //print(imageView!.constraints)
         }
         imageViewTopConstraint = imageView!.topAnchor.constraint(equalTo: self.topAnchor, constant: halfSpacing)
         imageViewTopConstraint?.isActive = true

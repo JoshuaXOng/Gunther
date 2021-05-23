@@ -92,7 +92,7 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    // MARK: - Utils for views setup
+    // MARK: - Views setup
     
     private func setupSliders() {
         
@@ -122,7 +122,7 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    // MARK: - Radio-like behaviour to UIButtons
+    // MARK: - UIButtons radio-behaviour
     
     private func applyToggleAppearance(button: UIButton) {
         button.layer.shadowColor = UIColor.black.cgColor
@@ -142,7 +142,7 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
         applyToggleAppearance(button: choice)
     }
     
-    // MARK: - Util validating form input
+    // MARK: - Validate form input
     
     private func validateInput() -> Bool {
         let isArtNameValid = !(artNameField.text?.trimmingCharacters(in: .whitespaces) == "")
@@ -153,7 +153,7 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
-    // MARK: - Util for resizing width, height and pixel size
+    // MARK: - Resize width, height and pixel size
     
     private func roundDimensionsForPixelSize(width: Float, height: Float, pixelSize: Float) -> (Float, Float) {
         let roundedWidth = width - width.truncatingRemainder(dividingBy: pixelSize)
@@ -161,7 +161,7 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
         return (roundedWidth, roundedHeight)
     }
     
-    // MARK: - Util for clearing inputs upon view transition
+    // MARK: - Clear inputs
     
     private func resetInputs() {
         self.artNameField.text = ""

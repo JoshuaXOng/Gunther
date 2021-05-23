@@ -9,18 +9,13 @@ import Foundation
 import UIKit
 
 class Pixel {
-    // Consider using a struct for speed...
-        
-    // Refactor to contain straight r, g, b and a values
+    // Consider using straight r, g, b and a values for speed...
+
     var color: CGColor
 
     init(color: CGColor) {
         self.color = color
     }
-    
-}
-
-extension Pixel {
     
     func copy() -> Pixel {
         return Pixel(color: self.color)

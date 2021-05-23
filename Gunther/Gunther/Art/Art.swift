@@ -30,7 +30,7 @@ class Art: NSObject {
         self.canvas = [Location]()
         let noPixelsWide = width/pixelSize
         let noPixelsHigh = height/pixelSize
-        for _ in 0..<noPixelsWide*noPixelsHigh {
+        for _ in 0 ..< noPixelsWide*noPixelsHigh {
             let location = Location()
             canvas.append(location)
         }
@@ -102,14 +102,6 @@ class Art: NSObject {
         
     }
     
-    /*
-    func placePixel(x: Int, y: Int, r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) -> bool {
-        let location = getLocation(x: x, y: y)
-        let pixel = Pixel(r: r, g: g, b: b, a: a)
-        location.push(pixel)
-    }
-    */
-    
     func drawToContext(graphicsContext: CGContext) {
         
         for index in 0 ..< canvas.count {
@@ -141,16 +133,14 @@ class Art: NSObject {
         return image.pngData()
     }
     
-}
-
-extension Art {
-    
     func copy() -> Art {
         let artCopy = Art(name: self.name, height: self.height, width: self.width, pixelSize: self.pixelSize)
         artCopy.noGuntherPixelsWide = self.noGuntherPixelsWide
         artCopy.noGuntherPixelsHigh = self.noGuntherPixelsHigh
-        artCopy.canvas = self.canvas.map { $0.copy() } 
+        artCopy.canvas = self.canvas.map { $0.copy() }
         return artCopy
     }
     
 }
+
+

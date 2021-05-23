@@ -8,7 +8,6 @@
 import Foundation
 
 class Location {
-    // Might want to add validation.
     
     var content: [Pixel]
     
@@ -25,8 +24,8 @@ class Location {
     }
     
     func squash() {
-        let le = self.content.removeLast()
-        self.content = [le]
+        let lastElement = self.content.removeLast()
+        self.content = [lastElement]
     }
     
     func peek() -> Pixel? {
@@ -37,10 +36,6 @@ class Location {
         self.content = [Pixel]()
     }
     
-}
-
-extension Location {
-    
     func copy() -> Location {
         let locationCopy = Location()
         locationCopy.content = self.content.map { $0.copy() }
@@ -48,3 +43,5 @@ extension Location {
     }
     
 }
+
+
