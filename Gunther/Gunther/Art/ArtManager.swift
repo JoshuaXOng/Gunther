@@ -42,11 +42,11 @@ class ArtManager {
         return currentArt.copy()
     }
     
-    public func hasPast() -> Bool {
+    private func hasPast() -> Bool {
         return !pastArt.isEmpty
     }
     
-    public func hasFuture() -> Bool {
+    private func hasFuture() -> Bool {
         return !futureArt.isEmpty
     }
     
