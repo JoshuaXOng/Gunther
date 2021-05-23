@@ -40,11 +40,15 @@ class ArtPickerCollectionViewController: GenericArtCollectionViewController, Dat
     func onCategoriesChange(change: DatabaseChange, categories: [Category]) {}
     
     func onUserChange(change: DatabaseChange, user: User) {
-        let firebaseController = databaseController as? FirebaseController
-        _ = firebaseController?.fetchAllArtImagesFromUser(user: user) { images in
-            self.art = user.artworks
-            self.artImages = images
-            self.collectionView.reloadData()
+        let remoteDatabaseController = databaseController as? RemoteDatabaseProtocol
+        remoteDatabaseController?.fetchAllArtImagesFromUser(user: user) { [self] images in
+            
+            // Update GenericArtCollectionViewController instance variables.
+            art = user.artworks
+            artImages = images
+            
+            collectionView.reloadData()
+        
         }
     }
 
@@ -66,17 +70,12 @@ class ArtPickerCollectionViewController: GenericArtCollectionViewController, Dat
         
         let firebaseController = databaseController as? FirebaseController
         
-        let artCopy = art[indexPath.row].copy_()
-        
-        firebaseController?.fetchDataAtStorageRef(source: "UserArt/"+art[indexPath.row].source!) { data, error in
-            
-            firebaseController?.putDataAtStorageRef(source: "CategoryArt/"+artCopy.source!, data: data!) {
-            
-                _ = firebaseController?.addArtToCategory(category: self.category!, art: artCopy)
-                
-            }
-            
+        guard let user = firebaseController?.user, let category = category else {
+            return
         }
+        let artwork = art[indexPath.row]
+        
+        firebaseController?.copyArtFromUserToCategory(user: user, category: category, artwork: artwork)
             
         dismiss(animated: true, completion: nil)
         

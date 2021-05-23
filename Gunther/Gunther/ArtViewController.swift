@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate, CanvasViewDelegate {
+class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate, CanvasViewDelegate, ToolPickerDelegate {
     
     var databaseController: DatabaseProtocol?
     var savedArt: SavedArt?
@@ -21,37 +21,33 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     var art: Art?
     var tool: Tool?
     var toolPickerController = ToolPickerViewController()
+    let TOOL_INDEX_SIZE_OFFSET = 1
     let colorPickerController = UIColorPickerViewController()
     var isDrawing = true
     
-    @IBAction func SaveButton(_ sender: UIBarButtonItem) {
-        self.updateSavedArt()
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
+        updateSavedArt()
     }
     
-    @IBAction func decreaseToolSizeButton(_ sender: UIButton) {
-        /*let minToolSize = 1
-        if (tool?.size)! >= minToolSize+1 {
-            tool?.size! -= 1
-        }*/
+    @IBAction func undoButton(_ sender: UIButton) {
         art = artManager?.undo()
-        self.canvas?.setNeedsDisplay()
+        canvas?.setNeedsDisplay()
     }
     
-    @IBAction func increaseToolSizeButton(_ sender: UIButton) {
-        //tool?.size! += 1
+    @IBAction func redoButton(_ sender: UIButton) {
         art = artManager?.redo()
-        self.canvas?.setNeedsDisplay()
+        canvas?.setNeedsDisplay()
     }
     
-    @IBAction func ColorPickerButton(_ sender: UIButton) {
-        self.present(colorPickerController, animated: true, completion: nil)
+    @IBAction func colorPickerButton(_ sender: UIButton) {
+        present(colorPickerController, animated: true, completion: nil)
     }
     
     @IBAction func brushButton(_ sender: UIButton) {
         self.present(toolPickerController, animated: true, completion: nil)
     }
-    
-    @IBAction func DragButton(_ sender: UIButton) {
+
+    @IBAction func dragButton(_ sender: UIButton) {
         scrollView.isScrollEnabled = !(scrollView.isScrollEnabled)
         isDrawing = !isDrawing
         if isDrawing {
@@ -71,14 +67,11 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         databaseController = appDelegate.databaseController
         
-        // Setup scrollView and zooming functionality
-        scrollView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
-        scrollView.minimumZoomScale = 1; scrollView.maximumZoomScale = 8
-        scrollView.zoomScale = 1
-        scrollView.isScrollEnabled = false
-        scrollView.delegate = self
+        setupScrollView()
         
         // Setup canvas view, art and graphics context.
+        // Depending on the way the user enters ArtViewController, different variables can be nil.
+        // Moreover, depending on where the user came from, art may have to be assiged asyncronously instead of syncronously.
         if isNew {
             
             guard let name = savedArt?.name,
@@ -86,36 +79,50 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
                   let pixelSize = savedArt?.pixelSize else {
                 return
             }
-            //setupCanvasView(width: CGFloat(Float(width)!), height: CGFloat(Float(height)!))
             
+            // User comes from 'start from camera'
             if let baseImage = baseImage {
                 art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: baseImage)
             }
+            // User comes from 'start from blank canvas'
             else {
                 art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!)
             }
             onArtAssigned()
+            
         }
         else {
-            assignArtFromSource() {
-                self.onArtAssigned()
+            // User comes from 'edit saved art'
+            assignArtFromSource() { [self] in
+                onArtAssigned()
             }
         }
         
-        // Setup colorPickerController
+        // Setup colorPickerController.
         colorPickerController.selectedColor = UIColor.black
         colorPickerController.delegate = self
-        
-        // Initialize a test tool
-        tool = Pencil()
-        tool!.size = toolPickerController.selectedToolSizeIndex+1//5 // 1,3,5,7,9,11
         
         // Setup toolPickerViewController.
         toolPickerController.toolPickerDelegate = self
         
+        // Initialize tool.
+        tool = Pencil()
+        tool!.size = toolPickerController.selectedToolSizeIndex + TOOL_INDEX_SIZE_OFFSET
+        
     }
     
-    // MARK: - Canvas view setup utils
+    // MARK: - Setup scroll view
+    
+    private func setupScrollView() {
+        scrollView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 8
+        scrollView.zoomScale = 1
+        scrollView.isScrollEnabled = false
+        scrollView.delegate = self
+    }
+    
+    // MARK: - Canvas and art setup utils
     
     private func setupCanvasView(width: CGFloat, height: CGFloat) {
                     
@@ -125,12 +132,9 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         }
         canvas.canvasViewDelegate = self
         
+        // Update scroll view.
         self.scrollView.addSubview(canvas)
         self.scrollView.contentSize = CGSize(width: width, height: height)
-        //let centerOfSVContent = CGPoint(x: self.scrollView.contentSize.width/2, y: self.scrollView.contentSize.height/2) // This does not compute the center.
-        //canvas.center = centerOfSVContent // Comment out!!!
-        //self.scrollView.zoom(to: canvas.bounds, animated: false)
-        //self.scrollView.contentOffset = centerOfSVContent
         let edges = UIEdgeInsets(top: 1*height, left: 0.5*width, bottom: 1*height, right: 0.5*width)
         scrollView.contentInset = edges
         scrollView.zoom(to: canvas.bounds, animated: false)
@@ -152,28 +156,30 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
             return
         }
         
-        _ = firebaseController.fetchArtImageFromArt(art: savedArt) { image in
-            
-            guard let name = savedArt.name,
-                  let width = savedArt.width,
-                  let height = savedArt.height,
-                  let pixelSize = savedArt.pixelSize else {
-                return
+        do {
+            try firebaseController.fetchArtImageFromArt(art: savedArt) { image in
+                
+                guard let name = savedArt.name,
+                      let width = savedArt.width,
+                      let height = savedArt.height,
+                      let pixelSize = savedArt.pixelSize else {
+                    return
+                }
+                
+                self.art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: image!)
+                completionHandler()
+                
             }
-            
-            self.art = Art(name: name, height: Int(height)!, width: Int(width)!, pixelSize: Int(pixelSize)!, image: image!)
-            
-            completionHandler()
-            
+        }
+        catch {
+            print("Fetching art image, but (re)source is invalid.")
         }
         
     }
     
     private func onArtAssigned() {
-        
         setupCanvasView(width: CGFloat(art!.width), height: CGFloat(art!.height))
         artManager = ArtManager(art: art!)
-        
     }
     
     // MARK: - CanvasViewDelegate
@@ -215,23 +221,16 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
     
     // MARK: - UIColorPickerViewControllerDelegate
     
-    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-        //let centerOfSVContent = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
-        //canvas?.center = centerOfSVContent
-    }
-    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        //var size = CGSize()
-        //size.width = CGFloat(art!.width)
-        //size.height = CGFloat(art!.height)
-        //scrollView.contentSize = size
-        //print(scrollView.contentSize)
         return canvas
     }
     
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        //let centerOfSVContent = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
-        //canvas?.center = centerOfSVContent
+    // MARK: - ToolPickerDelegate
+    
+    func onBrushSelection(brushNO: Int) {}
+    
+    func onSizeSelection(sizeNO: Int) {
+        tool?.size = sizeNO + TOOL_INDEX_SIZE_OFFSET
     }
     
     // MARK: - Database functions
@@ -240,40 +239,24 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
         guard let firebaseController = databaseController as? FirebaseController,
               let savedArt = savedArt,
-              let savedArtSource = savedArt.source else {
+              let source = savedArt.source else {
             return
         }
         
-        let _ = firebaseController.addArtToUser(user: firebaseController.user, art: savedArt)
-        
-        firebaseController.putDataAtStorageRef(source: "UserArt/"+savedArtSource, data: (art?.getPNGData())!) {}
+        firebaseController.putDataAtStorageRef(resource: firebaseController.USER_DIR+source, data: (art?.getPNGData())!) { error in
+            let _ = firebaseController.addArtToUser(user: firebaseController.user, art: savedArt)
+        }
         
     }
     
     // MARK: - Navigation
-
+    
+    /*
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        /*if segue.identifier == "ArtToToolsSegue" {
-            let destination = segue.destination as? ToolPickerViewController
-            toolPickerController = destination
-            print(toolPickerController?.selectedToolTypeIndex)
-            toolPickerController?.selectedToolSizeIndex = 1
-        }*/
     }
+    */
 
 }
 
-// MARK: - ToolPickerDelegate
 
-extension ArtViewController: ToolPickerDelegate {
-    
-    func onBrushSelection(brushNO: Int) {
-        
-    }
-    
-    func onSizeSelection(sizeNO: Int) {
-        tool?.size = sizeNO+1
-    }
-    
-}

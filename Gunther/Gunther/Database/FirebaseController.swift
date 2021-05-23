@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestoreSwift
 import FirebaseStorageSwift
 
-class FirebaseController: NSObject, DatabaseProtocol {
+class FirebaseController: NSObject, RemoteDatabaseProtocol {
     
     var listeners = MulticastDelegate<DatabaseListener>()
     var categories = [Category]()
@@ -23,6 +23,9 @@ class FirebaseController: NSObject, DatabaseProtocol {
     var categoriesRef: CollectionReference?
     var userRef: DocumentReference?
     
+    let CATEGORY_DIR = "CategoryArt/"
+    let USER_DIR = "UserArt/"
+    
     override init() {
         
         FirebaseApp.configure()
@@ -32,63 +35,52 @@ class FirebaseController: NSObject, DatabaseProtocol {
         
         super.init()
         
-        authController.signInAnonymously() { (authResult, error) in
+        authController.signInAnonymously() { [self] (authResult, error) in
+            
             guard authResult != nil else {
                 fatalError("Firebase Auth failed with Error: \(String(describing: error))")
             }
-            self.userRef = self.firestore.collection("Users").document("3TvMj0AkUw6BSRuFEW18")
-            self.setupUserListener()
-            self.setupCategoriesListener()
+            
+            userRef = firestore.collection("Users").document("3TvMj0AkUw6BSRuFEW18") // Test user.
+            categoriesRef = firestore.collection("Categories")
+            setupUserListener()
+            setupCategoriesListener()
+        
         }
         
     }
     
-    // MARK: - Implement DatabaseProtocol
+    // MARK: - (Remote)DatabaseProtocol
     
     func cleanup() {}
     
     func addListener(listener: DatabaseListener) {
+        
         listeners.addDelegate(listener)
         let listenerType = listener.listenerType
+        
         if listenerType == .categories || listenerType == .all {
             listener.onCategoriesChange(change: .update, categories: categories)
         }
         else if listenerType == .user || listenerType == .all {
             listener.onUserChange(change: .update, user: user)
         }
+        
     }
     
     func removeListener(listener: DatabaseListener) {
         listeners.removeDelegate(listener)
     }
     
-    func fetchArtImageFromArt(art: SavedArt, completionHandler: @escaping (UIImage?) -> Void) -> [UIImage?] {
-        
-        fetchDataAtStorageRef(source: "UserArt/"+art.source!) { data, error in
-            
-            if let error = error {
-                print(error)
-            }
-                
-            guard let width = art.width,
-                  let height = art.height else {
-                return
-            }
-            
-            let artImage = UIImage(data: data!)
-            let resizedArtImage = UIImage.resizeImage(image: artImage!, targetSize: CGSize(width: Int(width)!, height: Int(height)!))
-            
-            completionHandler(resizedArtImage)
-            
-        }
-        
-        return [UIImage?]()
-        
-    }
-    
     func addArtToCategory(category: Category, art: SavedArt) -> Bool {
-        guard let categoryID = category.id else { return false }
-        let categoryRef = firestore.collection("Categories").document(categoryID)
+        
+        guard let categoryID = category.id else {
+            print("Adding art to category, but cate.'s id is nil.")
+            return false
+        }
+        let documentID = categoryID
+        let categoryRef = firestore.collection("Categories").document(documentID) // Assumes document ID is == to category ID.
+        
         categoryRef.updateData(["artworks" : FieldValue.arrayUnion([[
             "id": art.id,
             "name": art.name,
@@ -97,12 +89,20 @@ class FirebaseController: NSObject, DatabaseProtocol {
             "height": art.height,
             "pixelSize": art.pixelSize
         ]])])
+        
         return true
+        
     }
     
     func removeArtFromCategory(category: Category, art: SavedArt) -> Bool {
-        guard let categoryID = category.id else { return false }
-        let categoryRef = firestore.collection("Categories").document(categoryID) // Assumes document ID is == to category ID.
+        
+        guard let categoryID = category.id else {
+            print("Removing art from category, but cate.'s id is nil.")
+            return false
+        }
+        let documentID = categoryID
+        let categoryRef = firestore.collection("Categories").document(documentID) // Assumes document ID is == to category ID.
+        
         categoryRef.updateData(["artworks": FieldValue.arrayRemove([[
             "id": art.id,
             "name": art.name,
@@ -111,48 +111,8 @@ class FirebaseController: NSObject, DatabaseProtocol {
             "height": art.height,
             "pixelSize": art.pixelSize
         ]])])
+        
         return true
-    }
-    
-    func fetchAllArtImagesFromCategory(category: Category, completionHandler: @escaping ([UIImage?]) -> Void) -> [UIImage?] {
-        
-        var categoryArtImages = [UIImage?](repeating: nil, count: category.artworks.count)
-        
-        var noAttempts = 0
-        
-        for (index, artwork) in category.artworks.enumerated() {
-            
-            guard let source = artwork.source else {
-                noAttempts += 1
-                continue
-            }
-            
-            fetchDataAtStorageRef(source: "CategoryArt/"+source) { data, error in
-                
-                if let error = error {
-                    noAttempts += 1
-                    print(error)
-                    return
-                }
-                
-                guard let artworkUIImage = UIImage(data: data!) else {
-                    noAttempts += 1
-                    print("The data from the reference endpoint could not be decoded into a UIImage.")
-                    return
-                }
-                
-                categoryArtImages[index] = artworkUIImage
-                noAttempts += 1
-                
-                if noAttempts == category.artworks.count {
-                    completionHandler(categoryArtImages)
-                }
-                
-            }
-            
-        }
-        
-        return categoryArtImages
         
     }
     
@@ -180,20 +140,86 @@ class FirebaseController: NSObject, DatabaseProtocol {
         return true
     }
     
-    func fetchAllArtImagesFromUser(user: User, completionHandler: @escaping ([UIImage?]) -> Void) -> [UIImage?] {
+    func copyArtFromUserToCategory(user: User, category: Category, artwork: SavedArt) {
         
-        var userArtImages = [UIImage?](repeating: nil, count: user.artworks.count)
+        let artworkCopy = artwork.copy_()
+        guard let source = artwork.source,
+              let newSource = artworkCopy.source else {
+            return
+        }
+        let originalResource = USER_DIR+source
+        let newResource = CATEGORY_DIR+newSource
+        
+        fetchDataAtStorageRef(resource: originalResource) { [self] data, error in
+            putDataAtStorageRef(resource: newResource, data: data!) { error in
+                _ = addArtToCategory(category: category, art: artworkCopy)
+            }
+        }
+        
+    }
+    
+    func copyArtFromCategoryToUser(category: Category, user: User, artwork: SavedArt) {
+                
+        let artworkCopy = artwork.copy_()
+        guard let source = artwork.source,
+              let newSource = artworkCopy.source else {
+            return
+        }
+        let originalResource = CATEGORY_DIR+source
+        let newResource = USER_DIR+newSource
+        
+        fetchDataAtStorageRef(resource: originalResource) { [self] data, error in
+            putDataAtStorageRef(resource: newResource, data: data!) { error in
+                _ = addArtToUser(user: user, art: artworkCopy)
+            }
+        }
+        
+    }
+    
+    // MARK: - RemoteDatabaseProtocol
+    
+    func fetchArtImageFromArt(art: SavedArt, completionHandler: @escaping (UIImage?) -> Void) throws {
+        
+        guard let source = art.source else {
+            throw DatabaseExceptions.invalidResource("Fetching art image, but source is nil.")
+        }
+        let resource = USER_DIR+source
+        
+        fetchDataAtStorageRef(resource: resource) { data, error in
+            
+            if let error = error {
+                print(error)
+                return
+            }
+                
+            guard let width = art.width, let height = art.height, let artData = data, let artImage = UIImage(data: artData) else {
+                print("Fetching art, but width, height, data or conversion to UIImage is nil.")
+                return
+            }
+            // Resizing image is needed: when uploading to Firebase, the images change dimensions.
+            // Could be that addition metadata is needed when uploading?
+            let resizedArtImage = UIImage.resizeImage(image: artImage, targetSize: CGSize(width: Int(width)!, height: Int(height)!))
+            
+            completionHandler(resizedArtImage)
+            
+        }
+        
+    }
+    
+    func fetchAllArtImagesFromCategory(category: Category, completionHandler: @escaping ([UIImage?]) -> Void) {
+        
+        var categoryArtImages = [UIImage?](repeating: nil, count: category.artworks.count)
         
         var noAttempts = 0
-        
-        for (index, artwork) in user.artworks.enumerated() {
+        for (index, artwork) in category.artworks.enumerated() {
             
             guard let source = artwork.source else {
                 noAttempts += 1
                 continue
             }
-            
-            fetchDataAtStorageRef(source: "UserArt/"+source) { data, error in
+                
+            let resource = CATEGORY_DIR+source
+            fetchDataAtStorageRef(resource: resource) { data, error in
                 
                 if let error = error {
                     noAttempts += 1
@@ -207,9 +233,92 @@ class FirebaseController: NSObject, DatabaseProtocol {
                     return
                 }
                 
+                categoryArtImages[index] = artworkUIImage
+                noAttempts += 1
+                
+                // The completion handler is called upon having tried to fetch images the same number of times as there are images.
+                // As such, the handler is called when no more fetches - no more async updates - will occur.
+                if noAttempts == category.artworks.count {
+                    completionHandler(categoryArtImages)
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    func fetchCategoriesThumbnails(completionHandler: @escaping ([UIImage?]) -> Void) {
+        
+        var categoriesImages = [UIImage?](repeating: nil, count: categories.count)
+        
+        var noAttempts = 0
+        for (index, category) in categories.enumerated() {
+            
+            guard let source = category.source else {
+                noAttempts += 1
+                continue
+            }
+            
+            self.fetchDataAtStorageRef(resource: source) { data, error in
+                
+                if let error = error {
+                    noAttempts += 1
+                    print(error)
+                    return
+                }
+                
+                guard let thumbnailData = data, let categoryUIImage = UIImage(data: thumbnailData) else {
+                    noAttempts += 1
+                    print("The data from the reference endpoint could not be decoded into a UIImage.")
+                    return
+                }
+                
+                categoriesImages[index] = categoryUIImage
+                noAttempts += 1
+                
+                if noAttempts == self.categories.count {
+                    completionHandler(categoriesImages)
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    func fetchAllArtImagesFromUser(user: User, completionHandler: @escaping ([UIImage?]) -> Void) {
+        
+        var userArtImages = [UIImage?](repeating: nil, count: user.artworks.count)
+        
+        var noAttempts = 0
+        for (index, artwork) in user.artworks.enumerated() {
+            
+            guard let source = artwork.source else {
+                noAttempts += 1
+                continue
+            }
+            
+            let resource = USER_DIR+source
+            fetchDataAtStorageRef(resource: resource) { data, error in
+                
+                if let error = error {
+                    noAttempts += 1
+                    print(error)
+                    return
+                }
+                
+                guard let artData = data, let artworkUIImage = UIImage(data: artData) else {
+                    noAttempts += 1
+                    print("The data from the reference endpoint could not be decoded into a UIImage.")
+                    return
+                }
+                
                 userArtImages[index] = artworkUIImage
                 noAttempts += 1
                 
+                // The completion handler is called upon having tried to fetch images the same number of times as there are images.
+                // As such, the handler is called when no more fetches - no more async updates - will occur.
                 if noAttempts == user.artworks.count {
                     completionHandler(userArtImages)
                 }
@@ -218,15 +327,11 @@ class FirebaseController: NSObject, DatabaseProtocol {
             
         }
         
-        return userArtImages
-        
     }
     
-    // MARK: - Firebase Controller Specific Methods
+    // MARK: - Firebase listeners
      
     func setupCategoriesListener() {
-        
-        categoriesRef = firestore.collection("Categories")
         categoriesRef?.addSnapshotListener() { (querySnapshot, error) in
                     
             guard let querySnapshot = querySnapshot else {
@@ -237,16 +342,18 @@ class FirebaseController: NSObject, DatabaseProtocol {
             self.parseCategoriesSnapshot(snapshot: querySnapshot)
                 
         }
-        
     }
     
     func setupUserListener() {
         userRef?.addSnapshotListener() { (documentSnapshot, error) in
+            
             guard let documentSnapshot = documentSnapshot else {
                 print("Yikes. Failed to fetch document with error: \(String(describing: error))")
                 return
             }
+            
             self.parseUserSnapshot(snapshot: documentSnapshot)
+        
         }
     }
     
@@ -269,6 +376,7 @@ class FirebaseController: NSObject, DatabaseProtocol {
                 return
             }
             
+            // Update locally stored reference of categories.
             if change.type == .added {
                 categories.insert(category, at: Int(change.newIndex))
             }
@@ -297,13 +405,11 @@ class FirebaseController: NSObject, DatabaseProtocol {
         }
         
         do {
-            
             guard let updatedUser = try snapshot.data(as: User.self) else {
                 print("The user document does not exist.")
                 return
             }
             self.user = updatedUser
-        
         }
         catch {
             print("The user document cannot be decoded \(error)")
@@ -318,25 +424,19 @@ class FirebaseController: NSObject, DatabaseProtocol {
                 
     }
     
-    func fetchDataAtStorageRef(source: String, completionHandler: @escaping (Data?, Error?) -> Void) {
-        /*
-        :param source: the path from root of Firebase Storage to file location -- i.e. "images/stars.jpg".
-        */
-        let targetRef = storage.reference(withPath: source)
+    // MARK: - Firebase storage
+    
+    func fetchDataAtStorageRef(resource: String, completionHandler: @escaping (Data?, Error?) -> Void) {
+        let targetRef = storage.reference(withPath: resource)
         targetRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             completionHandler(data, error)
         }
     }
     
-    func fetchDataAsUIImageAtStorageRef() {}
-    
-    func putDataAtStorageRef(source: String, data: Data, completionHandler: @escaping () -> Void) {
-        let targetRef = storage.reference(withPath: source)
+    func putDataAtStorageRef(resource: String, data: Data, completionHandler: @escaping (Error?) -> Void) {
+        let targetRef = storage.reference(withPath: resource)
         let _ = targetRef.putData(data, metadata: nil) { (metadata, error) in
-            if let error = error {
-                print(error)
-            }
-            completionHandler()
+            completionHandler(error)
         }
     }
 
