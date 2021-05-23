@@ -125,16 +125,18 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
         
         let artSingularCopy = artSingular.copy_()
         
-        let firebaseController = self.databaseController as? FirebaseController
+        guard let firebaseController = self.databaseController as? FirebaseController else {
+            print("Tried to duplicate user art, but Firebase Controller could not be casted.")
+            return
+        }
         
-        firebaseController?.fetchDataAtStorageRef(source: "UserArt/"+artSingular.source!) { data, error in
-            
-            firebaseController?.putDataAtStorageRef(source: "UserArt/"+artSingularCopy.source!, data: data!) {
-            
+        let originalResource = firebaseController.USER_DIR+artSingular.source!
+        let newResource = firebaseController.USER_DIR+artSingularCopy.source!
+        
+        firebaseController.fetchDataAtStorageRef(resource: originalResource) { data, error in
+            firebaseController.putDataAtStorageRef(resource: newResource, data: data!) { error in
                 _ = self.databaseController?.addArtToUser(user: user, art: artSingularCopy)
-                
             }
-            
         }
         
     }
