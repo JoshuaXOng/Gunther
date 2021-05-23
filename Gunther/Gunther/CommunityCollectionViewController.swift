@@ -20,16 +20,14 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
     override func viewDidLoad() {
         super.viewDidLoad()
             
-        // Get reference to database contoller
+        // Get reference to database contoller.
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         databaseController = appDelegate.databaseController
         
-        // Register cell classes
+        // Register cell classes.
         self.collectionView!.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: COMMUNITY_CELL)
-        
-        setupBackground()
 
     }
     
@@ -43,80 +41,20 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         databaseController?.removeListener(listener: self)
     }
     
-    private func setupBackground() {
-        
-        // Initialize the background view.
-        collectionView.backgroundView = UIView(frame: CGRect(x: 1, y: 1, width: 1, height: 1))
-        
-        let bgView = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        //bgView.backgroundColor = UIColor(red: 0.79, green: 0.83, blue: 0.89, alpha: 1)
-        bgView.layer.cornerRadius = 5
-        collectionView.backgroundView?.addSubview(bgView)
-        
-        bgView.translatesAutoresizingMaskIntoConstraints = false
-        bgView.leftAnchor.constraint(equalTo: collectionView.backgroundView!.leftAnchor, constant: 10).isActive = true
-        bgView.rightAnchor.constraint(equalTo: collectionView.backgroundView!.rightAnchor, constant: -10).isActive = true
-        bgView.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 40).isActive = true
-        bgView.bottomAnchor.constraint(equalTo: collectionView.backgroundView!.bottomAnchor, constant: -10).isActive = true
-        
-    }
-    
     // MARK: - DatabaseListner
     
     func onCategoriesChange(change: DatabaseChange, categories: [Category]) {
         self.categories = categories
-        //categoryImages = ...len of self.categories...
-        fetchCategoryImages()
+        (databaseController as? RemoteDatabaseProtocol)?.fetchCategoriesThumbnails(completionHandler: onFetchCategoriesThumbnailsCompletion)
     }
     
     func onUserChange(change: DatabaseChange, user: User) {}
     
     // MARK: - Database functions
         
-    private func fetchCategoryImages() {
-        
-        let firebaseController = databaseController as? FirebaseController
-        
-        categoryImages = [UIImage?](repeating: nil, count: categories.count)
-        
-        var noAttempts = 0
-        
-        for (index, category) in categories.enumerated() {
-            
-            guard let source = category.source else {
-                noAttempts += 1
-                continue
-            }
-            
-            firebaseController?.fetchDataAtStorageRef(source: source) { data, error in
-                
-                if let error = error {
-                    noAttempts += 1
-                    print(error)
-                    return
-                }
-                
-                guard let categoryUIImage = UIImage(data: data!) else {
-                    noAttempts += 1
-                    print("The data from the reference endpoint could not be decoded into a UIImage.")
-                    return
-                }
-                
-                self.categoryImages[index] = categoryUIImage
-                noAttempts += 1
-                
-                if noAttempts == self.categories.count {
-                    self.onFetchCategoryImagesCompletion()
-                }
-                
-            }
-            
-        }
-        
-    }
-        
-    private func onFetchCategoryImagesCompletion() {
-        self.collectionView.reloadData()
+    private func onFetchCategoriesThumbnailsCompletion(thumbnails: [UIImage?]) {
+        categoryImages = thumbnails
+        collectionView.reloadData()
     }
     
     // MARK: - UICollectionViewDelegateFlowLayout
@@ -125,7 +63,8 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
       top: 50.0,
       left: 20.0,
       bottom: 30.0,
-      right: 20.0)
+      right: 20.0
+    )
     
     private let itemsPerRow: CGFloat = 3
     
@@ -144,7 +83,7 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.bottom + 30
+        return 60
     }
     
     // MARK: - UICollectionViewDataSource
@@ -161,11 +100,9 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
         
         let communityCell = collectionView.dequeueReusableCell(withReuseIdentifier: COMMUNITY_CELL, for: indexPath) as? CommunityCollectionViewCell
         
-        //if categories.count == categoryImages.count {
-            let category = categories[indexPath.row]
-            communityCell?.label?.text = category.name
-            communityCell?.imageView?.image = categoryImages[indexPath.row]
-        //}
+        let category = categories[indexPath.row]
+        communityCell?.label?.text = category.name
+        communityCell?.imageView?.image = categoryImages[indexPath.row]
         
         return communityCell!
     
