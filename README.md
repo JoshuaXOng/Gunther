@@ -1,4 +1,4 @@
 # Gunther
 A pixelated drawing app.
 <br><br>
-![Blorg](./GuntherPixi.png)
+![Blorg](./docs/GuntherPixi.png)
