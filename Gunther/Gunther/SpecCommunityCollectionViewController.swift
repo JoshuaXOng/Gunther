@@ -23,8 +23,11 @@ class SpecCommunityCollectionViewController: GenericArtCollectionViewController,
         }
         databaseController = appDelegate.databaseController
         
-        art = community!.artworks
-        artImages = [UIImage?](repeating: nil, count: art.count)
+        // Assign GenericArtCollectionViewController instance variables.
+        if community != nil {
+            art = community!.artworks
+            artImages = [UIImage?](repeating: nil, count: art.count)
+        }
         
     }
     
@@ -45,17 +48,17 @@ class SpecCommunityCollectionViewController: GenericArtCollectionViewController,
         let updatedCommunity = categories.filter { $0.id == community?.id }
         community = updatedCommunity.first
         
-        let firebaseController = databaseController as? FirebaseController
-        _ = firebaseController?.fetchAllArtImagesFromCategory(category: community!) { images in
-            self.art = self.community!.artworks
-            self.artImages = images
-            self.collectionView.reloadData()
+        let remoteDatabaseController = databaseController as? RemoteDatabaseProtocol
+        remoteDatabaseController?.fetchAllArtImagesFromCategory(category: community!) { [self] images in
+            art = community!.artworks
+            artImages = images
+            collectionView.reloadData()
         }
         
     }
     
     func onUserChange(change: DatabaseChange, user: User) {}
-
+    
     // MARK: UICollectionViewDelegate
 
     /*
@@ -68,27 +71,15 @@ class SpecCommunityCollectionViewController: GenericArtCollectionViewController,
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
-        let firebaseController = databaseController as? FirebaseController
-        guard let user = firebaseController?.user else { return true }
-        let art = self.art[indexPath.row]
-        
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        actionSheet.title = art.name
+        let artwork = art[indexPath.row]
+        actionSheet.title = artwork.name
         
-        actionSheet.addAction(UIAlertAction(title: "Download", style: .default) { _ in
-            
-            let artCopy = art.copy_()
-            
-            firebaseController?.fetchDataAtStorageRef(source: "CategoryArt/"+art.source!) { data, error in
-                
-                firebaseController?.putDataAtStorageRef(source: "UserArt/"+artCopy.source!, data: data!) {
-                    
-                    _ = firebaseController?.addArtToUser(user: user, art: artCopy)
-                
-                }
-                
+        actionSheet.addAction(UIAlertAction(title: "Download", style: .default) { [self] _ in
+            guard let user = (databaseController as? FirebaseController)?.user else {
+                return
             }
-            
+            databaseController?.copyArtFromCategoryToUser(category: community!, user: user, artwork: artwork)
         })
 
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
