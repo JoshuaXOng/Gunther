@@ -233,6 +233,10 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJ0-AY-a8g">
                                         <rect key="frame" x="326" y="18" width="19" height="23"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="19" id="0SM-wU-wiq"/>
+                                            <constraint firstAttribute="height" constant="23" id="5xb-PM-Q7P"/>
+                                        </constraints>
                                         <state key="normal" image="hand.tap.fill" catalog="system"/>
                                         <connections>
                                             <action selector="dragButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="Uag-9h-Zj3"/>
@@ -240,6 +244,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uej-li-m9J">
                                         <rect key="frame" x="196" y="18" width="22" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="22" id="dLw-Qg-CqQ"/>
+                                            <constraint firstAttribute="height" constant="22" id="wKL-V5-gdP"/>
+                                        </constraints>
                                         <state key="normal" image="eyedropper.full" catalog="system"/>
                                         <connections>
                                             <action selector="colorPickerButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="4Co-Nn-MAE"/>
@@ -247,6 +255,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nLA-ij-1on">
                                         <rect key="frame" x="100" y="18" width="21" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="21" id="P28-Lc-bTR"/>
+                                            <constraint firstAttribute="height" constant="22" id="b2S-h4-ZAc"/>
+                                        </constraints>
                                         <state key="normal" image="arrowshape.turn.up.right.fill" catalog="system"/>
                                         <connections>
                                             <action selector="redoButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="PY4-cC-ndF"/>
@@ -254,6 +266,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BRJ-fN-y7H">
                                         <rect key="frame" x="56" y="18" width="21" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="7oJ-yf-QpS"/>
+                                            <constraint firstAttribute="width" constant="21" id="Zu0-GY-Kca"/>
+                                        </constraints>
                                         <state key="normal" image="arrowshape.turn.up.backward.fill" catalog="system"/>
                                         <connections>
                                             <action selector="undoButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="PHa-Sa-hhn"/>
@@ -261,6 +277,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Wj-Bd-ZvP">
                                         <rect key="frame" x="258" y="18" width="22" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="22" id="vw7-NA-beT"/>
+                                            <constraint firstAttribute="height" constant="22" id="yYl-WA-V5K"/>
+                                        </constraints>
                                         <state key="normal" image="paintbrush.pointed.fill" catalog="system"/>
                                         <connections>
                                             <action selector="brushButton:" destination="dwa-5h-0Oc" eventType="touchUpInside" id="e8m-FR-bqx"/>
@@ -270,22 +290,16 @@
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <constraints>
                                     <constraint firstItem="nLA-ij-1on" firstAttribute="leading" secondItem="BRJ-fN-y7H" secondAttribute="trailing" constant="23" id="1fS-Pq-0Np"/>
+                                    <constraint firstItem="BRJ-fN-y7H" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="1i9-KK-LCS"/>
                                     <constraint firstItem="Uej-li-m9J" firstAttribute="leading" secondItem="nLA-ij-1on" secondAttribute="trailing" constant="75" id="4CN-Bo-cao"/>
-                                    <constraint firstAttribute="bottom" secondItem="nLA-ij-1on" secondAttribute="bottom" constant="46" id="AQc-Zg-dRz"/>
-                                    <constraint firstItem="xJ0-AY-a8g" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="DaE-AQ-nDx"/>
-                                    <constraint firstItem="nLA-ij-1on" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="F3S-CK-0II"/>
-                                    <constraint firstAttribute="trailing" secondItem="xJ0-AY-a8g" secondAttribute="trailing" constant="69" id="IS3-op-Rj5"/>
-                                    <constraint firstItem="0Wj-Bd-ZvP" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="KC5-c7-Yoh"/>
+                                    <constraint firstItem="nLA-ij-1on" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="L7R-1r-ZMm"/>
                                     <constraint firstItem="xJ0-AY-a8g" firstAttribute="leading" secondItem="0Wj-Bd-ZvP" secondAttribute="trailing" constant="46" id="UCq-AQ-mg8"/>
-                                    <constraint firstItem="BRJ-fN-y7H" firstAttribute="leading" secondItem="eer-Wk-gab" secondAttribute="leading" constant="56" id="XBo-4f-wbK"/>
-                                    <constraint firstAttribute="bottom" secondItem="BRJ-fN-y7H" secondAttribute="bottom" constant="46" id="XGJ-Hb-0r9"/>
-                                    <constraint firstAttribute="bottom" secondItem="Uej-li-m9J" secondAttribute="bottom" constant="46" id="aHO-nq-HFl"/>
-                                    <constraint firstItem="BRJ-fN-y7H" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="beF-4R-h4c"/>
+                                    <constraint firstItem="0Wj-Bd-ZvP" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="c1d-En-Eup"/>
+                                    <constraint firstItem="Uej-li-m9J" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="i51-Tq-e9Q"/>
                                     <constraint firstAttribute="height" constant="86" id="kdz-xk-Ew3"/>
-                                    <constraint firstItem="Uej-li-m9J" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="l0k-Mc-fdJ"/>
-                                    <constraint firstAttribute="bottom" secondItem="0Wj-Bd-ZvP" secondAttribute="bottom" constant="46" id="nhw-V6-3Ez"/>
-                                    <constraint firstAttribute="bottom" secondItem="xJ0-AY-a8g" secondAttribute="bottom" constant="45" id="oN4-Du-5RK"/>
+                                    <constraint firstItem="xJ0-AY-a8g" firstAttribute="top" secondItem="eer-Wk-gab" secondAttribute="top" constant="18" id="qes-dL-Dly"/>
                                     <constraint firstItem="0Wj-Bd-ZvP" firstAttribute="leading" secondItem="Uej-li-m9J" secondAttribute="trailing" constant="40" id="sk9-LK-e34"/>
+                                    <constraint firstItem="Uej-li-m9J" firstAttribute="centerX" secondItem="eer-Wk-gab" secondAttribute="centerX" id="ycD-V0-dxH"/>
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0bN-Qg-OPo">
@@ -550,7 +564,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eWg-Cl-nVc"/>
+        <segue reference="kKf-xR-3as"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.42745098040000001" green="0.76078431369999999" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
