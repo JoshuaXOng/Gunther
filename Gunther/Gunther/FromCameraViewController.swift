@@ -29,10 +29,16 @@ class FromCameraViewController: UIViewController, AVCapturePhotoCaptureDelegate 
         
         // Initialize capture session.
         session = AVCaptureSession()
-        guard let session = session else { return }
+        guard let session = session else {
+            print("Initialized AVCaptureSession, but result was nil.")
+            return
+        }
         
         // Configure capture session.
-        guard let frontCamera = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        guard let frontCamera = AVCaptureDevice.default(for: AVMediaType.video) else {
+            print("There is no front camera avaiable.")
+            return
+        }
         do {
             let captureInput = try AVCaptureDeviceInput(device: frontCamera)
             captureOutput = AVCapturePhotoOutput()
