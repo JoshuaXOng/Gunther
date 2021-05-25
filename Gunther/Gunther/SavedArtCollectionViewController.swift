@@ -23,6 +23,13 @@ class SavedArtCollectionViewController: GenericArtCollectionViewController, Data
         }
         databaseController = appDelegate.databaseController
         
+        // Initialize GenericArtCollectionViewController variables.
+        guard let firebaseController = databaseController as? FirebaseController else {
+            return
+        }
+        art = firebaseController.user.artworks
+        artImages = [UIImage?](repeating: nil, count: art.count)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
