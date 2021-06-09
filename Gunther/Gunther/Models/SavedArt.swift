@@ -11,7 +11,7 @@ class SavedArt: NSObject, Codable {
     
     var id: String?
     var name: String?
-    var source: String? 
+    var source: String? // The file name of this art's underlying image.
     var width: String?
     var height: String?
     var pixelSize: String?
@@ -30,6 +30,11 @@ class SavedArt: NSObject, Codable {
         self.pixelSize = pixelSize
     }
     
+    /*
+     * Generates a copy of this art.
+     * This is done by changing the source (i.e. the filename -- but not the underlying data)
+     * and the id.
+     */
     func copy_() -> SavedArt {
         let savedArtCopy = SavedArt()
         savedArtCopy.id = UUID().uuidString
