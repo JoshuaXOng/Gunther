@@ -7,6 +7,7 @@
 
 import UIKit
 
+/* A view controller for the corresponding art editor screen. */
 class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate, CanvasViewDelegate, ToolPickerDelegate {
     
     var databaseController: DatabaseProtocol?
