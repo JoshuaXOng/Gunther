@@ -10,15 +10,15 @@ import UIKit
 class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, UIScrollViewDelegate, CanvasViewDelegate, ToolPickerDelegate {
     
     var databaseController: DatabaseProtocol?
-    var savedArt: SavedArt?
+    var savedArt: SavedArt? // Declare database representation of art.
 
-    var baseImage: UIImage?
-    var isNew = false
+    var baseImage: UIImage? // Declare underlying art image (if any).
+    var isNew = false // Declare whether the art is new.
     
     @IBOutlet weak var scrollView: UIScrollView!
     var canvas: CanvasView?
     var artManager: ArtManager?
-    var art: Art?
+    var art: Art? // Declare editor represenation of art.
     var tool: Tool?
     var toolPickerController = ToolPickerViewController()
     let TOOL_INDEX_SIZE_OFFSET = 1
@@ -149,6 +149,7 @@ class ArtViewController: UIViewController, UIColorPickerViewControllerDelegate, 
         
     }
     
+    // Initializes the art local variable based off of any data stored in the database.
     private func assignArtFromSource(completionHandler: @escaping () -> Void) {
         
         guard let firebaseController = databaseController as? FirebaseController,
