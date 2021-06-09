@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
+/* An extension of GenericArtCollectionViewController corresponding to the saved art screen of the application. */
 class SavedArtCollectionViewController: GenericArtCollectionViewController, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
