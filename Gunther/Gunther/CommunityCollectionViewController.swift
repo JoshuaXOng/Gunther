@@ -7,6 +7,9 @@
 
 import UIKit
 
+/*
+ * A collection view controller for the community screen of the application.
+ */
 class CommunityCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
@@ -15,7 +18,7 @@ class CommunityCollectionViewController: UICollectionViewController, UICollectio
     let COMMUNITY_SECTION = 0
     let COMMUNITY_CELL = "CommunityCell"
     var categories = [Category]()
-    var categoryImages = [UIImage?]()
+    var categoryImages = [UIImage?]() // Corresponding thumbnail UIImages for the categories local variable.
     
     override func viewDidLoad() {
         super.viewDidLoad()
