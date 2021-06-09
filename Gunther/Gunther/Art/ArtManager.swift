@@ -7,6 +7,7 @@
 
 import Foundation
 
+/* Manages the versions of an artwork. In other words, implements undo/redo functionality. */
 class ArtManager {
     
     private var pastArt = [Art]()
