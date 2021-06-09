@@ -126,6 +126,7 @@ class NewArtViewController: UIViewController, UITextFieldDelegate {
     
     private func applyToggleAppearance(button: UIButton) {
         button.layer.shadowColor = UIColor.black.cgColor
+        button.backgroundColor = UIColor(red: 0.38, green: 0.56, blue: 0.40, alpha: 1)
         button.layer.shadowOffset = CGSize(width: 0.5, height: 1)
         button.layer.shadowRadius = 2
         button.layer.shadowOpacity = 1
