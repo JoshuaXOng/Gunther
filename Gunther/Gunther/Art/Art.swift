@@ -7,12 +7,16 @@
 
 import UIKit
 
+/*
+ * The underlying representation of an artwork in relation to the drawing editor -- different
+ * to the representation of artwork in the database.
+ */
 class Art: NSObject {
     
     var name: String
     var height: Int
     var width: Int
-    var noGuntherPixelsHigh: Int
+    var noGuntherPixelsHigh: Int // GuntherPixels are one unit of local variable pixelSize.
     var noGuntherPixelsWide: Int
     var pixelSize: Int
     var canvas: [Location]
@@ -78,6 +82,11 @@ class Art: NSObject {
         
     }
     
+    /*
+     * Returns the Location object at the specified coordinates (in raw pixels).
+     * A Location is 1:1 with Gunther pixels, however, it is actually an area of raw pixels.
+     * As such, the coordinates provided will return the Location that bounds it.
+     */
     func getLocation(x: Int, y: Int) throws -> Location {
         
         if width <= x || x < 0 || height <= y || y < 0 {
@@ -91,6 +100,7 @@ class Art: NSObject {
         
     }
     
+    /* Returns the Location object at the specified coordinates (in Guntehr pixels). */
     func getLocation(guntherX: Int, guntherY: Int) throws -> Location {
         
         if noGuntherPixelsWide <= guntherX || guntherX < 0 || noGuntherPixelsHigh <= guntherY || guntherY < 0 {
@@ -102,6 +112,7 @@ class Art: NSObject {
         
     }
     
+    /* Inserts the underlying art data into a CGContext. */
     func drawToContext(graphicsContext: CGContext) {
         
         for index in 0 ..< canvas.count {
@@ -125,6 +136,7 @@ class Art: NSObject {
      
      }
     
+    /* Returns the underlying art data into a Data object in PNG form. */
     func getPNGData() -> Data? {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height))
         let image = renderer.image { rendererContext in
