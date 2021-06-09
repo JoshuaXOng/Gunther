@@ -7,6 +7,10 @@
 
 import UIKit
 
+/*
+ * Extends GenericArtCollectionViewController.
+ * Acts as the collection view controller for any one specific community.
+ */
 class SpecCommunityCollectionViewController: GenericArtCollectionViewController, DatabaseListener {
     
     var databaseController: DatabaseProtocol?
