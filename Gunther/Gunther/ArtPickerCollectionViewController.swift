@@ -7,6 +7,10 @@
 
 import UIKit
 
+/*
+ * Extends GenericArtCollectionViewController.
+ * Used as a controller for screens which requires the user to select art from their saved artworks.
+ */
 class ArtPickerCollectionViewController: GenericArtCollectionViewController, DatabaseListener {
 
     var databaseController: DatabaseProtocol?
