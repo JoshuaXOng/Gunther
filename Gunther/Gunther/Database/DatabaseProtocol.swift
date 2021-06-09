@@ -54,6 +54,10 @@ protocol DatabaseProtocol: AnyObject {
     func addArtToUser(user: User, art: SavedArt) -> Bool
     func removeArtFromUser(user: User, art: SavedArt) -> Bool
     
+    /* To 'copy' art from entity to entity.
+     * Copying is required to avoid problems like two supposedly
+     * differnt artworks pointing to the same reference/point-in-memory.
+     */
     func copyArtFromUserToCategory(user: User, category: Category, artwork: SavedArt)
     func copyArtFromCategoryToUser(category: Category, user: User, artwork: SavedArt)
     
