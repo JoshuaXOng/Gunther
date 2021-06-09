@@ -7,12 +7,17 @@
 
 import UIKit
 
+/*
+ * Extends UICollectionViewController, and acts as a basic collection view controller to display artworks.
+ * Given the varying dimensions of artworks, typical collection layouts don't quite have a suiting appearance. As such,
+ * this collection view controller defines a solid looking layout that can be used in most circumstances.
+ */
 class GenericArtCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     let ART_SECTION = 0
     let ART_CELL = "SavedArtCell"
     var art = [SavedArt]()
-    var artImages = [UIImage?]()
+    var artImages = [UIImage?]() // Corresponding UIImages for the art local variable.
     
     override func viewDidLoad() {
         super.viewDidLoad()
