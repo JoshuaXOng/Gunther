@@ -7,6 +7,7 @@
 
 import UIKit
 
+/* The view controller for the corresponding tool picker screen. */
 class ToolPickerViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var toolPickerDelegate: ToolPickerDelegate?

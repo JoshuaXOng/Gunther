@@ -7,6 +7,7 @@
 
 import UIKit
 
+/* Extends UICollectionViewCell, displays the information relavant to picking the size of a drawing tool. */
 class ToolSizeCollectionViewCell: UICollectionViewCell {
  
     private var label: UILabel? // Add CGRect as the line
