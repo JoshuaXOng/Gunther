@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/* Contains the available types of changes to the database. */
 enum DatabaseChange {
     case add
     case remove
