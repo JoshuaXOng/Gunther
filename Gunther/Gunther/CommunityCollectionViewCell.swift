@@ -7,6 +7,9 @@
 
 import UIKit
 
+/*
+ * A custom collection view cell for displaying category cells.
+ */
 class CommunityCollectionViewCell: UICollectionViewCell {
     
     var label: UILabel?
