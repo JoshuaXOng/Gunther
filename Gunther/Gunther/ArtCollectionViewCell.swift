@@ -7,6 +7,10 @@
 
 import UIKit
 
+/*
+ * Extends UICollectionViewCell, and provides a common looking collection view cell for displaying
+ * art images.
+ */
 class ArtCollectionViewCell: UICollectionViewCell {
     
     var label: UILabel?
