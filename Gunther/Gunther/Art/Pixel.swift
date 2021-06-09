@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/* A representation of a pixel in relation to art that is to be depicted in the drawing editor. */
 class Pixel {
     // Consider using straight r, g, b and a values for speed...
 

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/* A representation of a location on the canvas of an art in relation to the drawing editor. */
 class Location {
     
     var content: [Pixel]
