@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+/*
+ * Extends UIView, and acts as the direct 'view' of the editor's represenation of an artwork (i.e. the Art class).
+ * As such, this class is responsible for handling touch input (whether it be through delegation) and presenting the artwork's
+ * underlying representation.
+ */
 class CanvasView: UIView {
     
     var canvasViewDelegate: CanvasViewDelegate?
