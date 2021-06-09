@@ -7,6 +7,7 @@
 
 import UIKit
 
+/* A view controller for the corrseponding new art screen. */
 class NewArtViewController: UIViewController, UITextFieldDelegate {
 
     private var databaseController: DatabaseProtocol?
